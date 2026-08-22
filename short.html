@@ -1,4 +1,3 @@
-.
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -778,8 +777,7 @@ footer a:hover{
 <div class="container nav">
 
     <div class="logo">
-        <!-- මෙතනට ලෝගේ එක ඇඩ් කරන්න: src="logo.png" එක වෙනුවට ඔබේ ලෝගෝ එකේ path එක දාන්න -->
-        <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="මෙතනට ලෝගේ එක ඇඩ් කරන්න" class="logo-img">
+        <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
         GAMING <span>M4K</span>
     </div>
 
@@ -825,7 +823,7 @@ footer a:hover{
 
     Home &nbsp;›&nbsp;
     Accounts &nbsp;›&nbsp;
-    <span>M4K0558</span>
+    <span id="breadcrumb-id">M4K0558</span>
 
 </div>
 
@@ -865,29 +863,12 @@ footer a:hover{
 
     <div class="thumbs">
 
-        <div class="thumb active">
-            🎮
-        </div>
-
-        <div class="thumb">
-            🔥
-        </div>
-
-        <div class="thumb">
-            💎
-        </div>
-
-        <div class="thumb">
-            🏆
-        </div>
-
-        <div class="thumb">
-            🔫
-        </div>
-
-        <div class="thumb">
-            ⭐
-        </div>
+        <div class="thumb active">🎮</div>
+        <div class="thumb">🔥</div>
+        <div class="thumb">💎</div>
+        <div class="thumb">🏆</div>
+        <div class="thumb">🔫</div>
+        <div class="thumb">⭐</div>
 
     </div>
 
@@ -907,12 +888,12 @@ footer a:hover{
 </span>
 
 
-<h1 class="account-title">
+<h1 class="account-title" id="acc-title">
     M4K0558
 </h1>
 
 
-<div class="uid">
+<div class="uid" id="acc-uid">
     ◉ UID: 255*****33
 </div>
 
@@ -920,7 +901,7 @@ footer a:hover{
 
 <!-- PRICE -->
 
-<div class="price">
+<div class="price" id="acc-price">
     LKR 7,500
 </div>
 
@@ -930,12 +911,12 @@ footer a:hover{
 
 <div class="prime">
 
-    <strong>
+    <strong id="acc-prime">
         ◈ Prime Level 4
     </strong>
 
     <small>
-        Free Fire Prime subscription — Tier 4 of 8
+        Free Fire Prime subscription
     </small>
 
 </div>
@@ -948,37 +929,37 @@ footer a:hover{
 
 
 <div class="stat">
-    <strong>65</strong>
+    <strong id="stat-level">65</strong>
     <small>LEVEL</small>
 </div>
 
 
 <div class="stat">
-    <strong>Heroic</strong>
+    <strong id="stat-rank">Heroic</strong>
     <small>RANK</small>
 </div>
 
 
 <div class="stat">
-    <strong>292</strong>
+    <strong id="stat-skins">292</strong>
     <small>GUN SKINS</small>
 </div>
 
 
 <div class="stat">
-    <strong>271</strong>
+    <strong id="stat-bundles">271</strong>
     <small>BUNDLES</small>
 </div>
 
 
 <div class="stat">
-    <strong>27</strong>
+    <strong id="stat-diamonds">27</strong>
     <small>DIAMONDS</small>
 </div>
 
 
 <div class="stat">
-    <strong>38</strong>
+    <strong id="stat-emotes">38</strong>
     <small>EMOTES</small>
 </div>
 
@@ -1018,46 +999,26 @@ footer a:hover{
 
 
     <div class="weapon">
-
         <b>◉ AN94</b>
-
-        <span class="level">
-            Lv 3
-        </span>
-
+        <span class="level">Lv 3</span>
     </div>
 
 
     <div class="weapon">
-
         <b>◉ UMP</b>
-
-        <span class="level">
-            Lv 3
-        </span>
-
+        <span class="level">Lv 3</span>
     </div>
 
 
     <div class="weapon">
-
         <b>◉ MP40</b>
-
-        <span class="level">
-            Lv 3
-        </span>
-
+        <span class="level">Lv 3</span>
     </div>
 
 
     <div class="weapon">
-
         <b>◉ AK47</b>
-
-        <span class="level">
-            Lv 4
-        </span>
-
+        <span class="level">Lv 4</span>
     </div>
 
 </div>
@@ -1074,15 +1035,9 @@ footer a:hover{
 
 
     <div class="membership">
-
         💳
-
-        <b>
-            LITE
-        </b>
-
+        <b>LITE</b>
         15d
-
     </div>
 
 </div>
@@ -1094,30 +1049,18 @@ footer a:hover{
 <div class="actions">
 
 
-<button
-class="action outline"
-onclick="accountInfo()">
-
+<button class="action outline" onclick="accountInfo()">
     ◉ Check Real Time Account Info
-
 </button>
 
 
-<button
-class="action"
-onclick="loginPurchase()">
-
+<button class="action" onclick="loginPurchase()">
     → Login to Purchase
-
 </button>
 
 
-<button
-class="action whatsapp"
-onclick="openWhatsApp()">
-
+<button class="action whatsapp" onclick="openWhatsApp()">
     ◉ Ask on WhatsApp Channel
-
 </button>
 
 
@@ -1145,161 +1088,58 @@ onclick="openWhatsApp()">
 
 
 <!-- CARD 1 -->
-
 <div class="card">
-
-    <div class="card-image">
-        🎮
-    </div>
-
+    <div class="card-image">🎮</div>
     <div class="card-body">
-
-        <span class="available">
-            AVAILABLE
-        </span>
-
-        <h3>
-            M4K0437
-        </h3>
-
-        <p>
-            ◈ Prime Level 5
-        </p>
-
-        <p>
-            Lv 56 • Heroic
-        </p>
-
-        <p>
-            128 Skins • 69 Bundles
-        </p>
-
-        <div class="card-price">
-            LKR 11,000
-        </div>
-
+        <span class="available">AVAILABLE</span>
+        <h3>M4K0437</h3>
+        <p>◈ Prime Level 5</p>
+        <p>Lv 56 • Heroic</p>
+        <p>128 Skins • 69 Bundles</p>
+        <div class="card-price">LKR 11,000</div>
     </div>
-
 </div>
-
 
 
 <!-- CARD 2 -->
-
 <div class="card">
-
-    <div class="card-image">
-        🕹️
-    </div>
-
+    <div class="card-image">🕹️</div>
     <div class="card-body">
-
-        <span class="available">
-            AVAILABLE
-        </span>
-
-        <h3>
-            M4K0585
-        </h3>
-
-        <p>
-            ◈ Prime Level 5
-        </p>
-
-        <p>
-            Lv 65 • Heroic
-        </p>
-
-        <p>
-            161 Skins • 198 Bundles
-        </p>
-
-        <div class="card-price">
-            LKR 11,000
-        </div>
-
+        <span class="available">AVAILABLE</span>
+        <h3>M4K0585</h3>
+        <p>◈ Prime Level 5</p>
+        <p>Lv 65 • Heroic</p>
+        <p>161 Skins • 198 Bundles</p>
+        <div class="card-price">LKR 11,000</div>
     </div>
-
 </div>
-
 
 
 <!-- CARD 3 -->
-
 <div class="card">
-
-    <div class="card-image">
-        🔥
-    </div>
-
+    <div class="card-image">🔥</div>
     <div class="card-body">
-
-        <span class="available">
-            AVAILABLE
-        </span>
-
-        <h3>
-            M4K0380
-        </h3>
-
-        <p>
-            ◈ Prime Level 6
-        </p>
-
-        <p>
-            Lv 73 • Heroic
-        </p>
-
-        <p>
-            461 Skins • 480 Bundles
-        </p>
-
-        <div class="card-price">
-            LKR 26,000
-        </div>
-
+        <span class="available">AVAILABLE</span>
+        <h3>M4K0380</h3>
+        <p>◈ Prime Level 6</p>
+        <p>Lv 73 • Heroic</p>
+        <p>461 Skins • 480 Bundles</p>
+        <div class="card-price">LKR 26,000</div>
     </div>
-
 </div>
 
 
-
 <!-- CARD 4 -->
-
 <div class="card">
-
-    <div class="card-image">
-        👑
-    </div>
-
+    <div class="card-image">👑</div>
     <div class="card-body">
-
-        <span class="available">
-            AVAILABLE
-        </span>
-
-        <h3>
-            M4K0573
-        </h3>
-
-        <p>
-            ◈ Prime Level 6
-        </p>
-
-        <p>
-            Lv 78 • Heroic
-        </p>
-
-        <p>
-            616 Skins • 629 Bundles
-        </p>
-
-        <div class="card-price">
-            LKR 100,000
-        </div>
-
+        <span class="available">AVAILABLE</span>
+        <h3>M4K0573</h3>
+        <p>◈ Prime Level 6</p>
+        <p>Lv 78 • Heroic</p>
+        <p>616 Skins • 629 Bundles</p>
+        <div class="card-price">LKR 100,000</div>
     </div>
-
 </div>
 
 
@@ -1319,162 +1159,50 @@ onclick="openWhatsApp()">
 
 <div class="container">
 
-
 <div class="footer-grid">
 
-
-<!-- BRAND -->
-
 <div>
-
-<div class="footer-title">
-
-    🎮 GAMING
-    <span>M4K</span>
-
-</div>
-
-
-<p>
-    Sri Lanka's gaming marketplace.
-</p>
-
-<p>
-    Buy verified gaming accounts securely
-    at the best rates.
-</p>
-
-
+<div class="footer-title">🎮 GAMING <span>M4K</span></div>
+<p>Sri Lanka's gaming marketplace.</p>
+<p>Buy verified gaming accounts securely at the best rates.</p>
 <div class="social">
-
     <a href="#">T</a>
     <a href="#">▶</a>
     <a href="#">f</a>
     <a href="#">◎</a>
     <a href="#">◉</a>
-
 </div>
-
 </div>
-
-
-
-<!-- QUICK LINKS -->
 
 <div>
-
-<div class="footer-title">
-    Quick Links
-</div>
-
-
+<div class="footer-title">Quick Links</div>
 <p>
-
-<a href="home.html">
-    Home
-</a>
-
-<br>
-
-<a href="d.html">
-    Browse Accounts
-</a>
-
-<br>
-
-<a href="#">
-    On Sale
-</a>
-
-<br>
-
-<a href="#">
-    How It Works
-</a>
-
-<br>
-
-<a href="#">
-    Reviews
-</a>
-
-<br>
-
-<a href="contact.html">
-    Contact
-</a>
-
+<a href="home.html">Home</a><br>
+<a href="d.html">Browse Accounts</a><br>
+<a href="#">On Sale</a><br>
+<a href="#">How It Works</a><br>
+<a href="#">Reviews</a><br>
+<a href="contact.html">Contact</a>
 </p>
-
 </div>
-
-
-
-<!-- SUPPORT -->
 
 <div>
-
-<div class="footer-title">
-    Support
-</div>
-
-
+<div class="footer-title">Support</div>
 <p>
-
-<a href="contact.html">
-    Contact Us
-</a>
-
-<br>
-
-<a href="#">
-    Terms & Conditions
-</a>
-
-<br>
-
-<a href="#">
-    Refund Policy
-</a>
-
-<br>
-
-<a href="#">
-    Privacy Policy
-</a>
-
+<a href="contact.html">Contact Us</a><br>
+<a href="#">Terms & Conditions</a><br>
+<a href="#">Refund Policy</a><br>
+<a href="#">Privacy Policy</a>
 </p>
-
-
-<button
-class="footer-wa"
-onclick="openWhatsApp()">
-
-    ◉ WhatsApp Channel
-
-</button>
-
+<button class="footer-wa" onclick="openWhatsApp()">◉ WhatsApp Channel</button>
 </div>
 
-
 </div>
-
-
-
-<!-- COPYRIGHT -->
 
 <div class="copyright">
-
-    <span>
-        © 2026 Gaming M4K. All rights reserved.
-    </span>
-
-    <span>
-        Terms &nbsp;&nbsp; Privacy Policy
-    </span>
-
+    <span>© 2026 Gaming M4K. All rights reserved.</span>
+    <span>Terms &nbsp;&nbsp; Privacy Policy</span>
 </div>
-
 
 </div>
 
@@ -1484,13 +1212,7 @@ onclick="openWhatsApp()">
 
 <!-- CHAT BUTTON -->
 
-<div
-class="chat"
-onclick="openWhatsApp()">
-
-    💬
-
-</div>
+<div class="chat" onclick="openWhatsApp()">💬</div>
 
 
 
@@ -1500,80 +1222,106 @@ onclick="openWhatsApp()">
 
 <script>
 
+/* 1. ACCOUNTS DATABASE */
+const accountsData = {
+    "M4K0558": {
+        title: "M4K0558",
+        uid: "◉ UID: 255*****33",
+        price: "LKR 7,500",
+        prime: "◈ Prime Level 4",
+        level: "65",
+        rank: "Heroic",
+        skins: "292",
+        bundles: "271",
+        diamonds: "27",
+        emotes: "38"
+    },
+    "14000": {
+        title: "M4K0437 (14,000 Account)",
+        uid: "◉ UID: 310*****89",
+        price: "LKR 14,000",
+        prime: "◈ Prime Level 5",
+        level: "70",
+        rank: "Grandmaster",
+        skins: "350",
+        bundles: "310",
+        diamonds: "150",
+        emotes: "45"
+    },
+    "20000": {
+        title: "M4K0380 (20,000 Account)",
+        uid: "◉ UID: 450*****12",
+        price: "LKR 20,000",
+        prime: "◈ Prime Level 6",
+        level: "75",
+        rank: "Heroic",
+        skins: "420",
+        bundles: "400",
+        diamonds: "300",
+        emotes: "52"
+    }
+};
 
-/* THUMBNAIL */
 
-const thumbs =
-document.querySelectorAll(".thumb");
+/* 2. READ URL PARAMETER AND UPDATE UI */
+let currentAccId = "M4K0558"; // Default Account ID
 
+window.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const idParam = urlParams.get("id");
 
-thumbs.forEach(function(thumb){
+    if (idParam && accountsData[idParam]) {
+        currentAccId = idParam;
+        const acc = accountsData[idParam];
 
-    thumb.addEventListener("click",function(){
-
-        thumbs.forEach(function(item){
-
-            item.classList.remove("active");
-
-        });
-
-        this.classList.add("active");
-
-    });
-
+        // Update Text Elements
+        document.getElementById("breadcrumb-id").textContent = acc.title;
+        document.getElementById("acc-title").textContent = acc.title;
+        document.getElementById("acc-uid").textContent = acc.uid;
+        document.getElementById("acc-price").textContent = acc.price;
+        document.getElementById("acc-prime").textContent = acc.prime;
+        
+        // Update Stats
+        document.getElementById("stat-level").textContent = acc.level;
+        document.getElementById("stat-rank").textContent = acc.rank;
+        document.getElementById("stat-skins").textContent = acc.skins;
+        document.getElementById("stat-bundles").textContent = acc.bundles;
+        document.getElementById("stat-diamonds").textContent = acc.diamonds;
+        document.getElementById("stat-emotes").textContent = acc.emotes;
+    }
 });
 
 
+/* THUMBNAIL TOGGLE */
+const thumbs = document.querySelectorAll(".thumb");
+thumbs.forEach(function(thumb){
+    thumb.addEventListener("click",function(){
+        thumbs.forEach(function(item){
+            item.classList.remove("active");
+        });
+        this.classList.add("active");
+    });
+});
 
-/* ACCOUNT INFO */
 
+/* BUTTON FUNCTIONS */
 function accountInfo(){
-
-    alert(
-        "Please login to check real-time account information."
-    );
-
+    alert("Please login to check real-time account information for " + currentAccId);
 }
-
-
-
-/* LOGIN */
 
 function loginPurchase(){
-
-    alert(
-        "Please login to continue with your purchase."
-    );
-
+    alert("Please login to continue with your purchase of " + currentAccId);
 }
 
-
-
-/* WHATSAPP */
-
 function openWhatsApp(){
-
-    const phone =
-        "94700000000";
-
-    const message =
-        "Hello GAMING M4K, I am interested in account M4K0558.";
-
-    const url =
-        "https://wa.me/" +
-        phone +
-        "?text=" +
-        encodeURIComponent(message);
-
-    window.open(
-        url,
-        "_blank"
-    );
-
+    const phone = "94700000000";
+    const currentTitle = document.getElementById("acc-title").textContent;
+    const message = "Hello GAMING M4K, I am interested in account " + currentTitle + ".";
+    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+    window.open(url, "_blank");
 }
 
 </script>
-
 
 </body>
 </html>
