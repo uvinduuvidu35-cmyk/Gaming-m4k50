@@ -8,490 +8,78 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: Arial, Helvetica, sans-serif;
-      background: #f4f7fa;
-      color: #333;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; background: #f4f7fa; color: #333; }
 
     /* Header */
-    .header {
-      height: 62px;
-      background: #fff;
-      border-bottom: 1px solid #e1e8ed;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 5%;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
+    .header { height: 62px; background: #fff; border-bottom: 1px solid #e1e8ed; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; position: sticky; top: 0; z-index: 100; }
+    .logo { display: flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 800; color: #0d47a1; letter-spacing: 1px; text-decoration: none; }
+    .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
+    .nav { display: flex; align-items: center; gap: 25px; }
+    .nav a { text-decoration: none; color: #555; font-size: 14px; padding: 9px 12px; border-radius: 7px; }
+    .nav a:hover, .nav a.active { background: #e3f2fd; color: #0d47a1; }
+    .auth-buttons { display: flex; align-items: center; gap: 8px; }
+    .btn { padding: 9px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; }
+    .btn.login { color: #555; }
+    .btn.signup { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: white; border: none; box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2); }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      font-size: 18px;
-      font-weight: 800;
-      color: #0d47a1;
-      letter-spacing: 1px;
-      text-decoration: none;
-    }
-
-    .logo-img {
-      width: 32px;
-      height: 32px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #64b5f6;
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-    }
-
-    .nav a {
-      text-decoration: none;
-      color: #555;
-      font-size: 14px;
-      padding: 9px 12px;
-      border-radius: 7px;
-    }
-
-    .nav a:hover,
-    .nav a.active {
-      background: #e3f2fd;
-      color: #0d47a1;
-    }
-
-    .auth-buttons {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn {
-      padding: 9px 16px;
-      border-radius: 7px;
-      border: 1px solid #ddd;
-      background: white;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .btn.login {
-      color: #555;
-    }
-
-    .btn.signup {
-      background: linear-gradient(90deg, #0d47a1, #00b0ff);
-      color: white;
-      border: none;
-      box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2);
-    }
-
-    /* User Profile Styles */
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .user-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      object-fit: cover;
-      border: 2px solid #00b0ff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
-
-    .user-initial-avatar {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #0d47a1, #42a5f5);
-      color: #fff;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 15px;
-      text-transform: uppercase;
-      border: 2px solid #00b0ff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
-    }
-
-    .logout-btn {
-      background: #f44336;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-    }
+    .user-profile { display: flex; align-items: center; gap: 10px; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #00b0ff; }
+    .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
+    .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
     /* Admin Banner */
-    .admin-banner {
-      background: #fff3cd;
-      border: 1px solid #ffe8a1;
-      padding: 12px 5%;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: #856404;
-      font-weight: bold;
-      font-size: 13px;
-    }
+    .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
+    .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
 
-    .btn-admin {
-      background: #0d47a1;
-      color: white;
-      padding: 6px 12px;
-      border-radius: 5px;
-      font-size: 12px;
-      cursor: pointer;
-      border: none;
-    }
+    /* Card Admin Controls */
+    .card-admin-controls { display: flex; gap: 6px; padding: 10px 13px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
+    .btn-edit, .btn-delete { flex: 1; padding: 7px; border-radius: 6px; font-size: 12px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
+    .btn-edit { background: #ff9800; color: white; }
+    .btn-delete { background: #f44336; color: white; }
 
-    /* Card Action Controls & Pencil Icons */
-    .card-admin-controls {
-      display: flex;
-      gap: 6px;
-      padding: 10px 13px;
-      border-top: 1px solid #eee;
-      background: #fafafa;
-      position: relative;
-      z-index: 10;
-    }
+    .pencil-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; z-index: 10; }
 
-    .btn-edit, .btn-delete {
-      flex: 1;
-      padding: 7px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 5px;
-      transition: background 0.2s;
-    }
+    /* Hero & Filters */
+    .hero { text-align: center; padding: 48px 20px 25px; background: #fff; }
+    .hero h1 { font-size: 28px; color: #0d47a1; margin-bottom: 8px; }
+    .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; gap: 9px; flex-wrap: wrap; }
+    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 8px 14px; border-radius: 18px; font-size: 12px; color: #0d47a1; cursor: pointer; font-weight: 600; }
+    .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
+    .price-input { width: 95px; border: 1px solid #ddd; border-radius: 7px; padding: 9px; font-size: 12px; }
+    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 9px 17px; border-radius: 7px; cursor: pointer; font-weight: bold; }
 
-    .btn-edit {
-      background: #ff9800;
-      color: white;
-    }
+    /* Main Container & Grid */
+    .container { max-width: 1250px; margin: auto; padding: 18px 20px 50px; }
+    .result-count { font-size: 14px; margin-bottom: 15px; font-weight: 600; }
+    .accounts-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+    .card { background: white; border: 1px solid #e5e5e5; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06); transition: 0.25s; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+    .card-image { height: 190px; position: relative; background: #181818; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; }
+    .status-badge { position: absolute; top: 10px; left: 10px; border-radius: 4px; padding: 5px 8px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+    .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
+    .status-badge.available { background: #e8f5e9; color: #2e7d32; }
+    .status-badge.onsale { background: #fff8e1; color: #f57f17; }
+    .level-badge { position: absolute; right: 9px; bottom: 9px; background: #0d47a1; color: white; border-radius: 5px; padding: 4px 8px; font-size: 10px; }
+    .card-content { padding: 13px; }
+    .account-name { font-size: 14px; font-weight: bold; margin-bottom: 7px; }
+    .prime { display: inline-block; background: #1565c0; color: white; padding: 4px 8px; border-radius: 10px; font-size: 10px; margin-bottom: 10px; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; color: #555; font-size: 11px; margin-bottom: 8px; }
+    .price { color: #0d47a1; font-weight: 800; font-size: 14px; }
 
-    .btn-edit:hover {
-      background: #e68a00;
-    }
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .modal-header h3 { font-size: 16px; color: #0d47a1; }
+    .close-modal { font-size: 20px; cursor: pointer; color: #888; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+    .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
+    .btn-submit { width: 100%; padding: 10px; background: #0d47a1; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
 
-    .btn-delete {
-      background: #f44336;
-      color: white;
-    }
-
-    .btn-delete:hover {
-      background: #d32f2f;
-    }
-
-    /* Floating Pencil Badge on Card Image */
-    .pencil-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background: rgba(0, 0, 0, 0.6);
-      color: #fff;
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 13px;
-      cursor: pointer;
-      transition: 0.2s;
-      z-index: 10;
-    }
-
-    .pencil-badge:hover {
-      background: #ff9800;
-      transform: scale(1.1);
-    }
-
-    /* Hero */
-    .hero {
-      text-align: center;
-      padding: 48px 20px 25px;
-      background: #fff;
-    }
-
-    .hero h1 {
-      font-size: 28px;
-      color: #0d47a1;
-      margin-bottom: 8px;
-    }
-
-    .hero p {
-      color: #666;
-      font-size: 14px;
-    }
-
-    /* Filters */
-    .filters {
-      background: #fff;
-      border-top: 1px solid #eee;
-      border-bottom: 1px solid #eee;
-      padding: 12px 5%;
-      display: flex;
-      align-items: center;
-      gap: 9px;
-      flex-wrap: wrap;
-    }
-
-    .filter {
-      border: 1px solid #bbdefb;
-      background: #f4f9ff;
-      padding: 8px 14px;
-      border-radius: 18px;
-      font-size: 12px;
-      color: #0d47a1;
-      cursor: pointer;
-      font-weight: 600;
-    }
-
-    .filter.active {
-      background: linear-gradient(90deg, #0d47a1, #00b0ff);
-      color: #fff;
-      border-color: #0d47a1;
-    }
-
-    .price-input {
-      width: 95px;
-      border: 1px solid #ddd;
-      border-radius: 7px;
-      padding: 9px;
-      outline: none;
-      font-size: 12px;
-    }
-
-    .apply {
-      background: linear-gradient(90deg, #0d47a1, #00b0ff);
-      border: none;
-      color: white;
-      padding: 9px 17px;
-      border-radius: 7px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    /* Main */
-    .container {
-      max-width: 1250px;
-      margin: auto;
-      padding: 18px 20px 50px;
-    }
-
-    .result-count {
-      font-size: 14px;
-      margin-bottom: 15px;
-      font-weight: 600;
-    }
-
-    .result-count span {
-      color: #777;
-      font-weight: normal;
-    }
-
-    /* Cards Grid */
-    .accounts-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-    }
-
-    .card {
-      background: white;
-      border: 1px solid #e5e5e5;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
-      transition: 0.25s;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-    }
-
-    .card:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 7px 18px rgba(0, 0, 0, 0.12);
-    }
-
-    .card-image {
-      height: 190px;
-      position: relative;
-      background: #181818;
-      overflow: hidden;
-    }
-
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-    }
-
-    .status-badge {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      border-radius: 4px;
-      padding: 5px 8px;
-      font-size: 10px;
-      font-weight: bold;
-    }
-
-    .status-badge.sold {
-      background: #ffe4e4;
-      color: #dc3b3b;
-    }
-
-    .status-badge.available {
-      background: #e8f5e9;
-      color: #2e7d32;
-    }
-
-    .status-badge.onsale {
-      background: #fff8e1;
-      color: #f57f17;
-    }
-
-    .level-badge {
-      position: absolute;
-      right: 9px;
-      bottom: 9px;
-      background: #0d47a1;
-      color: white;
-      border-radius: 5px;
-      padding: 4px 8px;
-      font-size: 10px;
-    }
-
-    .card-content {
-      padding: 13px;
-    }
-
-    .account-name {
-      font-size: 14px;
-      font-weight: bold;
-      margin-bottom: 7px;
-    }
-
-    .account-name::before {
-      content: "";
-      width: 12px;
-      height: 12px;
-      display: inline-block;
-      border: 2px solid #00b0ff;
-      border-radius: 50%;
-      margin-right: 5px;
-      vertical-align: -2px;
-    }
-
-    .prime {
-      display: inline-block;
-      background: #1565c0;
-      color: white;
-      padding: 4px 8px;
-      border-radius: 10px;
-      font-size: 10px;
-      margin-bottom: 10px;
-    }
-
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 7px;
-      color: #555;
-      font-size: 11px;
-      margin-bottom: 8px;
-    }
-
-    .price {
-      color: #0d47a1;
-      font-weight: 800;
-      font-size: 14px;
-    }
-
-    /* Responsive */
-    @media (max-width: 900px) {
-      .accounts-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .nav {
-        gap: 5px;
-      }
-
-      .header {
-        padding: 0 20px;
-      }
-    }
-
-    @media (max-width: 600px) {
-      .header {
-        height: auto;
-        min-height: 60px;
-        flex-wrap: wrap;
-        padding: 12px 15px;
-        gap: 10px;
-      }
-
-      .nav {
-        order: 3;
-        width: 100%;
-        justify-content: center;
-      }
-
-      .auth-buttons {
-        margin-left: auto;
-      }
-
-      .hero {
-        padding: 30px 15px 20px;
-      }
-
-      .hero h1 {
-        font-size: 23px;
-      }
-
-      .accounts-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .card-image {
-        height: 210px;
-      }
-
-      .filters {
-        padding: 12px 15px;
-      }
-    }
+    @media (max-width: 900px) { .accounts-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .accounts-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 
@@ -503,17 +91,14 @@
       <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
       GAMING M4K STORE
     </a>
-
     <nav class="nav">
       <a href="index.html">⌂ Home</a>
       <a href="home.html" class="active">🎮 Accounts</a>
       <a href="#sale">🏷 On Sale</a>
     </nav>
-
     <div class="auth-buttons">
       <button class="btn login" id="loginBtn">↪ Login</button>
       <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
-
       <div class="user-profile" id="userProfile" style="display: none;">
         <div id="avatarContainer"></div>
         <button class="logout-btn" id="logoutBtn">Logout</button>
@@ -524,165 +109,113 @@
   <!-- Admin Control Bar -->
   <div class="admin-banner" id="adminBanner" style="display: none;">
     <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
-    <div class="admin-actions-bar">
-      <button class="btn-admin" onclick="addNewAccount()">+ Add New Account</button>
-    </div>
+    <button class="btn-admin" onclick="openAddModal()">+ Add New Account</button>
   </div>
 
-  <!-- Hero -->
+  <!-- Hero & Filters -->
   <section class="hero">
     <h1>Browse FF Accounts</h1>
     <p>Explore verified accounts — use filters to find your perfect match</p>
   </section>
 
-  <!-- Filters -->
   <div class="filters">
     <button class="filter active" data-status="all" onclick="setStatusFilter('all', this)">All</button>
     <button class="filter" data-status="available" onclick="setStatusFilter('available', this)">Available</button>
     <button class="filter" data-status="onsale" onclick="setStatusFilter('onsale', this)">On Sale</button>
     <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
-
     <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
     <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
-
-    <button class="filter">🏆 Grand Prize</button>
-    <button class="filter">Newest ▾</button>
     <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
   </div>
 
-  <!-- Accounts -->
+  <!-- Accounts Grid -->
   <main class="container">
-
-    <div class="result-count">
-      <span id="countDisplay">Showed accounts</span>
-    </div>
-
+    <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
     <div class="accounts-grid" id="accountsGrid">
 
-      <!-- Card 1 -->
-      <div class="card" id="card-n581" data-status="sold" data-price="14000">
+      <!-- Sample Card 1 -->
+      <div class="card" id="card-n581" data-status="sold" data-price="14000" data-name="N581" data-prime="Prime Level 6" data-level="65" data-rank="Heroic" data-skins="321" data-bundles="252" data-img="https://imgur.com/Ov3XWe1" data-badge="P6">
         <div class="card-image">
           <img src="https://imgur.com/Ov3XWe1" alt="Account">
           <span class="status-badge sold">SOLD</span>
           <span class="level-badge">🔒 P6</span>
-          
-          <div class="pencil-badge" onclick="editCard('card-n581', event)" title="Edit Account">
-            <i class="fa-solid fa-pencil"></i>
-          </div>
+          <div class="pencil-badge" onclick="editCard('card-n581', event)"><i class="fa-solid fa-pencil"></i></div>
         </div>
-
         <a href="short.html" style="text-decoration: none; color: inherit;">
           <div class="card-content">
             <div class="account-name">N581</div>
             <span class="prime">♟ Prime Level 6</span>
-
             <div class="stats">
-              <span>⌁ LV 65</span>
-              <span>♙ Heroic</span>
-              <span>◉ 321 Skins</span>
-              <span>♧ 252 Bundles</span>
+              <span class="stat-lv">⌁ LV 65</span>
+              <span class="stat-rank">♙ Heroic</span>
+              <span class="stat-skins">◉ 321 Skins</span>
+              <span class="stat-bundles">♧ 252 Bundles</span>
             </div>
-
             <div class="price">LKR 14,000</div>
           </div>
         </a>
-
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard('card-n581', event)">
-            <i class="fa-solid fa-pen-to-square"></i> Edit
-          </button>
-          <button class="btn-delete" onclick="deleteCard('card-n581', event)">
-            <i class="fa-solid fa-trash-can"></i> Delete
-          </button>
-        </div>
-      </div>
-
-      <!-- Card 2 -->
-      <div class="card" id="card-n577" data-status="sold" data-price="14000">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/0288d1/fff?text=FF+Account+N577" alt="Account">
-          <span class="status-badge sold">SOLD</span>
-          <span class="level-badge">🔒 P5</span>
-
-          <div class="pencil-badge" onclick="editCard('card-n577', event)" title="Edit Account">
-            <i class="fa-solid fa-pencil"></i>
-          </div>
-        </div>
-
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-content">
-            <div class="account-name">N577</div>
-            <span class="prime">♟ Prime Level 5</span>
-
-            <div class="stats">
-              <span>⌁ LV 67</span>
-              <span>♙ Heroic</span>
-              <span>◉ 334 Skins</span>
-              <span>♧ 328 Bundles</span>
-            </div>
-
-            <div class="price">LKR 14,000</div>
-          </div>
-        </a>
-
-        <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard('card-n577', event)">
-            <i class="fa-solid fa-pen-to-square"></i> Edit
-          </button>
-          <button class="btn-delete" onclick="deleteCard('card-n577', event)">
-            <i class="fa-solid fa-trash-can"></i> Delete
-          </button>
-        </div>
-      </div>
-
-      <!-- Card 3 -->
-      <div class="card" id="card-n588" data-status="available" data-price="55000">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/0097a7/fff?text=FF+Account+N588" alt="Account">
-          <span class="status-badge available">AVAILABLE</span>
-          <span class="level-badge">🔒 P8</span>
-
-          <div class="pencil-badge" onclick="editCard('card-n588', event)" title="Edit Account">
-            <i class="fa-solid fa-pencil"></i>
-          </div>
-        </div>
-
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-content">
-            <div class="account-name">N588</div>
-            <span class="prime">♟ Prime Level 8 ★</span>
-
-            <div class="stats">
-              <span>⌁ LV 78</span>
-              <span>♙ Heroic</span>
-              <span>◉ 620 Skins</span>
-              <span>♧ 586 Bundles</span>
-            </div>
-
-            <div class="price">LKR 55,000</div>
-          </div>
-        </a>
-
-        <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard('card-n588', event)">
-            <i class="fa-solid fa-pen-to-square"></i> Edit
-          </button>
-          <button class="btn-delete" onclick="deleteCard('card-n588', event)">
-            <i class="fa-solid fa-trash-can"></i> Delete
-          </button>
+          <button class="btn-edit" onclick="editCard('card-n581', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+          <button class="btn-delete" onclick="deleteCard('card-n581', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
         </div>
       </div>
 
     </div>
   </main>
 
+  <!-- Add / Edit Modal -->
+  <div class="modal" id="accountModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Account</h3>
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+      </div>
+      <form id="accountForm">
+        <input type="hidden" id="editCardId">
+        <div class="form-group">
+          <label>Account Name</label>
+          <input type="text" id="accName" required placeholder="e.g. N589">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="accStatus">
+            <option value="available">AVAILABLE</option>
+            <option value="onsale">ON SALE</option>
+            <option value="sold">SOLD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price (LKR)</label>
+          <input type="number" id="accPrice" required placeholder="e.g. 25000">
+        </div>
+        <div class="form-group">
+          <label>Image URL</label>
+          <input type="text" id="accImg" required placeholder="https://...">
+        </div>
+        <div class="form-group">
+          <label>Prime Tag & Level Badge</label>
+          <input type="text" id="accPrime" placeholder="Prime Level 7 ★">
+          <input type="text" id="accBadge" placeholder="P7" style="margin-top:5px;">
+        </div>
+        <div class="form-group">
+          <label>Stats (LV | Rank | Skins | Bundles)</label>
+          <div style="display:flex; gap:5px;">
+            <input type="number" id="accLv" placeholder="LV">
+            <input type="text" id="accRank" placeholder="Rank">
+            <input type="number" id="accSkins" placeholder="Skins">
+            <input type="number" id="accBundles" placeholder="Bundles">
+          </div>
+        </div>
+        <button type="submit" class="btn-submit">Save Account</button>
+      </form>
+    </div>
+  </div>
+
   <script>
     let currentStatus = 'all';
 
     function setStatusFilter(status, element) {
-      document.querySelectorAll('.filters .filter[data-status]').forEach(btn => {
-        btn.classList.remove('active');
-      });
+      document.querySelectorAll('.filters .filter[data-status]').forEach(btn => btn.classList.remove('active'));
       element.classList.add('active');
       currentStatus = status;
       filterAccounts();
@@ -697,7 +230,6 @@
       cards.forEach(card => {
         const cardStatus = card.getAttribute('data-status');
         const cardPrice = parseFloat(card.getAttribute('data-price'));
-
         const matchStatus = (currentStatus === 'all') || (cardStatus === currentStatus);
         const matchPrice = (cardPrice >= minPrice) && (cardPrice <= maxPrice);
 
@@ -708,14 +240,13 @@
           card.style.display = 'none';
         }
       });
-
       document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
     }
 
     filterAccounts();
   </script>
 
-  <!-- Firebase Auth & Direct Card Removal Logic -->
+  <!-- Firebase Auth & Add/Edit/Delete Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -733,9 +264,11 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
-
     const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
+    let isCurrentUserAdmin = false;
+
+    // UI Elements
     const loginBtn = document.getElementById('loginBtn');
     const signUpBtn = document.getElementById('signUpBtn');
     const userProfile = document.getElementById('userProfile');
@@ -743,61 +276,8 @@
     const logoutBtn = document.getElementById('logoutBtn');
     const adminBanner = document.getElementById('adminBanner');
     const adminEmailText = document.getElementById('adminEmailText');
-
-    let isCurrentUserAdmin = false;
-
-    function loginWithGoogle() {
-      signInWithPopup(auth, provider)
-        .then((result) => {
-          console.log("Logged in:", result.user.email);
-        })
-        .catch((error) => {
-          alert("Login error: " + error.message);
-        });
-    }
-
-    function handleLogout() {
-      signOut(auth);
-    }
-
-    // Direct ID Removal with Event Propagation Stop
-    window.deleteCard = function(cardId, e) {
-      if (e) e.stopPropagation();
-
-      if (!isCurrentUserAdmin) {
-        alert("❌ Access Denied! මෙම ගිණුම මැකීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
-        return;
-      }
-
-      if (confirm("ඔබට මෙම ගිණුම සැබැවින්ම ඉවත් කිරීමට (Delete කිරීමට) අවශ්‍යද?")) {
-        const targetCard = document.getElementById(cardId);
-        if (targetCard) {
-          targetCard.remove(); // Direct removal
-          filterAccounts();
-        }
-      }
-    };
-
-    window.editCard = function(cardId, e) {
-      if (e) e.stopPropagation();
-
-      if (!isCurrentUserAdmin) {
-        alert("❌ Access Denied! මෙම ගිණුම සංස්කරණය කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
-        return;
-      }
-
-      const targetCard = document.getElementById(cardId);
-      const name = targetCard ? targetCard.querySelector('.account-name').innerText : '';
-      alert("✏️ Editing: " + name);
-    };
-
-    window.addNewAccount = function() {
-      if (!isCurrentUserAdmin) {
-        alert("❌ Access Denied!");
-        return;
-      }
-      alert("➕ නව ගිණුමක් එකතු කිරීමට අවශ්‍ය Form එක මෙතැනින් පෙන්විය හැක.");
-    };
+    const modal = document.getElementById('accountModal');
+    const accountForm = document.getElementById('accountForm');
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -805,23 +285,18 @@
         signUpBtn.style.display = 'none';
         userProfile.style.display = 'flex';
 
-        if (user.photoURL) {
-          avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" class="user-avatar" title="${user.email}">`;
-        } else {
-          const firstLetter = user.email ? user.email.charAt(0).toUpperCase() : 'U';
-          avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
-        }
+        avatarContainer.innerHTML = user.photoURL 
+          ? `<img src="${user.photoURL}" class="user-avatar" title="${user.email}">` 
+          : `<div class="user-initial-avatar">${user.email.charAt(0).toUpperCase()}</div>`;
 
-        const currentUserEmail = user.email ? user.email.trim().toLowerCase() : "";
-        isCurrentUserAdmin = (currentUserEmail === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
+        isCurrentUserAdmin = (user.email.toLowerCase() === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
 
         if (isCurrentUserAdmin) {
           adminBanner.style.display = 'flex';
-          if(adminEmailText) adminEmailText.innerText = currentUserEmail;
+          if(adminEmailText) adminEmailText.innerText = user.email;
         } else {
           adminBanner.style.display = 'none';
         }
-
       } else {
         isCurrentUserAdmin = false;
         loginBtn.style.display = 'inline-block';
@@ -831,9 +306,137 @@
       }
     });
 
-    loginBtn.addEventListener('click', loginWithGoogle);
-    signUpBtn.addEventListener('click', loginWithGoogle);
-    logoutBtn.addEventListener('click', handleLogout);
+    loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
+    signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
+    logoutBtn.addEventListener('click', () => signOut(auth));
+
+    // Modal Control Functions
+    window.openAddModal = function() {
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+      document.getElementById('modalTitle').innerText = "Add New Account";
+      document.getElementById('editCardId').value = "";
+      accountForm.reset();
+      modal.style.display = "flex";
+    };
+
+    window.closeModal = function() {
+      modal.style.display = "none";
+    };
+
+    // Delete Functionality
+    window.deleteCard = function(cardId, e) {
+      if (e) e.stopPropagation();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට අවශ්‍යද?")) {
+        const card = document.getElementById(cardId);
+        if (card) {
+          card.remove();
+          filterAccounts();
+        }
+      }
+    };
+
+    // Edit Functionality
+    window.editCard = function(cardId, e) {
+      if (e) e.stopPropagation();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      const card = document.getElementById(cardId);
+      if (!card) return;
+
+      document.getElementById('modalTitle').innerText = "Edit Account";
+      document.getElementById('editCardId').value = cardId;
+
+      document.getElementById('accName').value = card.getAttribute('data-name') || '';
+      document.getElementById('accStatus').value = card.getAttribute('data-status') || 'available';
+      document.getElementById('accPrice').value = card.getAttribute('data-price') || '';
+      document.getElementById('accImg').value = card.getAttribute('data-img') || '';
+      document.getElementById('accPrime').value = card.getAttribute('data-prime') || '';
+      document.getElementById('accBadge').value = card.getAttribute('data-badge') || '';
+      document.getElementById('accLv').value = card.getAttribute('data-level') || '';
+      document.getElementById('accRank').value = card.getAttribute('data-rank') || '';
+      document.getElementById('accSkins').value = card.getAttribute('data-skins') || '';
+      document.getElementById('accBundles').value = card.getAttribute('data-bundles') || '';
+
+      modal.style.display = "flex";
+    };
+
+    // Form Submit (Save New / Update Existing Card)
+    accountForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const editId = document.getElementById('editCardId').value;
+      const name = document.getElementById('accName').value;
+      const status = document.getElementById('accStatus').value;
+      const price = document.getElementById('accPrice').value;
+      const img = document.getElementById('accImg').value;
+      const prime = document.getElementById('accPrime').value;
+      const badge = document.getElementById('accBadge').value;
+      const lv = document.getElementById('accLv').value;
+      const rank = document.getElementById('accRank').value;
+      const skins = document.getElementById('accSkins').value;
+      const bundles = document.getElementById('accBundles').value;
+
+      const cardId = editId || 'card-' + Date.now();
+
+      const cardHTML = `
+        <div class="card-image">
+          <img src="${img}" alt="Account">
+          <span class="status-badge ${status}">${status}</span>
+          <span class="level-badge">🔒 ${badge}</span>
+          <div class="pencil-badge" onclick="editCard('${cardId}', event)"><i class="fa-solid fa-pencil"></i></div>
+        </div>
+        <a href="short.html" style="text-decoration: none; color: inherit;">
+          <div class="card-content">
+            <div class="account-name">${name}</div>
+            <span class="prime">♟ ${prime}</span>
+            <div class="stats">
+              <span>⌁ LV ${lv}</span>
+              <span>♙ ${rank}</span>
+              <span>◉ ${skins} Skins</span>
+              <span>♧ ${bundles} Bundles</span>
+            </div>
+            <div class="price">LKR ${parseInt(price).toLocaleString()}</div>
+          </div>
+        </a>
+        <div class="card-admin-controls">
+          <button class="btn-edit" onclick="editCard('${cardId}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+          <button class="btn-delete" onclick="deleteCard('${cardId}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
+        </div>
+      `;
+
+      if (editId) {
+        // Update Existing Card
+        const card = document.getElementById(editId);
+        card.innerHTML = cardHTML;
+        setCardAttributes(card, status, price, name, prime, lv, rank, skins, bundles, img, badge);
+      } else {
+        // Create New Card
+        const newCard = document.createElement('div');
+        newCard.className = 'card';
+        newCard.id = cardId;
+        newCard.innerHTML = cardHTML;
+        setCardAttributes(newCard, status, price, name, prime, lv, rank, skins, bundles, img, badge);
+        document.getElementById('accountsGrid').prepend(newCard);
+      }
+
+      closeModal();
+      filterAccounts();
+    });
+
+    function setCardAttributes(card, status, price, name, prime, lv, rank, skins, bundles, img, badge) {
+      card.setAttribute('data-status', status);
+      card.setAttribute('data-price', price);
+      card.setAttribute('data-name', name);
+      card.setAttribute('data-prime', prime);
+      card.setAttribute('data-level', lv);
+      card.setAttribute('data-rank', rank);
+      card.setAttribute('data-skins', skins);
+      card.setAttribute('data-bundles', bundles);
+      card.setAttribute('data-img', img);
+      card.setAttribute('data-badge', badge);
+    }
   </script>
 
 </body>
