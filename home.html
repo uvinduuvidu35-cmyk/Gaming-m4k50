@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -69,7 +70,7 @@
 
     /* Modal Popup UI */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
-    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .modal-header h3 { font-size: 16px; color: #0d47a1; }
     .close-modal { font-size: 20px; cursor: pointer; color: #888; font-weight: bold; }
@@ -162,8 +163,9 @@
           <input type="number" id="accPrice" required placeholder="e.g. 25000">
         </div>
         <div class="form-group">
-          <label>Image URL</label>
-          <input type="text" id="accImg" required placeholder="https://...">
+          <label>Upload Account Image</label>
+          <input type="file" id="accImgFile" accept="image/*">
+          <input type="hidden" id="accImgBase64">
         </div>
         <div class="form-group">
           <label>Prime Tag & Level Badge</label>
@@ -188,7 +190,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
@@ -222,6 +224,19 @@
     const openAddBtn = document.getElementById('openAddBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const accountsGrid = document.getElementById('accountsGrid');
+    const accImgFileInput = document.getElementById('accImgFile');
+
+    // Convert Image File to Base64
+    accImgFileInput.addEventListener('change', function(e) {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+          document.getElementById('accImgBase64').value = event.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
 
     // Global Filters
     window.setStatusFilter = function(status, element) {
@@ -294,7 +309,7 @@
       });
     }
 
-    // Realtime Database Sync (Firestore Listener)
+    // Realtime Database Sync
     const accountsRef = collection(db, "accounts");
     onSnapshot(accountsRef, (snapshot) => {
       accountsGrid.innerHTML = "";
@@ -309,6 +324,7 @@
     });
 
     function renderCardHTML(id, data) {
+      const imgSource = data.img || 'https://via.placeholder.com/300x190?text=No+Image';
       return `
         <div class="card" id="${id}" 
              data-status="${data.status}" 
@@ -319,10 +335,10 @@
              data-rank="${data.rank}" 
              data-skins="${data.skins}" 
              data-bundles="${data.bundles}" 
-             data-img="${data.img}" 
+             data-img="${imgSource}" 
              data-badge="${data.badge}">
           <div class="card-image">
-            <img src="${data.img}" alt="Account">
+            <img src="${imgSource}" alt="Account Image">
             <span class="status-badge ${data.status}">${data.status}</span>
             <span class="level-badge">🔒 ${data.badge}</span>
             <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
@@ -350,7 +366,7 @@
       `;
     }
 
-    // Delete Card from Database
+    // Delete Card
     window.deleteCard = async function(cardId, e) {
       if (e) e.stopPropagation();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
@@ -378,7 +394,7 @@
       document.getElementById('accName').value = card.getAttribute('data-name') || '';
       document.getElementById('accStatus').value = card.getAttribute('data-status') || 'available';
       document.getElementById('accPrice').value = card.getAttribute('data-price') || '';
-      document.getElementById('accImg').value = card.getAttribute('data-img') || '';
+      document.getElementById('accImgBase64').value = card.getAttribute('data-img') || '';
       document.getElementById('accPrime').value = card.getAttribute('data-prime') || '';
       document.getElementById('accBadge').value = card.getAttribute('data-badge') || '';
       document.getElementById('accLv').value = card.getAttribute('data-level') || '';
@@ -393,6 +409,7 @@
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
       document.getElementById('modalTitle').innerText = "Add New Account";
       document.getElementById('editCardId').value = "";
+      document.getElementById('accImgBase64').value = "";
       accountForm.reset();
       modal.style.display = "flex";
     });
@@ -410,7 +427,7 @@
         name: document.getElementById('accName').value,
         status: document.getElementById('accStatus').value,
         price: Number(document.getElementById('accPrice').value),
-        img: document.getElementById('accImg').value,
+        img: document.getElementById('accImgBase64').value,
         prime: document.getElementById('accPrime').value,
         badge: document.getElementById('accBadge').value,
         lv: Number(document.getElementById('accLv').value),
