@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -46,13 +47,14 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 
 /* ========================= GALLERY ========================= */
 .gallery{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:10px; box-shadow:0 3px 15px rgba(0,0,0,.04); }
-.main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#f5f5f5; display:flex; justify-content:center; align-items:center; }
+.main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#f5f5f5; display:flex; justify-content:center; align-items:center; cursor:pointer; }
 .main-image img{ width:100%; height:100%; object-fit:cover; }
 .placeholder{ text-align:center; color:#999; }
 .placeholder .game-icon{ font-size:65px; margin-bottom:12px; }
 .placeholder b{ display:block; color:#555; margin-bottom:5px; }
-.thumbs{ display:flex; gap:9px; margin-top:11px; overflow-x:auto; padding-bottom:3px; }
-.thumb{ min-width:78px; height:55px; background:#f7f7f7; border:2px solid #e4e4e4; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:22px; }
+.thumbs{ display:flex; gap:9px; margin-top:11px; overflow-x:auto; padding-bottom:5px; }
+.thumb{ min-width:78px; height:55px; background:#f7f7f7; border:2px solid #e4e4e4; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
+.thumb img{ width:100%; height:100%; object-fit:cover; }
 .thumb.active{ border-color:#1e88e5; }
 
 /* ========================= DETAILS & STATS ========================= */
@@ -73,12 +75,10 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 /* SECTIONS */
 .section{ margin-top:13px; padding:17px; background:#fff; border:1px solid #e5e5e5; border-radius:11px; }
 .section-title{ font-size:11px; color:#777; font-weight:bold; margin-bottom:8px; }
-.weapon{ display:flex; align-items:center; justify-content:space-between; padding:13px 4px; border-bottom:1px solid #eee; }
-.weapon:last-child{ border-bottom:none; }
+.weapon-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
+.weapon{ display:flex; align-items:center; justify-content:space-between; padding:8px 6px; border-bottom:1px solid #eee; }
 .weapon b{ color:#333; font-size:13px; }
 .level{ color:#1e88e5; border:1px solid #90caf9; padding:4px 9px; border-radius:5px; font-size:10px; font-weight:bold; }
-.membership{ display:inline-block; min-width:105px; padding:13px 22px; text-align:center; border:1px solid #ddd; border-radius:9px; background:#fafafa; }
-.membership b{ display:block; color:#1e88e5; margin:5px 0; }
 
 /* ACTIONS */
 .actions{ display:grid; gap:9px; margin-top:13px; }
@@ -105,15 +105,29 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 .card-price{ margin-top:11px; color:#1e88e5; font-size:16px; font-weight:900; }
 
 /* ========================= ADMIN MODAL ========================= */
-.modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center; }
-.modal-content{ background:#fff; padding:25px; border-radius:12px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
+.modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; justify-content:center; align-items:center; }
+.modal-content{ background:#fff; padding:25px; border-radius:12px; width:90%; max-width:650px; max-height:90vh; overflow-y:auto; }
 .modal-content h2{ margin-bottom:15px; font-size:18px; color:#333; }
+.modal-content h3{ margin:15px 0 10px; font-size:14px; color:#1e88e5; border-bottom:1px solid #eee; padding-bottom:5px; }
 .form-group{ margin-bottom:12px; }
 .form-group label{ display:block; font-size:12px; color:#666; margin-bottom:4px; }
-.form-group input{ width:100%; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; }
-.modal-buttons{ display:flex; gap:10px; justify-content:flex-end; margin-top:15px; }
+.form-group input, .form-group select{ width:100%; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; }
 
-/* ========================= FOOTER ========================= */
+/* Image Input Rows with Icons */
+.photo-input-row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+.photo-input-row input{ flex:1; }
+.icon-btn{ background:none; border:none; font-size:16px; cursor:pointer; padding:5px; }
+.icon-btn.delete{ color:#e53935; }
+.icon-btn.edit{ color:#1e88e5; }
+
+.modal-buttons{ display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+
+/* Fullscreen Overlay */
+.fullscreen-overlay{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:3000; justify-content:center; align-items:center; }
+.fullscreen-overlay img{ max-width:90%; max-height:90%; border-radius:8px; }
+.fullscreen-close{ position:absolute; top:20px; right:30px; color:#fff; font-size:35px; cursor:pointer; }
+
+/* FOOTER */
 footer{ margin-top:70px; padding:45px 0 20px; background:#fafafa; border-top:1px solid #e5e5e5; }
 .footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; }
 .footer-title{ font-size:20px; font-weight:900; margin-bottom:14px; color:#222; }
@@ -123,7 +137,6 @@ footer a:hover{ color:#1e88e5; }
 .copyright{ border-top:1px solid #e5e5e5; margin-top:35px; padding-top:18px; display:flex; justify-content:space-between; color:#999; font-size:10px; }
 .chat{ position:fixed; right:20px; bottom:20px; width:54px; height:54px; border-radius:50%; background:#1e88e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 5px 20px rgba(30,136,229,.25); cursor:pointer; }
 
-/* MEDIA QUERIES */
 @media(max-width:900px){
     .menu{ display:none; }
     .main{ grid-template-columns:1fr; }
@@ -131,6 +144,7 @@ footer a:hover{ color:#1e88e5; }
     .stats{ grid-template-columns:repeat(3,1fr); }
     .cards{ grid-template-columns:repeat(2,1fr); }
     .footer-grid{ grid-template-columns:1fr; gap:25px; }
+    .weapon-grid{ grid-template-columns:1fr; }
 }
 @media(max-width:550px){
     .cards{ grid-template-columns:1fr 1fr; gap:9px; }
@@ -183,7 +197,7 @@ footer a:hover{ color:#1e88e5; }
 <!-- LEFT GALLERY -->
 <div>
 <div class="gallery">
-    <div class="main-image">
+    <div class="main-image" id="main-image-container" onclick="openFullscreen()">
         <div class="placeholder" id="main-media">
             <div class="game-icon">🎮</div>
             <b>FREE FIRE ACCOUNT</b>
@@ -191,13 +205,8 @@ footer a:hover{ color:#1e88e5; }
         </div>
     </div>
 
-    <div class="thumbs">
-        <div class="thumb active">🎮</div>
-        <div class="thumb">🔥</div>
-        <div class="thumb">💎</div>
-        <div class="thumb">🏆</div>
-        <div class="thumb">🔫</div>
-        <div class="thumb">⭐</div>
+    <div class="thumbs" id="thumbs-container">
+        <!-- Dynamic thumbnails -->
     </div>
 </div>
 </div>
@@ -231,13 +240,12 @@ footer a:hover{ color:#1e88e5; }
 <div class="stat"><strong id="stat-firstskins">0</strong><small>FIRST SKINS</small></div>
 </div>
 
-<!-- EVO GUN -->
+<!-- EVO GUN (All 18 Guns) -->
 <div class="section">
     <div class="section-title">⚡ EVO GUN DETAILS</div>
-    <div class="weapon"><b>◉ AN94</b><span class="level" id="evo-an94">Lv 0</span></div>
-    <div class="weapon"><b>◉ UMP</b><span class="level" id="evo-ump">Lv 0</span></div>
-    <div class="weapon"><b>◉ MP40</b><span class="level" id="evo-mp40">Lv 0</span></div>
-    <div class="weapon"><b>◉ AK47</b><span class="level" id="evo-ak47">Lv 0</span></div>
+    <div class="weapon-grid" id="evo-guns-display">
+        <!-- Guns will be injected dynamically -->
+    </div>
 </div>
 
 <!-- ACTIONS -->
@@ -261,11 +269,18 @@ footer a:hover{ color:#1e88e5; }
 
 </div>
 
+<!-- FULLSCREEN OVERLAY -->
+<div class="fullscreen-overlay" id="fullscreen-overlay">
+    <span class="fullscreen-close" onclick="closeFullscreen()">&times;</span>
+    <img id="fullscreen-img" src="" alt="Full Screen Image">
+</div>
+
 <!-- ADMIN EDIT MODAL -->
 <div class="modal" id="adminModal">
     <div class="modal-content">
         <h2>Edit Account Details</h2>
         <form id="adminForm">
+            <h3>Basic Information</h3>
             <div class="form-group"><label>Title / ID</label><input type="text" id="edit-title" required></div>
             <div class="form-group"><label>UID</label><input type="text" id="edit-uid"></div>
             <div class="form-group"><label>Price (LKR)</label><input type="text" id="edit-price"></div>
@@ -276,6 +291,18 @@ footer a:hover{ color:#1e88e5; }
             <div class="form-group"><label>Bundles</label><input type="number" id="edit-bundles"></div>
             <div class="form-group"><label>Diamonds</label><input type="number" id="edit-diamonds"></div>
             <div class="form-group"><label>Emotes</label><input type="number" id="edit-emotes"></div>
+
+            <h3>Photo Management (Up to 15)</h3>
+            <div id="photos-input-container">
+                <!-- Dynamically generated image inputs -->
+            </div>
+            <button type="button" class="btn" onclick="addPhotoInput()" style="margin-top:5px; font-size:12px;">+ Add Photo URL</button>
+
+            <h3>EVO Gun Levels (Max Level 7)</h3>
+            <div id="evo-inputs-container" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
+                <!-- 18 Evo Gun Level Inputs generated dynamically -->
+            </div>
+
             <div class="modal-buttons">
                 <button type="button" class="btn" onclick="closeAdminModal()">Cancel</button>
                 <button type="submit" class="btn btn-blue">Save Changes</button>
@@ -303,7 +330,6 @@ footer a:hover{ color:#1e88e5; }
 
 <!-- JAVASCRIPT & FIREBASE LOGIC -->
 <script>
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
   authDomain: "gaming-m4k.firebaseapp.com",
@@ -317,25 +343,30 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 
-// ADMIN EMAILS
 const adminEmails = ["uvinduuvidu35@gmail.com"];
+
+const evoGunList = [
+    "AK47", "M1014", "SCAR", "MP40", "XM8", 
+    "FAMAS", "UMP", "M1887", "AN94", "THOMPSON", 
+    "G18", "M4A1", "WOODPECKER", "GROZA", "MP5", 
+    "P90", "PARAFAL", "VECTOR"
+];
 
 let currentAccId = "M4K0558";
 let currentUser = null;
+let currentPhotos = [];
+let activePhotoIndex = 0;
 
-// 2. INITIALIZATION
 window.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
     const idParam = urlParams.get("id");
-    if(idParam) {
-        currentAccId = idParam;
-    }
+    if(idParam) currentAccId = idParam;
     
+    renderEvoGunInputs();
     fetchAccountDetails(currentAccId);
     fetchSimilarAccounts();
 });
 
-// 3. AUTHENTICATION MONITORING
 auth.onAuthStateChanged(user => {
     currentUser = user;
     const authButtons = document.getElementById("auth-buttons");
@@ -368,11 +399,8 @@ function loginUser() {
     auth.signInWithPopup(provider).catch(error => alert(error.message));
 }
 
-function logoutUser() {
-    auth.signOut();
-}
+function logoutUser() { auth.signOut(); }
 
-// 4. FETCH DATA FROM FIRESTORE
 function fetchAccountDetails(id) {
     db.collection("accounts").doc(id).get().then(doc => {
         if (doc.exists) {
@@ -381,9 +409,7 @@ function fetchAccountDetails(id) {
         } else {
             document.getElementById("acc-title").textContent = id + " (Not Found)";
         }
-    }).catch(err => {
-        console.error("Error getting document:", err);
-    });
+    }).catch(err => console.error("Error getting document:", err));
 }
 
 function updateUI(acc, id) {
@@ -399,11 +425,28 @@ function updateUI(acc, id) {
     document.getElementById("stat-bundles").textContent = acc.bundles || 0;
     document.getElementById("stat-diamonds").textContent = acc.diamonds || 0;
     document.getElementById("stat-emotes").textContent = acc.emotes || 0;
-    
-    document.getElementById("stat-animations").textContent = acc.animations || 0;
-    document.getElementById("stat-firstskins").textContent = acc.firstskins || 0;
 
-    // Fill Modal Inputs
+    // Photos Handling
+    currentPhotos = acc.photos || [];
+    renderGallery();
+
+    // Evo Guns Handling
+    const evoContainer = document.getElementById("evo-guns-display");
+    evoContainer.innerHTML = "";
+    const evoData = acc.evoGuns || {};
+    evoGunList.forEach(gun => {
+        const lvl = evoData[gun] || 0;
+        evoContainer.innerHTML += `
+            <div class="weapon">
+                <b>◉ ${gun}</b>
+                <span class="level">Lv ${lvl}</span>
+            </div>
+        `;
+        const inputElem = document.getElementById(`evo-${gun}`);
+        if(inputElem) inputElem.value = lvl;
+    });
+
+    // Fill Modal Fields
     document.getElementById("edit-title").value = acc.title || id;
     document.getElementById("edit-uid").value = acc.uid || "";
     document.getElementById("edit-price").value = acc.price || "";
@@ -414,9 +457,107 @@ function updateUI(acc, id) {
     document.getElementById("edit-bundles").value = acc.bundles || 0;
     document.getElementById("edit-diamonds").value = acc.diamonds || 0;
     document.getElementById("edit-emotes").value = acc.emotes || 0;
+
+    renderPhotoInputs();
 }
 
-// 5. FETCH SIMILAR ACCOUNTS
+// GALLERY RENDER
+function renderGallery() {
+    const mainImgElem = document.getElementById("main-image-container");
+    const thumbsElem = document.getElementById("thumbs-container");
+
+    if (currentPhotos.length > 0) {
+        mainImgElem.innerHTML = `<img src="${currentPhotos[activePhotoIndex]}" alt="Account Image">`;
+        thumbsElem.innerHTML = "";
+        currentPhotos.forEach((url, idx) => {
+            thumbsElem.innerHTML += `
+                <div class="thumb ${idx === activePhotoIndex ? 'active' : ''}" onclick="selectPhoto(${idx})">
+                    <img src="${url}" alt="thumb">
+                </div>
+            `;
+        });
+    } else {
+        mainImgElem.innerHTML = `
+            <div class="placeholder">
+                <div class="game-icon">🎮</div>
+                <b>FREE FIRE ACCOUNT</b>
+                <p>No photos added</p>
+            </div>`;
+        thumbsElem.innerHTML = "";
+    }
+}
+
+function selectPhoto(idx) {
+    activePhotoIndex = idx;
+    renderGallery();
+}
+
+function openFullscreen() {
+    if (currentPhotos.length > 0) {
+        document.getElementById("fullscreen-img").src = currentPhotos[activePhotoIndex];
+        document.getElementById("fullscreen-overlay").style.display = "flex";
+    }
+}
+
+function closeFullscreen() {
+    document.getElementById("fullscreen-overlay").style.display = "none";
+}
+
+// EVO GUN INPUTS GENERATOR
+function renderEvoGunInputs() {
+    const container = document.getElementById("evo-inputs-container");
+    container.innerHTML = "";
+    evoGunList.forEach(gun => {
+        container.innerHTML += `
+            <div class="form-group">
+                <label>${gun} Level</label>
+                <select id="evo-${gun}">
+                    <option value="0">Lv 0</option>
+                    <option value="1">Lv 1</option>
+                    <option value="2">Lv 2</option>
+                    <option value="3">Lv 3</option>
+                    <option value="4">Lv 4</option>
+                    <option value="5">Lv 5</option>
+                    <option value="6">Lv 6</option>
+                    <option value="7">Lv 7</option>
+                </select>
+            </div>
+        `;
+    });
+}
+
+// PHOTO INPUTS GENERATOR
+function renderPhotoInputs() {
+    const container = document.getElementById("photos-input-container");
+    container.innerHTML = "";
+    currentPhotos.forEach((url, index) => {
+        container.innerHTML += `
+            <div class="photo-input-row" id="photo-row-${index}">
+                <input type="text" value="${url}" placeholder="Photo URL ${index + 1}" onchange="updatePhotoUrl(${index}, this.value)">
+                <button type="button" class="icon-btn edit" onclick="focusPhotoInput(${index})" title="Edit">✏️</button>
+                <button type="button" class="icon-btn delete" onclick="deletePhotoInput(${index})" title="Delete">🗑️</button>
+            </div>
+        `;
+    });
+}
+
+function addPhotoInput() {
+    if (currentPhotos.length >= 15) {
+        alert("Maximum 15 photos allowed!");
+        return;
+    }
+    currentPhotos.push("");
+    renderPhotoInputs();
+}
+
+function updatePhotoUrl(index, value) { currentPhotos[index] = value; }
+function focusPhotoInput(index) { document.querySelector(`#photo-row-${index} input`).focus(); }
+function deletePhotoInput(index) {
+    currentPhotos.splice(index, 1);
+    renderPhotoInputs();
+}
+
+// SIMILAR ACCOUNTS
 function fetchSimilarAccounts() {
     db.collection("accounts").limit(4).get().then(snapshot => {
         const container = document.getElementById("similar-cards-container");
@@ -441,15 +582,10 @@ function fetchSimilarAccounts() {
     });
 }
 
-// 6. ADMIN MODAL ACTIONS
-function openAdminModal() {
-    document.getElementById("adminModal").style.display = "flex";
-}
+function openAdminModal() { document.getElementById("adminModal").style.display = "flex"; }
+function closeAdminModal() { document.getElementById("adminModal").style.display = "none"; }
 
-function closeAdminModal() {
-    document.getElementById("adminModal").style.display = "none";
-}
-
+// SUBMIT ADMIN FORM
 document.getElementById("adminForm").addEventListener("submit", function(e) {
     e.preventDefault();
     if (!currentUser || !adminEmails.includes(currentUser.email)) {
@@ -457,29 +593,39 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
         return;
     }
 
+    const filteredPhotos = currentPhotos.filter(url => url.trim() !== "");
+
+    const evoGunsData = {};
+    evoGunList.forEach(gun => {
+        const elem = document.getElementById(`evo-${gun}`);
+        if(elem) evoGunsData[gun] = parseInt(elem.value) || 0;
+    });
+
     const updatedData = {
         title: document.getElementById("edit-title").value,
         uid: document.getElementById("edit-uid").value,
         price: document.getElementById("edit-price").value,
         prime: document.getElementById("edit-prime").value,
-        level: document.getElementById("edit-level").value,
+        level: parseInt(document.getElementById("edit-level").value) || 0,
         rank: document.getElementById("edit-rank").value,
-        skins: document.getElementById("edit-skins").value,
-        bundles: document.getElementById("edit-bundles").value,
-        diamonds: document.getElementById("edit-diamonds").value,
-        emotes: document.getElementById("edit-emotes").value
+        skins: parseInt(document.getElementById("edit-skins").value) || 0,
+        bundles: parseInt(document.getElementById("edit-bundles").value) || 0,
+        diamonds: parseInt(document.getElementById("edit-diamonds").value) || 0,
+        emotes: parseInt(document.getElementById("edit-emotes").value) || 0,
+        photos: filteredPhotos,
+        evoGuns: evoGunsData
     };
 
     db.collection("accounts").doc(currentAccId).set(updatedData, { merge: true })
         .then(() => {
             alert("Account details updated successfully!");
             closeAdminModal();
+            activePhotoIndex = 0;
             fetchAccountDetails(currentAccId);
         })
         .catch(err => alert("Error updating account: " + err.message));
 });
 
-// BUTTON FUNCTIONS
 function accountInfo(){ alert("Please login to check real-time account information."); }
 function loginPurchase(){ alert("Please login to continue with your purchase."); }
 function openWhatsApp(){
