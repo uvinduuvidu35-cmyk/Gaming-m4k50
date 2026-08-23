@@ -895,5 +895,24 @@ document
   const app = initializeApp(firebaseConfig);
   const analytics = getAnalytics(app);
 </script>
+ හරි, මම ඔබට Login function එකේ කේතය දෙන්නම්.
+// Login function එක
+function loginUser(email, password) {
+  firebase.auth().signInWithEmailAndPassword(email, password)
+    .then((userCredential) => {
+      // සාර්ථකව Login වුනා
+      var user = userCredential.user;
+      console.log("Login සාර්ථකයි:", user.email);
+    })
+    .catch((error) => {
+      // Error එකක් ආවා
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      console.log("Error code:", errorCode);
+      console.log("Error message:", errorMessage);
+    });
+}
+
+මේක ඔබේ JavaScript කේතයට ඇතුලත් කරගන්න.   
 </body>
 </html>
