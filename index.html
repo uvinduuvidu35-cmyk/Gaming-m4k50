@@ -78,6 +78,7 @@ button{
 
 .actions{
     display:flex;
+    align-items:center;
     gap:9px;
 }
 
@@ -102,6 +103,45 @@ button{
     color:#fff;
     background:linear-gradient(90deg,#0d47a1,#42a5f5);
     box-shadow:0 7px 18px #0d47a133;
+}
+
+/* User Profile Styles */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #1976d2;
+}
+
+.user-initial-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #0d47a1, #42a5f5);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 16px;
+    text-transform: uppercase;
+    border: 2px solid #90caf9;
+}
+
+.logout-btn {
+    background: #f44336;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: bold;
 }
 
 .notice{
@@ -371,13 +411,19 @@ footer{
     </nav>
 
     <div class="actions">
-        <!-- Google Login එක සඳහා button එක සකස් කරන ලදී -->
+        <!-- Auth Buttons (ලොග් වී නැති විට පෙන්වයි) -->
         <button class="btn btn-outline" id="loginBtn">
             ↪ Login with Google
         </button>
         <button class="btn btn-red" id="signUpBtn">
             ♙ Sign Up
         </button>
+
+        <!-- User Profile Section (ලොග් වූ පසු පෙන්වයි) -->
+        <div class="user-profile" id="userProfile" style="display: none;">
+            <div id="avatarContainer"></div>
+            <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
     </div>
 </header>
 
@@ -504,10 +550,9 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 });
 </script>
 
-<!-- Firebase Script එක නිවැරදිව පහත පරිදි සකස් කරන ලදී -->
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
@@ -523,20 +568,53 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
+  const loginBtn = document.getElementById('loginBtn');
+  const signUpBtn = document.getElementById('signUpBtn');
+  const userProfile = document.getElementById('userProfile');
+  const avatarContainer = document.getElementById('avatarContainer');
+  const logoutBtn = document.getElementById('logoutBtn');
+
+  // Login Function
   function loginWithGoogle() {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const user = result.user;
-        alert("Login සාර්ථකයි: " + user.displayName);
-      }).catch((error) => {
+    signInWithPopup(auth, provider).catch((error) => {
         console.error("Login දෝෂයක්:", error.message);
-        alert("Login වීමට නොහැකි විය: " + error.message);
-      });
+    });
   }
 
-  // Button එක මත click කළ විට ලොගින් එක ක්‍රියාත්මක කිරීම
-  document.getElementById('loginBtn').addEventListener('click', loginWithGoogle);
-  document.getElementById('signUpBtn').addEventListener('click', loginWithGoogle);
+  // Logout Function
+  function handleLogout() {
+    signOut(auth).catch((error) => {
+        console.error("Logout දෝෂයක්:", error.message);
+    });
+  }
+
+  // පරිශීලකයා ලොග් වී ඇත්දැයි පරීක්ෂා කිරීම (Authentication State Observer)
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // පරිශීලකයා ලොග් වී ඇත්නම් Buttons හයිඩ් කර Profile එක පෙන්වන්න
+      loginBtn.style.display = 'none';
+      signUpBtn.style.display = 'none';
+      userProfile.style.display = 'flex';
+
+      // Profile Photo එක ඇත්නම් එය පෙන්වීම, නැතහොත් Email හි මුල් අකුර පෙන්වීම
+      if (user.photoURL) {
+        avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" class="user-avatar" title="${user.email}">`;
+      } else {
+        const firstLetter = user.email ? user.email.charAt(0) : 'U';
+        avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
+      }
+    } else {
+      // පරිශීලකයා ලොග් වී නැත්නම් Buttons පෙන්වන්න
+      loginBtn.style.display = 'inline-flex';
+      signUpBtn.style.display = 'inline-flex';
+      userProfile.style.display = 'none';
+      avatarContainer.innerHTML = '';
+    }
+  });
+
+  loginBtn.addEventListener('click', loginWithGoogle);
+  signUpBtn.addEventListener('click', loginWithGoogle);
+  logoutBtn.addEventListener('click', handleLogout);
 </script>
 
 </body>
