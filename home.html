@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gaming m4k Store - Browse Accounts</title>
 
+  <!-- Font Awesome Icons එකතු කර ඇත -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     * {
       margin: 0;
@@ -140,7 +143,7 @@
       cursor: pointer;
     }
 
-    /* Admin Panel Section */
+    /* Admin Banner */
     .admin-banner {
       background: #fff3cd;
       border: 1px solid #ffe8a1;
@@ -153,11 +156,6 @@
       font-size: 13px;
     }
 
-    .admin-actions-bar {
-      display: flex;
-      gap: 10px;
-    }
-
     .btn-admin {
       background: #0d47a1;
       color: white;
@@ -168,38 +166,70 @@
       border: none;
     }
 
+    /* Card Action Controls & Pencil Icons */
     .card-admin-controls {
       display: flex;
+      gap: 6px;
+      padding: 10px 13px;
+      border-top: 1px solid #eee;
+      background: #fafafa;
+    }
+
+    .btn-edit, .btn-delete {
+      flex: 1;
+      padding: 7px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: 5px;
-      margin-top: 10px;
-      padding-top: 8px;
-      border-top: 1px dashed #ddd;
+      transition: background 0.2s;
     }
 
     .btn-edit {
-      flex: 1;
       background: #ff9800;
       color: white;
-      padding: 5px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: bold;
-      text-align: center;
-      border: none;
-      cursor: pointer;
+    }
+
+    .btn-edit:hover {
+      background: #e68a00;
     }
 
     .btn-delete {
-      flex: 1;
       background: #f44336;
       color: white;
-      padding: 5px;
-      border-radius: 4px;
-      font-size: 11px;
-      font-weight: bold;
-      text-align: center;
-      border: none;
+    }
+
+    .btn-delete:hover {
+      background: #d32f2f;
+    }
+
+    /* Floating Pencil Badge on Card Image */
+    .pencil-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 0, 0, 0.6);
+      color: #fff;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
       cursor: pointer;
+      transition: 0.2s;
+      z-index: 2;
+    }
+
+    .pencil-badge:hover {
+      background: #ff9800;
+      transform: scale(1.1);
     }
 
     /* Hero */
@@ -263,7 +293,7 @@
       border: none;
       color: white;
       padding: 9px 17px;
-      border_radius: 7px;
+      border-radius: 7px;
       cursor: pointer;
       font-weight: bold;
     }
@@ -479,11 +509,9 @@
     </nav>
 
     <div class="auth-buttons">
-      <!-- Normal Login/Signup Buttons -->
       <button class="btn login" id="loginBtn">↪ Login</button>
       <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
 
-      <!-- User Profile (Show when logged in) -->
       <div class="user-profile" id="userProfile" style="display: none;">
         <div id="avatarContainer"></div>
         <button class="logout-btn" id="logoutBtn">Logout</button>
@@ -491,7 +519,7 @@
     </div>
   </header>
 
-  <!-- Admin Control Bar (Only visible for uvinduuvidu35@gmail.com) -->
+  <!-- Admin Control Bar -->
   <div class="admin-banner" id="adminBanner" style="display: none;">
     <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
     <div class="admin-actions-bar">
@@ -531,13 +559,18 @@
 
       <!-- Card 1 -->
       <div class="card" data-status="sold" data-price="14000">
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-image">
-            <img src="https://imgur.com/Ov3XWe1" alt="Account">
-            <span class="status-badge sold">SOLD</span>
-            <span class="level-badge">🔒 P6</span>
+        <div class="card-image">
+          <img src="https://imgur.com/Ov3XWe1" alt="Account">
+          <span class="status-badge sold">SOLD</span>
+          <span class="level-badge">🔒 P6</span>
+          
+          <!-- Image එක උඩ Pencil Icon එක (හැමෝටම පෙනේ) -->
+          <div class="pencil-badge" onclick="executeAdminAction('Edit N581')" title="Edit Account">
+            <i class="fa-solid fa-pencil"></i>
           </div>
+        </div>
 
+        <a href="short.html" style="text-decoration: none; color: inherit;">
           <div class="card-content">
             <div class="account-name">N581</div>
             <span class="prime">♟ Prime Level 6</span>
@@ -553,22 +586,30 @@
           </div>
         </a>
 
-        <!-- Edit/Delete Buttons (Visible to Everyone, but Protected) -->
+        <!-- පහළ Edit & Delete Buttons (හැමෝටම පෙනේ) -->
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="executeAdminAction('Edit N581')">✏ Edit</button>
-          <button class="btn-delete" onclick="executeAdminAction('Delete N581')">🗑 Delete</button>
+          <button class="btn-edit" onclick="executeAdminAction('Edit N581')">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+          <button class="btn-delete" onclick="executeAdminAction('Delete N581')">
+            <i class="fa-solid fa-trash-can"></i> Delete
+          </button>
         </div>
       </div>
 
       <!-- Card 2 -->
       <div class="card" data-status="sold" data-price="14000">
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-image">
-            <img src="https://placehold.co/600x350/0288d1/fff?text=FF+Account+N577" alt="Account">
-            <span class="status-badge sold">SOLD</span>
-            <span class="level-badge">🔒 P5</span>
-          </div>
+        <div class="card-image">
+          <img src="https://placehold.co/600x350/0288d1/fff?text=FF+Account+N577" alt="Account">
+          <span class="status-badge sold">SOLD</span>
+          <span class="level-badge">🔒 P5</span>
 
+          <div class="pencil-badge" onclick="executeAdminAction('Edit N577')" title="Edit Account">
+            <i class="fa-solid fa-pencil"></i>
+          </div>
+        </div>
+
+        <a href="short.html" style="text-decoration: none; color: inherit;">
           <div class="card-content">
             <div class="account-name">N577</div>
             <span class="prime">♟ Prime Level 5</span>
@@ -585,20 +626,28 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="executeAdminAction('Edit N577')">✏ Edit</button>
-          <button class="btn-delete" onclick="executeAdminAction('Delete N577')">🗑 Delete</button>
+          <button class="btn-edit" onclick="executeAdminAction('Edit N577')">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+          <button class="btn-delete" onclick="executeAdminAction('Delete N577')">
+            <i class="fa-solid fa-trash-can"></i> Delete
+          </button>
         </div>
       </div>
 
       <!-- Card 3 -->
       <div class="card" data-status="available" data-price="55000">
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-image">
-            <img src="https://placehold.co/600x350/0097a7/fff?text=FF+Account+N588" alt="Account">
-            <span class="status-badge available">AVAILABLE</span>
-            <span class="level-badge">🔒 P8</span>
-          </div>
+        <div class="card-image">
+          <img src="https://placehold.co/600x350/0097a7/fff?text=FF+Account+N588" alt="Account">
+          <span class="status-badge available">AVAILABLE</span>
+          <span class="level-badge">🔒 P8</span>
 
+          <div class="pencil-badge" onclick="executeAdminAction('Edit N588')" title="Edit Account">
+            <i class="fa-solid fa-pencil"></i>
+          </div>
+        </div>
+
+        <a href="short.html" style="text-decoration: none; color: inherit;">
           <div class="card-content">
             <div class="account-name">N588</div>
             <span class="prime">♟ Prime Level 8 ★</span>
@@ -615,8 +664,12 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="executeAdminAction('Edit N588')">✏ Edit</button>
-          <button class="btn-delete" onclick="executeAdminAction('Delete N588')">🗑 Delete</button>
+          <button class="btn-edit" onclick="executeAdminAction('Edit N588')">
+            <i class="fa-solid fa-pen-to-square"></i> Edit
+          </button>
+          <button class="btn-delete" onclick="executeAdminAction('Delete N588')">
+            <i class="fa-solid fa-trash-can"></i> Delete
+          </button>
         </div>
       </div>
 
@@ -707,13 +760,13 @@
       signOut(auth);
     }
 
-    // හැමෝටම බටන් පෙනුනත්, Admin නොවන කੌමහරි එබුවොත් මෙයින් Block කරයි
+    // Pencil හෝ Edit/Delete බටන් එක එබූ පසු Admin ද යන්න පරීක්ෂා කෙරේ
     window.executeAdminAction = function(actionName) {
       if (!isCurrentUserAdmin) {
-        alert("❌ Access Denied! මෙම ක්‍රියාව සිදු කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
+        alert("❌ Access Denied! මෙම වෙනස්කම් සිදු කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
         return;
       }
-      alert("✅ Admin Action Executed: " + actionName);
+      alert("✅ Admin Action Allowed: " + actionName);
     };
 
     onAuthStateChanged(auth, (user) => {
