@@ -523,7 +523,7 @@
   <div class="admin-banner" id="adminBanner" style="display: none;">
     <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
     <div class="admin-actions-bar">
-      <button class="btn-admin" onclick="executeAdminAction('Add Account')">+ Add New Account</button>
+      <button class="btn-admin" onclick="addNewAccount()">+ Add New Account</button>
     </div>
   </div>
 
@@ -564,8 +564,7 @@
           <span class="status-badge sold">SOLD</span>
           <span class="level-badge">🔒 P6</span>
           
-          <!-- Image එක උඩ Pencil Icon එක (හැමෝටම පෙනේ) -->
-          <div class="pencil-badge" onclick="executeAdminAction('Edit N581')" title="Edit Account">
+          <div class="pencil-badge" onclick="editCard(this)" title="Edit Account">
             <i class="fa-solid fa-pencil"></i>
           </div>
         </div>
@@ -586,12 +585,11 @@
           </div>
         </a>
 
-        <!-- පහළ Edit & Delete Buttons (හැමෝටම පෙනේ) -->
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="executeAdminAction('Edit N581')">
+          <button class="btn-edit" onclick="editCard(this)">
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
-          <button class="btn-delete" onclick="executeAdminAction('Delete N581')">
+          <button class="btn-delete" onclick="deleteCard(this)">
             <i class="fa-solid fa-trash-can"></i> Delete
           </button>
         </div>
@@ -604,7 +602,7 @@
           <span class="status-badge sold">SOLD</span>
           <span class="level-badge">🔒 P5</span>
 
-          <div class="pencil-badge" onclick="executeAdminAction('Edit N577')" title="Edit Account">
+          <div class="pencil-badge" onclick="editCard(this)" title="Edit Account">
             <i class="fa-solid fa-pencil"></i>
           </div>
         </div>
@@ -626,10 +624,10 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="executeAdminAction('Edit N577')">
+          <button class="btn-edit" onclick="editCard(this)">
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
-          <button class="btn-delete" onclick="executeAdminAction('Delete N577')">
+          <button class="btn-delete" onclick="deleteCard(this)">
             <i class="fa-solid fa-trash-can"></i> Delete
           </button>
         </div>
@@ -642,7 +640,7 @@
           <span class="status-badge available">AVAILABLE</span>
           <span class="level-badge">🔒 P8</span>
 
-          <div class="pencil-badge" onclick="executeAdminAction('Edit N588')" title="Edit Account">
+          <div class="pencil-badge" onclick="editCard(this)" title="Edit Account">
             <i class="fa-solid fa-pencil"></i>
           </div>
         </div>
@@ -664,10 +662,10 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="executeAdminAction('Edit N588')">
+          <button class="btn-edit" onclick="editCard(this)">
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
-          <button class="btn-delete" onclick="executeAdminAction('Delete N588')">
+          <button class="btn-delete" onclick="deleteCard(this)">
             <i class="fa-solid fa-trash-can"></i> Delete
           </button>
         </div>
@@ -760,13 +758,42 @@
       signOut(auth);
     }
 
-    // Pencil හෝ Edit/Delete බටන් එක එබූ පසු Admin ද යන්න පරීක්ෂා කෙරේ
-    window.executeAdminAction = function(actionName) {
+    // Delete ක්‍රියාව සඳහා සකස් කළ කාර්යය
+    window.deleteCard = function(buttonElement) {
       if (!isCurrentUserAdmin) {
-        alert("❌ Access Denied! මෙම වෙනස්කම් සිදු කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
+        alert("❌ Access Denied! මෙම ගිණුම මැකීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
         return;
       }
-      alert("✅ Admin Action Allowed: " + actionName);
+      
+      if (confirm("ඔබට මෙම ගිණුම සැබැවින්ම ඉවත් කිරීමට (Delete කිරීමට) අවශ්‍යද?")) {
+        const card = buttonElement.closest('.card');
+        if (card) {
+          card.remove(); // පිටුවෙන් අදාළ කාඩ් එක සම්පූර්ණයෙන්ම ඉවත් කරයි
+          filterAccounts(); // ගණන නැවත හරියට සකස් කරයි
+          alert("✅ ගිණුම සාර්ථකව ඉවත් කරන ලදී!");
+        }
+      }
+    };
+
+    // Edit ක්‍රියාව සඳහා සකස් කළ කාර්යය
+    window.editCard = function(buttonElement) {
+      if (!isCurrentUserAdmin) {
+        alert("❌ Access Denied! මෙම ගිණුම සංස්කරණය කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
+        return;
+      }
+      
+      const card = buttonElement.closest('.card');
+      const accountName = card.querySelector('.account-name') ? card.querySelector('.account-name').innerText : "Account";
+      alert("✏️ Admin Mode: You are editing " + accountName);
+      // මෙතැනට Edit කිරීම සඳහා අවශ්‍ය Form එකක් හෝ Modal එකක් සම්බන්ධ කළ හැක.
+    };
+
+    window.addNewAccount = function() {
+      if (!isCurrentUserAdmin) {
+        alert("❌ Access Denied!");
+        return;
+      }
+      alert("➕ නව ගිණුමක් එකතු කිරීමේ විධානය ක්‍රියාත්මක විය.");
     };
 
     onAuthStateChanged(auth, (user) => {
