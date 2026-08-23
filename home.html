@@ -105,16 +105,17 @@
     }
 
     .user-avatar {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       object-fit: cover;
-      border: 2px solid #1976d2;
+      border: 2px solid #00b0ff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }
 
     .user-initial-avatar {
-      width: 34px;
-      height: 34px;
+      width: 36px;
+      height: 36px;
       border-radius: 50%;
       background: linear-gradient(135deg, #0d47a1, #42a5f5);
       color: #fff;
@@ -122,9 +123,10 @@
       align-items: center;
       justify-content: center;
       font-weight: bold;
-      font-size: 14px;
+      font-size: 15px;
       text-transform: uppercase;
-      border: 2px solid #90caf9;
+      border: 2px solid #00b0ff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.15);
     }
 
     .logout-btn {
@@ -134,6 +136,8 @@
       border-radius: 6px;
       font-size: 11px;
       font-weight: bold;
+      border: none;
+      cursor: pointer;
     }
 
     /* Admin Panel Section */
@@ -161,6 +165,7 @@
       border-radius: 5px;
       font-size: 12px;
       cursor: pointer;
+      border: none;
     }
 
     .card-admin-controls {
@@ -180,6 +185,8 @@
       font-size: 11px;
       font-weight: bold;
       text-align: center;
+      border: none;
+      cursor: pointer;
     }
 
     .btn-delete {
@@ -191,6 +198,8 @@
       font-size: 11px;
       font-weight: bold;
       text-align: center;
+      border: none;
+      cursor: pointer;
     }
 
     /* Hero */
@@ -653,7 +662,7 @@
     filterAccounts();
   </script>
 
-  <!-- Firebase Auth Script for Admin Check -->
+  <!-- Firebase Auth Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -672,8 +681,8 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // 🔴 ඔයාගේ Admin Email එක මෙතැනට ඇතුළත් කරන්න
-    const ADMIN_EMAILS = ["your-admin-email@gmail.com"];
+    // 🔴 නිවැරදි කළ Admin Email List එක
+    const ADMIN_EMAILS = ["kalindu4444444@gmail.com"];
 
     const loginBtn = document.getElementById('loginBtn');
     const signUpBtn = document.getElementById('signUpBtn');
@@ -683,11 +692,22 @@
     const adminBanner = document.getElementById('adminBanner');
 
     function loginWithGoogle() {
-      signInWithPopup(auth, provider).catch((error) => console.error(error));
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          console.log("Logged in user:", result.user);
+        })
+        .catch((error) => {
+          console.error("Login Error:", error);
+          alert("Login failed: " + error.message);
+        });
     }
 
     function handleLogout() {
-      signOut(auth).catch((error) => console.error(error));
+      signOut(auth)
+        .then(() => {
+          console.log("User logged out");
+        })
+        .catch((error) => console.error("Logout Error:", error));
     }
 
     onAuthStateChanged(auth, (user) => {
@@ -696,16 +716,19 @@
         signUpBtn.style.display = 'none';
         userProfile.style.display = 'flex';
 
-        // Avatar එක පෙන්වීම
+        // 🖼 Profile Image හෝ Initial Letter පෙන්වීම
         if (user.photoURL) {
-          avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" class="user-avatar" title="${user.email}">`;
+          avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="Profile" class="user-avatar" title="${user.email}">`;
         } else {
-          const firstLetter = user.email ? user.email.charAt(0) : 'U';
+          const firstLetter = user.email ? user.email.charAt(0).toUpperCase() : 'U';
           avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
         }
 
-        // 🔐 ඇඩ්මින් කෙනෙක්දැයි පරීක්ෂා කිරීම
-        if (ADMIN_EMAILS.includes(user.kalindu4444444@gmail.com)) {
+        // 🔐 Admin Check
+        const userEmail = user.email ? user.email.toLowerCase() : "";
+        const isAdmin = ADMIN_EMAILS.some(e => e.toLowerCase() === userEmail);
+
+        if (isAdmin) {
           adminBanner.style.display = 'flex';
           document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'flex');
         } else {
@@ -714,8 +737,8 @@
         }
 
       } else {
-        loginBtn.style.display = 'inline-flex';
-        signUpBtn.style.display = 'inline-flex';
+        loginBtn.style.display = 'inline-block';
+        signUpBtn.style.display = 'inline-block';
         userProfile.style.display = 'none';
         adminBanner.style.display = 'none';
         document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
