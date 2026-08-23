@@ -263,7 +263,7 @@
       border: none;
       color: white;
       padding: 9px 17px;
-      border-radius: 7px;
+      border_radius: 7px;
       cursor: pointer;
       font-weight: bold;
     }
@@ -491,11 +491,11 @@
     </div>
   </header>
 
-  <!-- Admin Control Bar (Only for Admin) -->
+  <!-- Admin Control Bar (Only visible for uvinduuvidu35@gmail.com) -->
   <div class="admin-banner" id="adminBanner" style="display: none;">
-    <span>⚡ Admin Panel Active</span>
+    <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
     <div class="admin-actions-bar">
-      <button class="btn-admin" onclick="alert('Add New Account Feature')">+ Add New Account</button>
+      <button class="btn-admin" onclick="executeAdminAction('Add Account')">+ Add New Account</button>
     </div>
   </div>
 
@@ -507,10 +507,10 @@
 
   <!-- Filters -->
   <div class="filters">
+    <button class="filter active" data-status="all" onclick="setStatusFilter('all', this)">All</button>
     <button class="filter" data-status="available" onclick="setStatusFilter('available', this)">Available</button>
     <button class="filter" data-status="onsale" onclick="setStatusFilter('onsale', this)">On Sale</button>
-    <button class="filter active" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
-    <button class="filter" data-status="all" onclick="setStatusFilter('all', this)">All</button>
+    <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
 
     <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
     <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
@@ -553,10 +553,10 @@
           </div>
         </a>
 
-        <!-- Admin Only Edit/Delete Controls -->
-        <div class="card-admin-controls admin-only" style="display: none;">
-          <button class="btn-edit" onclick="alert('Edit Account N581')">✏ Edit</button>
-          <button class="btn-delete" onclick="alert('Delete Account N581')">🗑 Delete</button>
+        <!-- Edit/Delete Buttons (Visible to Everyone, but Protected) -->
+        <div class="card-admin-controls">
+          <button class="btn-edit" onclick="executeAdminAction('Edit N581')">✏ Edit</button>
+          <button class="btn-delete" onclick="executeAdminAction('Delete N581')">🗑 Delete</button>
         </div>
       </div>
 
@@ -584,9 +584,9 @@
           </div>
         </a>
 
-        <div class="card-admin-controls admin-only" style="display: none;">
-          <button class="btn-edit" onclick="alert('Edit Account N577')">✏ Edit</button>
-          <button class="btn-delete" onclick="alert('Delete Account N577')">🗑 Delete</button>
+        <div class="card-admin-controls">
+          <button class="btn-edit" onclick="executeAdminAction('Edit N577')">✏ Edit</button>
+          <button class="btn-delete" onclick="executeAdminAction('Delete N577')">🗑 Delete</button>
         </div>
       </div>
 
@@ -614,9 +614,9 @@
           </div>
         </a>
 
-        <div class="card-admin-controls admin-only" style="display: none;">
-          <button class="btn-edit" onclick="alert('Edit Account N588')">✏ Edit</button>
-          <button class="btn-delete" onclick="alert('Delete Account N588')">🗑 Delete</button>
+        <div class="card-admin-controls">
+          <button class="btn-edit" onclick="executeAdminAction('Edit N588')">✏ Edit</button>
+          <button class="btn-delete" onclick="executeAdminAction('Delete N588')">🗑 Delete</button>
         </div>
       </div>
 
@@ -624,7 +624,7 @@
   </main>
 
   <script>
-    let currentStatus = 'sold';
+    let currentStatus = 'all';
 
     function setStatusFilter(status, element) {
       document.querySelectorAll('.filters .filter[data-status]').forEach(btn => {
@@ -662,7 +662,7 @@
     filterAccounts();
   </script>
 
-  <!-- Firebase Auth Script -->
+  <!-- Firebase Auth & Security Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -681,8 +681,7 @@
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
 
-    // 🔴 නිවැරදි කළ Admin Email List එක
-    const ADMIN_EMAILS = ["kalindu4444444@gmail.com"];
+    const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
     const loginBtn = document.getElementById('loginBtn');
     const signUpBtn = document.getElementById('signUpBtn');
@@ -690,25 +689,32 @@
     const avatarContainer = document.getElementById('avatarContainer');
     const logoutBtn = document.getElementById('logoutBtn');
     const adminBanner = document.getElementById('adminBanner');
+    const adminEmailText = document.getElementById('adminEmailText');
+
+    let isCurrentUserAdmin = false;
 
     function loginWithGoogle() {
       signInWithPopup(auth, provider)
         .then((result) => {
-          console.log("Logged in user:", result.user);
+          console.log("Logged in:", result.user.email);
         })
         .catch((error) => {
-          console.error("Login Error:", error);
-          alert("Login failed: " + error.message);
+          alert("Login error: " + error.message);
         });
     }
 
     function handleLogout() {
-      signOut(auth)
-        .then(() => {
-          console.log("User logged out");
-        })
-        .catch((error) => console.error("Logout Error:", error));
+      signOut(auth);
     }
+
+    // හැමෝටම බටන් පෙනුනත්, Admin නොවන කੌමහරි එබුවොත් මෙයින් Block කරයි
+    window.executeAdminAction = function(actionName) {
+      if (!isCurrentUserAdmin) {
+        alert("❌ Access Denied! මෙම ක්‍රියාව සිදු කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
+        return;
+      }
+      alert("✅ Admin Action Executed: " + actionName);
+    };
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -716,32 +722,29 @@
         signUpBtn.style.display = 'none';
         userProfile.style.display = 'flex';
 
-        // 🖼 Profile Image හෝ Initial Letter පෙන්වීම
         if (user.photoURL) {
-          avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="Profile" class="user-avatar" title="${user.email}">`;
+          avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" class="user-avatar" title="${user.email}">`;
         } else {
           const firstLetter = user.email ? user.email.charAt(0).toUpperCase() : 'U';
           avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
         }
 
-        // 🔐 Admin Check
-        const userEmail = user.email ? user.email.toLowerCase() : "";
-        const isAdmin = ADMIN_EMAILS.some(e => e.toLowerCase() === userEmail);
+        const currentUserEmail = user.email ? user.email.trim().toLowerCase() : "";
+        isCurrentUserAdmin = (currentUserEmail === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
 
-        if (isAdmin) {
+        if (isCurrentUserAdmin) {
           adminBanner.style.display = 'flex';
-          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'flex');
+          if(adminEmailText) adminEmailText.innerText = currentUserEmail;
         } else {
           adminBanner.style.display = 'none';
-          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
         }
 
       } else {
+        isCurrentUserAdmin = false;
         loginBtn.style.display = 'inline-block';
         signUpBtn.style.display = 'inline-block';
         userProfile.style.display = 'none';
         adminBanner.style.display = 'none';
-        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
       }
     });
 
