@@ -3,784 +3,150 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>GAMING M4K | Free Fire Accounts</title>
 
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
 <style>
-
-/* =========================
-   RESET
-========================= */
-
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, Helvetica, sans-serif;
-}
-
-body{
-    background:#ffffff;
-    color:#222;
-}
-
-a{
-    text-decoration:none;
-    color:inherit;
-}
-
-button{
-    font-family:inherit;
-    cursor:pointer;
-}
-
-
-/* =========================
-   HEADER
-========================= */
-
-header{
-    width:100%;
-    background:#ffffff;
-    border-bottom:1px solid #e7e7e7;
-    position:sticky;
-    top:0;
-    z-index:1000;
-}
-
-.container{
-    width:94%;
-    max-width:1250px;
-    margin:auto;
-}
-
-.nav{
-    height:72px;
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-}
-
-
-/* LOGO */
-
-.logo{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    font-size:23px;
-    font-weight:900;
-    color:#222;
-}
-
-.logo-img{
-    width:44px;
-    height:36px;
-    border-radius:8px;
-    object-fit:cover;
-}
-
-.logo span{
-    color:#1e88e5;
-}
-
-
-/* MENU */
-
-.menu{
-    display:flex;
-    align-items:center;
-    gap:30px;
-    color:#555;
-    font-size:14px;
-}
-
-.menu a{
-    transition:.2s;
-}
-
-.menu a:hover{
-    color:#1e88e5;
-}
-
-
-/* NAV BUTTONS */
-
-.nav-buttons{
-    display:flex;
-    gap:8px;
-}
-
-.btn{
-    padding:10px 20px;
-    border-radius:8px;
-    border:1px solid #ddd;
-    background:#fff;
-    color:#333;
-    font-weight:600;
-}
-
-.btn:hover{
-    border-color:#1e88e5;
-    color:#1e88e5;
-}
-
-.btn-blue{
-    background:#1e88e5;
-    color:#fff;
-    border-color:#1e88e5;
-}
-
-.btn-blue:hover{
-    background:#1565c0;
-    color:#fff;
-}
-
-
-/* =========================
-   BREADCRUMB
-========================= */
-
-.breadcrumb{
-    padding:20px 0;
-    font-size:12px;
-    color:#999;
-}
-
-.breadcrumb span{
-    color:#333;
-    font-weight:bold;
-}
-
-
-/* =========================
-   MAIN
-========================= */
-
-.main{
-    display:grid;
-    grid-template-columns:1.15fr 1fr;
-    gap:25px;
-}
-
-
-/* =========================
-   GALLERY
-========================= */
-
-.gallery{
-    background:#fff;
-    border:1px solid #e5e5e5;
-    border-radius:12px;
-    padding:10px;
-    box-shadow:0 3px 15px rgba(0,0,0,.04);
-}
-
-.main-image{
-    width:100%;
-    height:450px;
-    border-radius:9px;
-    overflow:hidden;
-    background:#f5f5f5;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-}
-
-.main-image img{
-    width:100%;
-    height:100%;
-    object-fit:cover;
-}
-
-.placeholder{
-    text-align:center;
-    color:#999;
-}
-
-.placeholder .game-icon{
-    font-size:65px;
-    margin-bottom:12px;
-}
-
-.placeholder b{
-    display:block;
-    color:#555;
-    margin-bottom:5px;
-}
-
-
-/* THUMBNAILS */
-
-.thumbs{
-    display:flex;
-    gap:9px;
-    margin-top:11px;
-    overflow-x:auto;
-    padding-bottom:3px;
-}
-
-.thumb{
-    min-width:78px;
-    height:55px;
-    background:#f7f7f7;
-    border:2px solid #e4e4e4;
-    border-radius:7px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    font-size:22px;
-}
-
-.thumb.active{
-    border-color:#1e88e5;
-}
-
-
-/* =========================
-   ACCOUNT DETAILS
-========================= */
-
-.status{
-    display:inline-block;
-    padding:5px 10px;
-    border-radius:5px;
-    background:#e9f8ef;
-    color:#1a9b51;
-    font-size:10px;
-    font-weight:bold;
-}
-
-.account-title{
-    margin-top:10px;
-    font-size:31px;
-    color:#222;
-}
-
-.uid{
-    margin-top:6px;
-    color:#888;
-    font-size:13px;
-}
-
-
-/* PRICE */
-
-.price{
-    margin-top:20px;
-    padding:22px;
-    border:1px solid #e7e7e7;
-    border-radius:11px;
-    background:#fff;
-    color:#1e88e5;
-    font-size:32px;
-    font-weight:900;
-}
-
-
-/* PRIME */
-
-.prime{
-    margin-top:12px;
-    padding:17px;
-    border-radius:11px;
-    border:1px solid #bbdefb;
-    background:#e3f2fd;
-    color:#1e88e5;
-}
-
-.prime strong{
-    display:block;
-    font-size:17px;
-    margin-bottom:5px;
-}
-
-.prime small{
-    color:#888;
-}
-
-
-/* =========================
-   STATS
-========================= */
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(6,1fr);
-    gap:7px;
-    margin-top:12px;
-}
-
-.stat{
-    background:#fff;
-    border:1px solid #e6e6e6;
-    border-radius:9px;
-    padding:14px 4px;
-    text-align:center;
-}
-
-.stat strong{
-    display:block;
-    font-size:17px;
-    color:#333;
-}
-
-.stat small{
-    display:block;
-    margin-top:5px;
-    color:#888;
-    font-size:8px;
-}
-
-
-/* EXTRA STATS */
-
-.extra-stats{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:7px;
-    margin-top:8px;
-}
-
-
-/* =========================
-   SECTIONS
-========================= */
-
-.section{
-    margin-top:13px;
-    padding:17px;
-    background:#fff;
-    border:1px solid #e5e5e5;
-    border-radius:11px;
-}
-
-.section-title{
-    font-size:11px;
-    color:#777;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-
-/* WEAPONS */
-
-.weapon{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    padding:13px 4px;
-    border-bottom:1px solid #eee;
-}
-
-.weapon:last-child{
-    border-bottom:none;
-}
-
-.weapon b{
-    color:#333;
-    font-size:13px;
-}
-
-.level{
-    color:#1e88e5;
-    border:1px solid #90caf9;
-    padding:4px 9px;
-    border-radius:5px;
-    font-size:10px;
-    font-weight:bold;
-}
-
-
-/* MEMBERSHIP */
-
-.membership{
-    display:inline-block;
-    min-width:105px;
-    padding:13px 22px;
-    text-align:center;
-    border:1px solid #ddd;
-    border-radius:9px;
-    background:#fafafa;
-}
-
-.membership b{
-    display:block;
-    color:#1e88e5;
-    margin:5px 0;
-}
-
-
-/* =========================
-   ACTION BUTTONS
-========================= */
-
-.actions{
-    display:grid;
-    gap:9px;
-    margin-top:13px;
-}
-
-.action{
-    width:100%;
-    padding:14px;
-    border-radius:9px;
-    border:1px solid #1e88e5;
-    background:#1e88e5;
-    color:white;
-    font-weight:bold;
-    font-size:13px;
-}
-
-.action:hover{
-    background:#1565c0;
-}
-
-.action.outline{
-    background:white;
-    color:#1565c0;
-}
-
-.action.outline:hover{
-    background:#e3f2fd;
-}
-
-.action.whatsapp{
-    background:#e9f9ef;
-    border-color:#43a86b;
-    color:#21864b;
-}
-
-.action.whatsapp:hover{
-    background:#dff5e8;
-}
-
-
-/* =========================
-   SIMILAR ACCOUNTS
-========================= */
-
-.similar{
-    margin-top:45px;
-}
-
-.similar h2{
-    font-size:19px;
-    margin-bottom:18px;
-    color:#222;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(4,1fr);
-    gap:14px;
-}
-
-
-/* CARD */
-
-.card{
-    background:#fff;
-    border:1px solid #e3e3e3;
-    border-radius:11px;
-    overflow:hidden;
-    transition:.25s;
-}
-
-.card:hover{
-    transform:translateY(-4px);
-    border-color:#1e88e5;
-    box-shadow:0 8px 25px rgba(0,0,0,.08);
-}
-
-.card-image{
-    height:155px;
-    background:#f3f3f3;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    font-size:45px;
-    color:#aaa;
-}
-
-.card-body{
-    padding:13px;
-}
-
-.available{
-    display:inline-block;
-    padding:4px 7px;
-    background:#e9f8ef;
-    color:#1a9b51;
-    border-radius:4px;
-    font-size:8px;
-    font-weight:bold;
-}
-
-.card h3{
-    margin-top:10px;
-    font-size:15px;
-    color:#333;
-}
-
-.card p{
-    margin-top:6px;
-    color:#888;
-    font-size:10px;
-}
-
-.card-price{
-    margin-top:11px;
-    color:#1e88e5;
-    font-size:16px;
-    font-weight:900;
-}
-
-
-/* =========================
-   FOOTER
-========================= */
-
-footer{
-    margin-top:70px;
-    padding:45px 0 20px;
-    background:#fafafa;
-    border-top:1px solid #e5e5e5;
-}
-
-.footer-grid{
-    display:grid;
-    grid-template-columns:2fr 1fr 1fr;
-    gap:50px;
-}
-
-.footer-title{
-    font-size:20px;
-    font-weight:900;
-    margin-bottom:14px;
-    color:#222;
-}
-
-.footer-title span{
-    color:#1e88e5;
-}
-
-footer p,
-footer a{
-    color:#777;
-    font-size:12px;
-    line-height:2;
-}
-
-footer a:hover{
-    color:#1e88e5;
-}
-
-.social{
-    margin-top:13px;
-    display:flex;
-    gap:7px;
-}
-
-.social a{
-    width:32px;
-    height:32px;
-    border:1px solid #ddd;
-    border-radius:7px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#555;
-}
-
-.social a:hover{
-    color:#1e88e5;
-    border-color:#1e88e5;
-}
-
-
-/* FOOTER WHATSAPP */
-
-.footer-wa{
-    margin-top:10px;
-    padding:9px 13px;
-    border-radius:7px;
-    background:#e9f9ef;
-    color:#21864b;
-    border:1px solid #b9e4c9;
-    cursor:pointer;
-}
-
-
-/* COPYRIGHT */
-
-.copyright{
-    border-top:1px solid #e5e5e5;
-    margin-top:35px;
-    padding-top:18px;
-    display:flex;
-    justify-content:space-between;
-    color:#999;
-    font-size:10px;
-}
-
-
-/* =========================
-   CHAT BUTTON
-========================= */
-
-.chat{
-    position:fixed;
-    right:20px;
-    bottom:20px;
-    width:54px;
-    height:54px;
-    border-radius:50%;
-    background:#1e88e5;
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:22px;
-    box-shadow:0 5px 20px rgba(30,136,229,.25);
-    cursor:pointer;
-}
-
-
-/* =========================
-   MOBILE
-========================= */
-
+/* ========================= RESET & BASE ========================= */
+*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
+body{ background:#ffffff; color:#222; }
+a{ text-decoration:none; color:inherit; }
+button{ font-family:inherit; cursor:pointer; }
+
+/* ========================= HEADER ========================= */
+header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; position:sticky; top:0; z-index:1000; }
+.container{ width:94%; max-width:1250px; margin:auto; }
+.nav{ height:72px; display:flex; align-items:center; justify-content:space-between; }
+.logo{ display:flex; align-items:center; gap:10px; font-size:23px; font-weight:900; color:#222; }
+.logo-img{ width:44px; height:36px; border-radius:8px; object-fit:cover; }
+.logo span{ color:#1e88e5; }
+.menu{ display:flex; align-items:center; gap:30px; color:#555; font-size:14px; }
+.menu a{ transition:.2s; }
+.menu a:hover{ color:#1e88e5; }
+
+/* NAV BUTTONS & PROFILE */
+.nav-buttons{ display:flex; gap:8px; align-items:center; }
+.btn{ padding:10px 20px; border-radius:8px; border:1px solid #ddd; background:#fff; color:#333; font-weight:600; }
+.btn:hover{ border-color:#1e88e5; color:#1e88e5; }
+.btn-blue{ background:#1e88e5; color:#fff; border-color:#1e88e5; }
+.btn-blue:hover{ background:#1565c0; color:#fff; }
+
+.user-profile{ display:none; align-items:center; gap:10px; }
+.user-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #1e88e5; }
+.admin-badge{ display:none; background:#ff9800; color:#fff; font-size:10px; padding:3px 6px; border-radius:4px; font-weight:bold; }
+
+/* ========================= BREADCRUMB & MAIN ========================= */
+.breadcrumb{ padding:20px 0; font-size:12px; color:#999; }
+.breadcrumb span{ color:#333; font-weight:bold; }
+.main{ display:grid; grid-template-columns:1.15fr 1fr; gap:25px; }
+
+/* ========================= GALLERY ========================= */
+.gallery{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:10px; box-shadow:0 3px 15px rgba(0,0,0,.04); }
+.main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#f5f5f5; display:flex; justify-content:center; align-items:center; }
+.main-image img{ width:100%; height:100%; object-fit:cover; }
+.placeholder{ text-align:center; color:#999; }
+.placeholder .game-icon{ font-size:65px; margin-bottom:12px; }
+.placeholder b{ display:block; color:#555; margin-bottom:5px; }
+.thumbs{ display:flex; gap:9px; margin-top:11px; overflow-x:auto; padding-bottom:3px; }
+.thumb{ min-width:78px; height:55px; background:#f7f7f7; border:2px solid #e4e4e4; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; font-size:22px; }
+.thumb.active{ border-color:#1e88e5; }
+
+/* ========================= DETAILS & STATS ========================= */
+.status{ display:inline-block; padding:5px 10px; border-radius:5px; background:#e9f8ef; color:#1a9b51; font-size:10px; font-weight:bold; }
+.account-title{ margin-top:10px; font-size:31px; color:#222; }
+.uid{ margin-top:6px; color:#888; font-size:13px; }
+.price{ margin-top:20px; padding:22px; border:1px solid #e7e7e7; border-radius:11px; background:#fff; color:#1e88e5; font-size:32px; font-weight:900; }
+.prime{ margin-top:12px; padding:17px; border-radius:11px; border:1px solid #bbdefb; background:#e3f2fd; color:#1e88e5; }
+.prime strong{ display:block; font-size:17px; margin-bottom:5px; }
+.prime small{ color:#888; }
+
+.stats{ display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:12px; }
+.stat{ background:#fff; border:1px solid #e6e6e6; border-radius:9px; padding:14px 4px; text-align:center; }
+.stat strong{ display:block; font-size:17px; color:#333; }
+.stat small{ display:block; margin-top:5px; color:#888; font-size:8px; }
+.extra-stats{ display:grid; grid-template-columns:repeat(2,1fr); gap:7px; margin-top:8px; }
+
+/* SECTIONS */
+.section{ margin-top:13px; padding:17px; background:#fff; border:1px solid #e5e5e5; border-radius:11px; }
+.section-title{ font-size:11px; color:#777; font-weight:bold; margin-bottom:8px; }
+.weapon{ display:flex; align-items:center; justify-content:space-between; padding:13px 4px; border-bottom:1px solid #eee; }
+.weapon:last-child{ border-bottom:none; }
+.weapon b{ color:#333; font-size:13px; }
+.level{ color:#1e88e5; border:1px solid #90caf9; padding:4px 9px; border-radius:5px; font-size:10px; font-weight:bold; }
+.membership{ display:inline-block; min-width:105px; padding:13px 22px; text-align:center; border:1px solid #ddd; border-radius:9px; background:#fafafa; }
+.membership b{ display:block; color:#1e88e5; margin:5px 0; }
+
+/* ACTIONS */
+.actions{ display:grid; gap:9px; margin-top:13px; }
+.action{ width:100%; padding:14px; border-radius:9px; border:1px solid #1e88e5; background:#1e88e5; color:white; font-weight:bold; font-size:13px; }
+.action:hover{ background:#1565c0; }
+.action.outline{ background:white; color:#1565c0; }
+.action.outline:hover{ background:#e3f2fd; }
+.action.whatsapp{ background:#e9f9ef; border-color:#43a86b; color:#21864b; }
+.action.whatsapp:hover{ background:#dff5e8; }
+.btn-admin{ background:#ff9800; border-color:#ff9800; display:none; }
+.btn-admin:hover{ background:#e68a00; }
+
+/* ========================= SIMILAR ACCOUNTS ========================= */
+.similar{ margin-top:45px; }
+.similar h2{ font-size:19px; margin-bottom:18px; color:#222; }
+.cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+.card{ background:#fff; border:1px solid #e3e3e3; border-radius:11px; overflow:hidden; transition:.25s; cursor:pointer; }
+.card:hover{ transform:translateY(-4px); border-color:#1e88e5; box-shadow:0 8px 25px rgba(0,0,0,.08); }
+.card-image{ height:155px; background:#f3f3f3; display:flex; justify-content:center; align-items:center; font-size:45px; color:#aaa; }
+.card-body{ padding:13px; }
+.available{ display:inline-block; padding:4px 7px; background:#e9f8ef; color:#1a9b51; border-radius:4px; font-size:8px; font-weight:bold; }
+.card h3{ margin-top:10px; font-size:15px; color:#333; }
+.card p{ margin-top:6px; color:#888; font-size:10px; }
+.card-price{ margin-top:11px; color:#1e88e5; font-size:16px; font-weight:900; }
+
+/* ========================= ADMIN MODAL ========================= */
+.modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:2000; justify-content:center; align-items:center; }
+.modal-content{ background:#fff; padding:25px; border-radius:12px; width:90%; max-width:500px; max-height:90vh; overflow-y:auto; }
+.modal-content h2{ margin-bottom:15px; font-size:18px; color:#333; }
+.form-group{ margin-bottom:12px; }
+.form-group label{ display:block; font-size:12px; color:#666; margin-bottom:4px; }
+.form-group input{ width:100%; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; }
+.modal-buttons{ display:flex; gap:10px; justify-content:flex-end; margin-top:15px; }
+
+/* ========================= FOOTER ========================= */
+footer{ margin-top:70px; padding:45px 0 20px; background:#fafafa; border-top:1px solid #e5e5e5; }
+.footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; }
+.footer-title{ font-size:20px; font-weight:900; margin-bottom:14px; color:#222; }
+.footer-title span{ color:#1e88e5; }
+footer p, footer a{ color:#777; font-size:12px; line-height:2; }
+footer a:hover{ color:#1e88e5; }
+.copyright{ border-top:1px solid #e5e5e5; margin-top:35px; padding-top:18px; display:flex; justify-content:space-between; color:#999; font-size:10px; }
+.chat{ position:fixed; right:20px; bottom:20px; width:54px; height:54px; border-radius:50%; background:#1e88e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 5px 20px rgba(30,136,229,.25); cursor:pointer; }
+
+/* MEDIA QUERIES */
 @media(max-width:900px){
-
-    .menu{
-        display:none;
-    }
-
-    .main{
-        grid-template-columns:1fr;
-    }
-
-    .main-image{
-        height:350px;
-    }
-
-    .stats{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .cards{
-        grid-template-columns:repeat(2,1fr);
-    }
-
-    .footer-grid{
-        grid-template-columns:1fr;
-        gap:25px;
-    }
+    .menu{ display:none; }
+    .main{ grid-template-columns:1fr; }
+    .main-image{ height:350px; }
+    .stats{ grid-template-columns:repeat(3,1fr); }
+    .cards{ grid-template-columns:repeat(2,1fr); }
+    .footer-grid{ grid-template-columns:1fr; gap:25px; }
 }
-
-
 @media(max-width:550px){
-
-    .container{
-        width:92%;
-    }
-
-    .nav{
-        height:65px;
-    }
-
-    .logo{
-        font-size:17px;
-    }
-
-    .logo-img{
-        width:37px;
-        height:31px;
-    }
-
-    .nav-buttons .btn{
-        padding:8px 11px;
-        font-size:10px;
-    }
-
-    .main-image{
-        height:230px;
-    }
-
-    .account-title{
-        font-size:25px;
-    }
-
-    .price{
-        font-size:27px;
-        padding:19px;
-    }
-
-    .stats{
-        grid-template-columns:repeat(3,1fr);
-    }
-
-    .stat{
-        padding:12px 3px;
-    }
-
-    .stat strong{
-        font-size:15px;
-    }
-
-    .cards{
-        grid-template-columns:1fr 1fr;
-        gap:9px;
-    }
-
-    .card-image{
-        height:105px;
-    }
-
-    .card-body{
-        padding:9px;
-    }
-
-    .card h3{
-        font-size:13px;
-    }
-
-    .card-price{
-        font-size:14px;
-    }
-
-    .footer-grid{
-        grid-template-columns:1fr;
-    }
-
-    .copyright{
-        flex-direction:column;
-        gap:8px;
-    }
+    .cards{ grid-template-columns:1fr 1fr; gap:9px; }
 }
-
 </style>
 </head>
 
-
 <body>
 
-
-<!-- =========================
-     HEADER
-========================= -->
-
+<!-- HEADER -->
 <header>
-
 <div class="container nav">
-
     <div class="logo">
         <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
         GAMING <span>M4K</span>
     </div>
-
 
     <nav class="menu">
         <a href="index.html">Home</a>
@@ -791,536 +157,337 @@ footer a:hover{
         <a href="contact.html">Contact</a>
     </nav>
 
-
-    <div class="nav-buttons">
-
-        <button class="btn">
-            Login
-        </button>
-
-        <button class="btn btn-blue">
-            Sign Up
-        </button>
-
+    <div class="nav-buttons" id="auth-buttons">
+        <button class="btn" onclick="loginUser()">Login</button>
+        <button class="btn btn-blue" onclick="loginUser()">Sign Up</button>
     </div>
 
+    <div class="user-profile" id="user-profile">
+        <span class="admin-badge" id="admin-badge">ADMIN</span>
+        <img src="" alt="Profile" class="user-avatar" id="user-img">
+        <button class="btn" onclick="logoutUser()" style="padding:6px 12px; font-size:12px;">Logout</button>
+    </div>
 </div>
-
 </header>
 
-
-
-<!-- =========================
-     CONTENT
-========================= -->
-
+<!-- CONTENT -->
 <div class="container">
 
-
-<!-- BREADCRUMB -->
-
 <div class="breadcrumb">
-
-    Home &nbsp;›&nbsp;
-    Accounts &nbsp;›&nbsp;
-    <span id="breadcrumb-id">M4K0558</span>
-
+    Home &nbsp;›&nbsp; Accounts &nbsp;›&nbsp; <span id="breadcrumb-id">M4K0558</span>
 </div>
 
-
-
-<!-- =========================
-     MAIN ACCOUNT
-========================= -->
-
+<!-- MAIN ACCOUNT -->
 <div class="main">
 
-
 <!-- LEFT GALLERY -->
-
 <div>
-
 <div class="gallery">
-
     <div class="main-image">
-
-        <div class="placeholder">
-
-            <div class="game-icon">
-                🎮
-            </div>
-
+        <div class="placeholder" id="main-media">
+            <div class="game-icon">🎮</div>
             <b>FREE FIRE ACCOUNT</b>
-
-            <p>
-                Account screenshot
-            </p>
-
+            <p>Account screenshot</p>
         </div>
-
     </div>
 
-
     <div class="thumbs">
-
         <div class="thumb active">🎮</div>
         <div class="thumb">🔥</div>
         <div class="thumb">💎</div>
         <div class="thumb">🏆</div>
         <div class="thumb">🔫</div>
         <div class="thumb">⭐</div>
-
     </div>
-
 </div>
-
 </div>
-
-
 
 <!-- RIGHT DETAILS -->
-
 <div>
+<span class="status" id="acc-status">AVAILABLE</span>
 
+<h1 class="account-title" id="acc-title">Loading...</h1>
+<div class="uid" id="acc-uid">◉ UID: ---</div>
 
-<span class="status">
-    AVAILABLE
-</span>
-
-
-<h1 class="account-title" id="acc-title">
-    M4K0558
-</h1>
-
-
-<div class="uid" id="acc-uid">
-    ◉ UID: 255*****33
-</div>
-
-
-
-<!-- PRICE -->
-
-<div class="price" id="acc-price">
-    LKR 7,500
-</div>
-
-
-
-<!-- PRIME -->
+<div class="price" id="acc-price">LKR --</div>
 
 <div class="prime">
-
-    <strong id="acc-prime">
-        ◈ Prime Level 4
-    </strong>
-
-    <small>
-        Free Fire Prime subscription
-    </small>
-
+    <strong id="acc-prime">◈ Prime Level -</strong>
+    <small>Free Fire Prime subscription</small>
 </div>
-
-
 
 <!-- STATS -->
-
 <div class="stats">
-
-
-<div class="stat">
-    <strong id="stat-level">65</strong>
-    <small>LEVEL</small>
+<div class="stat"><strong id="stat-level">0</strong><small>LEVEL</small></div>
+<div class="stat"><strong id="stat-rank">-</strong><small>RANK</small></div>
+<div class="stat"><strong id="stat-skins">0</strong><small>GUN SKINS</small></div>
+<div class="stat"><strong id="stat-bundles">0</strong><small>BUNDLES</small></div>
+<div class="stat"><strong id="stat-diamonds">0</strong><small>DIAMONDS</small></div>
+<div class="stat"><strong id="stat-emotes">0</strong><small>EMOTES</small></div>
 </div>
-
-
-<div class="stat">
-    <strong id="stat-rank">Heroic</strong>
-    <small>RANK</small>
-</div>
-
-
-<div class="stat">
-    <strong id="stat-skins">292</strong>
-    <small>GUN SKINS</small>
-</div>
-
-
-<div class="stat">
-    <strong id="stat-bundles">271</strong>
-    <small>BUNDLES</small>
-</div>
-
-
-<div class="stat">
-    <strong id="stat-diamonds">27</strong>
-    <small>DIAMONDS</small>
-</div>
-
-
-<div class="stat">
-    <strong id="stat-emotes">38</strong>
-    <small>EMOTES</small>
-</div>
-
-
-</div>
-
-
-
-<!-- EXTRA STATS -->
 
 <div class="extra-stats">
-
-
-<div class="stat">
-    <strong>2</strong>
-    <small>ANIMATIONS</small>
+<div class="stat"><strong id="stat-animations">0</strong><small>ANIMATIONS</small></div>
+<div class="stat"><strong id="stat-firstskins">0</strong><small>FIRST SKINS</small></div>
 </div>
-
-
-<div class="stat">
-    <strong>1</strong>
-    <small>FIRST SKINS</small>
-</div>
-
-
-</div>
-
-
 
 <!-- EVO GUN -->
-
 <div class="section">
-
-    <div class="section-title">
-        ⚡ EVO GUN DETAILS
-    </div>
-
-
-    <div class="weapon">
-        <b>◉ AN94</b>
-        <span class="level">Lv 3</span>
-    </div>
-
-
-    <div class="weapon">
-        <b>◉ UMP</b>
-        <span class="level">Lv 3</span>
-    </div>
-
-
-    <div class="weapon">
-        <b>◉ MP40</b>
-        <span class="level">Lv 3</span>
-    </div>
-
-
-    <div class="weapon">
-        <b>◉ AK47</b>
-        <span class="level">Lv 4</span>
-    </div>
-
+    <div class="section-title">⚡ EVO GUN DETAILS</div>
+    <div class="weapon"><b>◉ AN94</b><span class="level" id="evo-an94">Lv 0</span></div>
+    <div class="weapon"><b>◉ UMP</b><span class="level" id="evo-ump">Lv 0</span></div>
+    <div class="weapon"><b>◉ MP40</b><span class="level" id="evo-mp40">Lv 0</span></div>
+    <div class="weapon"><b>◉ AK47</b><span class="level" id="evo-ak47">Lv 0</span></div>
 </div>
-
-
-
-<!-- MEMBERSHIP -->
-
-<div class="section">
-
-    <div class="section-title">
-        🎁 MEMBERSHIP INCLUDED
-    </div>
-
-
-    <div class="membership">
-        💳
-        <b>LITE</b>
-        15d
-    </div>
-
-</div>
-
-
 
 <!-- ACTIONS -->
-
 <div class="actions">
-
-
-<button class="action outline" onclick="accountInfo()">
-    ◉ Check Real Time Account Info
-</button>
-
-
-<button class="action" onclick="loginPurchase()">
-    → Login to Purchase
-</button>
-
-
-<button class="action whatsapp" onclick="openWhatsApp()">
-    ◉ Ask on WhatsApp Channel
-</button>
-
-
-</div>
-
-
+<button class="action outline" onclick="accountInfo()">◉ Check Real Time Account Info</button>
+<button class="action" onclick="loginPurchase()">→ Login to Purchase</button>
+<button class="action whatsapp" onclick="openWhatsApp()">◉ Ask on WhatsApp Channel</button>
+<button class="action btn-admin" id="admin-edit-btn" onclick="openAdminModal()">⚙️ Edit Account (Admin)</button>
 </div>
 
 </div>
+</div>
 
-
-
-<!-- =========================
-     SIMILAR ACCOUNTS
-========================= -->
-
+<!-- SIMILAR ACCOUNTS -->
 <section class="similar">
-
-<h2>
-    Similar Accounts
-</h2>
-
-
-<div class="cards">
-
-
-<!-- CARD 1 -->
-<div class="card">
-    <div class="card-image">🎮</div>
-    <div class="card-body">
-        <span class="available">AVAILABLE</span>
-        <h3>M4K0437</h3>
-        <p>◈ Prime Level 5</p>
-        <p>Lv 56 • Heroic</p>
-        <p>128 Skins • 69 Bundles</p>
-        <div class="card-price">LKR 11,000</div>
-    </div>
+<h2>Similar Accounts</h2>
+<div class="cards" id="similar-cards-container">
+    <!-- Loaded dynamically -->
 </div>
-
-
-<!-- CARD 2 -->
-<div class="card">
-    <div class="card-image">🕹️</div>
-    <div class="card-body">
-        <span class="available">AVAILABLE</span>
-        <h3>M4K0585</h3>
-        <p>◈ Prime Level 5</p>
-        <p>Lv 65 • Heroic</p>
-        <p>161 Skins • 198 Bundles</p>
-        <div class="card-price">LKR 11,000</div>
-    </div>
-</div>
-
-
-<!-- CARD 3 -->
-<div class="card">
-    <div class="card-image">🔥</div>
-    <div class="card-body">
-        <span class="available">AVAILABLE</span>
-        <h3>M4K0380</h3>
-        <p>◈ Prime Level 6</p>
-        <p>Lv 73 • Heroic</p>
-        <p>461 Skins • 480 Bundles</p>
-        <div class="card-price">LKR 26,000</div>
-    </div>
-</div>
-
-
-<!-- CARD 4 -->
-<div class="card">
-    <div class="card-image">👑</div>
-    <div class="card-body">
-        <span class="available">AVAILABLE</span>
-        <h3>M4K0573</h3>
-        <p>◈ Prime Level 6</p>
-        <p>Lv 78 • Heroic</p>
-        <p>616 Skins • 629 Bundles</p>
-        <div class="card-price">LKR 100,000</div>
-    </div>
-</div>
-
-
-</div>
-
 </section>
 
 </div>
 
+<!-- ADMIN EDIT MODAL -->
+<div class="modal" id="adminModal">
+    <div class="modal-content">
+        <h2>Edit Account Details</h2>
+        <form id="adminForm">
+            <div class="form-group"><label>Title / ID</label><input type="text" id="edit-title" required></div>
+            <div class="form-group"><label>UID</label><input type="text" id="edit-uid"></div>
+            <div class="form-group"><label>Price (LKR)</label><input type="text" id="edit-price"></div>
+            <div class="form-group"><label>Prime Level</label><input type="text" id="edit-prime"></div>
+            <div class="form-group"><label>Level</label><input type="number" id="edit-level"></div>
+            <div class="form-group"><label>Rank</label><input type="text" id="edit-rank"></div>
+            <div class="form-group"><label>Skins</label><input type="number" id="edit-skins"></div>
+            <div class="form-group"><label>Bundles</label><input type="number" id="edit-bundles"></div>
+            <div class="form-group"><label>Diamonds</label><input type="number" id="edit-diamonds"></div>
+            <div class="form-group"><label>Emotes</label><input type="number" id="edit-emotes"></div>
+            <div class="modal-buttons">
+                <button type="button" class="btn" onclick="closeAdminModal()">Cancel</button>
+                <button type="submit" class="btn btn-blue">Save Changes</button>
+            </div>
+        </form>
+    </div>
+</div>
 
-
-<!-- =========================
-     FOOTER
-========================= -->
-
+<!-- FOOTER -->
 <footer>
-
 <div class="container">
-
 <div class="footer-grid">
-
 <div>
 <div class="footer-title">🎮 GAMING <span>M4K</span></div>
 <p>Sri Lanka's gaming marketplace.</p>
-<p>Buy verified gaming accounts securely at the best rates.</p>
-<div class="social">
-    <a href="#">T</a>
-    <a href="#">▶</a>
-    <a href="#">f</a>
-    <a href="#">◎</a>
-    <a href="#">◉</a>
 </div>
 </div>
-
-<div>
-<div class="footer-title">Quick Links</div>
-<p>
-<a href="home.html">Home</a><br>
-<a href="d.html">Browse Accounts</a><br>
-<a href="#">On Sale</a><br>
-<a href="#">How It Works</a><br>
-<a href="#">Reviews</a><br>
-<a href="contact.html">Contact</a>
-</p>
-</div>
-
-<div>
-<div class="footer-title">Support</div>
-<p>
-<a href="contact.html">Contact Us</a><br>
-<a href="#">Terms & Conditions</a><br>
-<a href="#">Refund Policy</a><br>
-<a href="#">Privacy Policy</a>
-</p>
-<button class="footer-wa" onclick="openWhatsApp()">◉ WhatsApp Channel</button>
-</div>
-
-</div>
-
 <div class="copyright">
     <span>© 2026 Gaming M4K. All rights reserved.</span>
-    <span>Terms &nbsp;&nbsp; Privacy Policy</span>
 </div>
-
 </div>
-
 </footer>
-
-
-
-<!-- CHAT BUTTON -->
 
 <div class="chat" onclick="openWhatsApp()">💬</div>
 
-
-
-<!-- =========================
-     JAVASCRIPT
-========================= -->
-
+<!-- JAVASCRIPT & FIREBASE LOGIC -->
 <script>
-
-/* 1. ACCOUNTS DATABASE */
-const accountsData = {
-    "M4K0558": {
-        title: "M4K0558",
-        uid: "◉ UID: 255*****33",
-        price: "LKR 7,500",
-        prime: "◈ Prime Level 4",
-        level: "65",
-        rank: "Heroic",
-        skins: "292",
-        bundles: "271",
-        diamonds: "27",
-        emotes: "38"
-    },
-    "14000": {
-        title: "M4K0437 (14,000 Account)",
-        uid: "◉ UID: 310*****89",
-        price: "LKR 14,000",
-        prime: "◈ Prime Level 5",
-        level: "70",
-        rank: "Grandmaster",
-        skins: "350",
-        bundles: "310",
-        diamonds: "150",
-        emotes: "45"
-    },
-    "20000": {
-        title: "M4K0380 (20,000 Account)",
-        uid: "◉ UID: 450*****12",
-        price: "LKR 20,000",
-        prime: "◈ Prime Level 6",
-        level: "75",
-        rank: "Heroic",
-        skins: "420",
-        bundles: "400",
-        diamonds: "300",
-        emotes: "52"
-    }
+// 1. FIREBASE CONFIGURATION (මෙතැනට ඔබේ Firebase Config විස්තර යොදන්න)
+const firebaseConfig = {
+    apiKey: "YOUR_API_KEY",
+    authDomain: "YOUR_AUTH_DOMAIN",
+    projectId: "YOUR_PROJECT_ID",
+    storageBucket: "YOUR_STORAGE_BUCKET",
+    messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+    appId: "YOUR_APP_ID"
 };
 
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+const db = firebase.firestore();
 
-/* 2. READ URL PARAMETER AND UPDATE UI */
-let currentAccId = "M4K0558"; // Default Account ID
+// ADMIN EMAILS
+const adminEmails = ["admin@gamingm4k.com", "your-email@gmail.com"];
 
+let currentAccId = "M4K0558";
+let currentUser = null;
+
+// 2. INITIALIZATION
 window.addEventListener("DOMContentLoaded", function() {
     const urlParams = new URLSearchParams(window.location.search);
     const idParam = urlParams.get("id");
-
-    if (idParam && accountsData[idParam]) {
+    if(idParam) {
         currentAccId = idParam;
-        const acc = accountsData[idParam];
+    }
+    
+    fetchAccountDetails(currentAccId);
+    fetchSimilarAccounts();
+});
 
-        // Update Text Elements
-        document.getElementById("breadcrumb-id").textContent = acc.title;
-        document.getElementById("acc-title").textContent = acc.title;
-        document.getElementById("acc-uid").textContent = acc.uid;
-        document.getElementById("acc-price").textContent = acc.price;
-        document.getElementById("acc-prime").textContent = acc.prime;
-        
-        // Update Stats
-        document.getElementById("stat-level").textContent = acc.level;
-        document.getElementById("stat-rank").textContent = acc.rank;
-        document.getElementById("stat-skins").textContent = acc.skins;
-        document.getElementById("stat-bundles").textContent = acc.bundles;
-        document.getElementById("stat-diamonds").textContent = acc.diamonds;
-        document.getElementById("stat-emotes").textContent = acc.emotes;
+// 3. AUTHENTICATION MONITORING
+auth.onAuthStateChanged(user => {
+    currentUser = user;
+    const authButtons = document.getElementById("auth-buttons");
+    const userProfile = document.getElementById("user-profile");
+    const userImg = document.getElementById("user-img");
+    const adminBadge = document.getElementById("admin-badge");
+    const adminEditBtn = document.getElementById("admin-edit-btn");
+
+    if (user) {
+        authButtons.style.display = "none";
+        userProfile.style.display = "flex";
+        userImg.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email)}`;
+
+        if (adminEmails.includes(user.email)) {
+            adminBadge.style.display = "inline-block";
+            adminEditBtn.style.display = "block";
+        } else {
+            adminBadge.style.display = "none";
+            adminEditBtn.style.display = "none";
+        }
+    } else {
+        authButtons.style.display = "flex";
+        userProfile.style.display = "none";
+        adminEditBtn.style.display = "none";
     }
 });
 
+function loginUser() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    auth.signInWithPopup(provider).catch(error => alert(error.message));
+}
 
-/* THUMBNAIL TOGGLE */
-const thumbs = document.querySelectorAll(".thumb");
-thumbs.forEach(function(thumb){
-    thumb.addEventListener("click",function(){
-        thumbs.forEach(function(item){
-            item.classList.remove("active");
-        });
-        this.classList.add("active");
+function logoutUser() {
+    auth.signOut();
+}
+
+// 4. FETCH DATA FROM FIRESTORE
+function fetchAccountDetails(id) {
+    db.collection("accounts").doc(id).get().then(doc => {
+        if (doc.exists) {
+            const acc = doc.data();
+            updateUI(acc, id);
+        } else {
+            document.getElementById("acc-title").textContent = id + " (Not Found)";
+        }
+    }).catch(err => {
+        console.error("Error getting document:", err);
     });
+}
+
+function updateUI(acc, id) {
+    document.getElementById("breadcrumb-id").textContent = acc.title || id;
+    document.getElementById("acc-title").textContent = acc.title || id;
+    document.getElementById("acc-uid").textContent = "◉ UID: " + (acc.uid || "N/A");
+    document.getElementById("acc-price").textContent = "LKR " + (acc.price || "0");
+    document.getElementById("acc-prime").textContent = "◈ Prime Level " + (acc.prime || "0");
+    
+    document.getElementById("stat-level").textContent = acc.level || 0;
+    document.getElementById("stat-rank").textContent = acc.rank || "-";
+    document.getElementById("stat-skins").textContent = acc.skins || 0;
+    document.getElementById("stat-bundles").textContent = acc.bundles || 0;
+    document.getElementById("stat-diamonds").textContent = acc.diamonds || 0;
+    document.getElementById("stat-emotes").textContent = acc.emotes || 0;
+    
+    document.getElementById("stat-animations").textContent = acc.animations || 0;
+    document.getElementById("stat-firstskins").textContent = acc.firstskins || 0;
+
+    // Fill Modal Inputs
+    document.getElementById("edit-title").value = acc.title || id;
+    document.getElementById("edit-uid").value = acc.uid || "";
+    document.getElementById("edit-price").value = acc.price || "";
+    document.getElementById("edit-prime").value = acc.prime || "";
+    document.getElementById("edit-level").value = acc.level || 0;
+    document.getElementById("edit-rank").value = acc.rank || "";
+    document.getElementById("edit-skins").value = acc.skins || 0;
+    document.getElementById("edit-bundles").value = acc.bundles || 0;
+    document.getElementById("edit-diamonds").value = acc.diamonds || 0;
+    document.getElementById("edit-emotes").value = acc.emotes || 0;
+}
+
+// 5. FETCH SIMILAR ACCOUNTS
+function fetchSimilarAccounts() {
+    db.collection("accounts").limit(4).get().then(snapshot => {
+        const container = document.getElementById("similar-cards-container");
+        container.innerHTML = "";
+        snapshot.forEach(doc => {
+            const data = doc.data();
+            const cardHTML = `
+                <div class="card" onclick="window.location.href='short.html?id=${doc.id}'">
+                    <div class="card-image">🎮</div>
+                    <div class="card-body">
+                        <span class="available">${data.status || 'AVAILABLE'}</span>
+                        <h3>${data.title || doc.id}</h3>
+                        <p>◈ Prime Level ${data.prime || 0}</p>
+                        <p>Lv ${data.level || 0} • ${data.rank || '-'}</p>
+                        <p>${data.skins || 0} Skins • ${data.bundles || 0} Bundles</p>
+                        <div class="card-price">LKR ${data.price || 0}</div>
+                    </div>
+                </div>
+            `;
+            container.innerHTML += cardHTML;
+        });
+    });
+}
+
+// 6. ADMIN MODAL ACTIONS
+function openAdminModal() {
+    document.getElementById("adminModal").style.display = "flex";
+}
+
+function closeAdminModal() {
+    document.getElementById("adminModal").style.display = "none";
+}
+
+document.getElementById("adminForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+    if (!currentUser || !adminEmails.includes(currentUser.email)) {
+        alert("Unauthorized access!");
+        return;
+    }
+
+    const updatedData = {
+        title: document.getElementById("edit-title").value,
+        uid: document.getElementById("edit-uid").value,
+        price: document.getElementById("edit-price").value,
+        prime: document.getElementById("edit-prime").value,
+        level: document.getElementById("edit-level").value,
+        rank: document.getElementById("edit-rank").value,
+        skins: document.getElementById("edit-skins").value,
+        bundles: document.getElementById("edit-bundles").value,
+        diamonds: document.getElementById("edit-diamonds").value,
+        emotes: document.getElementById("edit-emotes").value
+    };
+
+    db.collection("accounts").doc(currentAccId).set(updatedData, { merge: true })
+        .then(() => {
+            alert("Account details updated successfully!");
+            closeAdminModal();
+            fetchAccountDetails(currentAccId);
+        })
+        .catch(err => alert("Error updating account: " + err.message));
 });
 
-
-/* BUTTON FUNCTIONS */
-function accountInfo(){
-    alert("Please login to check real-time account information for " + currentAccId);
-}
-
-function loginPurchase(){
-    alert("Please login to continue with your purchase of " + currentAccId);
-}
-
+// BUTTON FUNCTIONS
+function accountInfo(){ alert("Please login to check real-time account information."); }
+function loginPurchase(){ alert("Please login to continue with your purchase."); }
 function openWhatsApp(){
     const phone = "94700000000";
     const currentTitle = document.getElementById("acc-title").textContent;
-    const message = "Hello GAMING M4K, I am interested in account " + currentTitle + ".";
-    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
+    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent("Hello GAMING M4K, I am interested in account " + currentTitle);
     window.open(url, "_blank");
 }
-
 </script>
 
 </body>
