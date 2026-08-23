@@ -73,6 +73,7 @@
 
     .auth-buttons {
       display: flex;
+      align-items: center;
       gap: 8px;
     }
 
@@ -94,6 +95,102 @@
       color: white;
       border: none;
       box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2);
+    }
+
+    /* User Profile Styles */
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 2px solid #1976d2;
+    }
+
+    .user-initial-avatar {
+      width: 34px;
+      height: 34px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #0d47a1, #42a5f5);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      font-size: 14px;
+      text-transform: uppercase;
+      border: 2px solid #90caf9;
+    }
+
+    .logout-btn {
+      background: #f44336;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 11px;
+      font-weight: bold;
+    }
+
+    /* Admin Panel Section */
+    .admin-banner {
+      background: #fff3cd;
+      border: 1px solid #ffe8a1;
+      padding: 12px 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #856404;
+      font-weight: bold;
+      font-size: 13px;
+    }
+
+    .admin-actions-bar {
+      display: flex;
+      gap: 10px;
+    }
+
+    .btn-admin {
+      background: #0d47a1;
+      color: white;
+      padding: 6px 12px;
+      border-radius: 5px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .card-admin-controls {
+      display: flex;
+      gap: 5px;
+      margin-top: 10px;
+      padding-top: 8px;
+      border-top: 1px dashed #ddd;
+    }
+
+    .btn-edit {
+      flex: 1;
+      background: #ff9800;
+      color: white;
+      padding: 5px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    .btn-delete {
+      flex: 1;
+      background: #f44336;
+      color: white;
+      padding: 5px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      text-align: center;
     }
 
     /* Hero */
@@ -187,13 +284,6 @@
       gap: 14px;
     }
 
-    /* Card Link Wrapper */
-    .card-link {
-      text-decoration: none;
-      color: inherit;
-      display: block;
-    }
-
     .card {
       background: white;
       border: 1px solid #e5e5e5;
@@ -202,6 +292,9 @@
       box-shadow: 0 2px 7px rgba(0, 0, 0, 0.06);
       transition: 0.25s;
       height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     .card:hover {
@@ -372,15 +465,30 @@
 
     <nav class="nav">
       <a href="index.html">⌂ Home</a>
-      <a href="home.hrtml" class="active">🎮 Accounts</a>
+      <a href="home.html" class="active">🎮 Accounts</a>
       <a href="#sale">🏷 On Sale</a>
     </nav>
 
     <div class="auth-buttons">
-      <button class="btn login" onclick="handleLogin()">↪ Login</button>
-      <button class="btn signup" onclick="handleSignUp()">✦ Sign Up</button>
+      <!-- Normal Login/Signup Buttons -->
+      <button class="btn login" id="loginBtn">↪ Login</button>
+      <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
+
+      <!-- User Profile (Show when logged in) -->
+      <div class="user-profile" id="userProfile" style="display: none;">
+        <div id="avatarContainer"></div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
     </div>
   </header>
+
+  <!-- Admin Control Bar (Only for Admin) -->
+  <div class="admin-banner" id="adminBanner" style="display: none;">
+    <span>⚡ Admin Panel Active</span>
+    <div class="admin-actions-bar">
+      <button class="btn-admin" onclick="alert('Add New Account Feature')">+ Add New Account</button>
+    </div>
+  </div>
 
   <!-- Hero -->
   <section class="hero">
@@ -413,156 +521,101 @@
     <div class="accounts-grid" id="accountsGrid">
 
       <!-- Card 1 -->
-      <a href="short.html"class="card-link card" data-status="sold" data-price="14000">
-        <div class="card-image">
-          <img src="https://imgur.com/Ov3XWe1" alt="Account">
-          <span class="status-badge sold">SOLD</span>
-          <span class="level-badge">🔒 P6</span>
-        </div>
-
-        <div class="card-content">
-          <div class="account-name">N581</div>
-          <span class="prime">♟ Prime Level 6</span>
-
-          <div class="stats">
-            <span>⌁ LV 65</span>
-            <span>♙ Heroic</span>
-            <span>◉ 321 Skins</span>
-            <span>♧ 252 Bundles</span>
+      <div class="card" data-status="sold" data-price="14000">
+        <a href="short.html" style="text-decoration: none; color: inherit;">
+          <div class="card-image">
+            <img src="https://imgur.com/Ov3XWe1" alt="Account">
+            <span class="status-badge sold">SOLD</span>
+            <span class="level-badge">🔒 P6</span>
           </div>
 
-          <div class="price">LKR 14,000</div>
+          <div class="card-content">
+            <div class="account-name">N581</div>
+            <span class="prime">♟ Prime Level 6</span>
+
+            <div class="stats">
+              <span>⌁ LV 65</span>
+              <span>♙ Heroic</span>
+              <span>◉ 321 Skins</span>
+              <span>♧ 252 Bundles</span>
+            </div>
+
+            <div class="price">LKR 14,000</div>
+          </div>
+        </a>
+
+        <!-- Admin Only Edit/Delete Controls -->
+        <div class="card-admin-controls admin-only" style="display: none;">
+          <button class="btn-edit" onclick="alert('Edit Account N581')">✏ Edit</button>
+          <button class="btn-delete" onclick="alert('Delete Account N581')">🗑 Delete</button>
         </div>
-      </a>
+      </div>
 
       <!-- Card 2 -->
-      <a href="short.html" class="card-link card" data-status="sold" data-price="14000">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/0288d1/fff?text=FF+Account+N577" alt="Account">
-          <span class="status-badge sold">SOLD</span>
-          <span class="level-badge">🔒 P5</span>
-        </div>
-
-        <div class="card-content">
-          <div class="account-name">N577</div>
-          <span class="prime">♟ Prime Level 5</span>
-
-          <div class="stats">
-            <span>⌁ LV 67</span>
-            <span>♙ Heroic</span>
-            <span>◉ 334 Skins</span>
-            <span>♧ 328 Bundles</span>
+      <div class="card" data-status="sold" data-price="14000">
+        <a href="short.html" style="text-decoration: none; color: inherit;">
+          <div class="card-image">
+            <img src="https://placehold.co/600x350/0288d1/fff?text=FF+Account+N577" alt="Account">
+            <span class="status-badge sold">SOLD</span>
+            <span class="level-badge">🔒 P5</span>
           </div>
 
-          <div class="price">LKR 14,000</div>
+          <div class="card-content">
+            <div class="account-name">N577</div>
+            <span class="prime">♟ Prime Level 5</span>
+
+            <div class="stats">
+              <span>⌁ LV 67</span>
+              <span>♙ Heroic</span>
+              <span>◉ 334 Skins</span>
+              <span>♧ 328 Bundles</span>
+            </div>
+
+            <div class="price">LKR 14,000</div>
+          </div>
+        </a>
+
+        <div class="card-admin-controls admin-only" style="display: none;">
+          <button class="btn-edit" onclick="alert('Edit Account N577')">✏ Edit</button>
+          <button class="btn-delete" onclick="alert('Delete Account N577')">🗑 Delete</button>
         </div>
-      </a>
+      </div>
 
       <!-- Card 3 -->
-      <a href="short.html"class="card-link card" data-status="available" data-price="55000">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/0097a7/fff?text=FF+Account+N588" alt="Account">
-          <span class="status-badge available">AVAILABLE</span>
-          <span class="level-badge">🔒 P8</span>
-        </div>
-
-        <div class="card-content">
-          <div class="account-name">N588</div>
-          <span class="prime">♟ Prime Level 8 ★</span>
-
-          <div class="stats">
-            <span>⌁ LV 78</span>
-            <span>♙ Heroic</span>
-            <span>◉ 620 Skins</span>
-            <span>♧ 586 Bundles</span>
+      <div class="card" data-status="available" data-price="55000">
+        <a href="short.html" style="text-decoration: none; color: inherit;">
+          <div class="card-image">
+            <img src="https://placehold.co/600x350/0097a7/fff?text=FF+Account+N588" alt="Account">
+            <span class="status-badge available">AVAILABLE</span>
+            <span class="level-badge">🔒 P8</span>
           </div>
 
-          <div class="price">LKR 55,000</div>
-        </div>
-      </a>
+          <div class="card-content">
+            <div class="account-name">N588</div>
+            <span class="prime">♟ Prime Level 8 ★</span>
 
-      <!-- Card 4 -->
-      <a href="short.html"class="card-link card" data-status="onsale" data-price="4500">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/00acc1/fff?text=FF+Account+N587" alt="Account">
-          <span class="status-badge onsale">ON SALE</span>
-          <span class="level-badge">🔒 P4</span>
-        </div>
+            <div class="stats">
+              <span>⌁ LV 78</span>
+              <span>♙ Heroic</span>
+              <span>◉ 620 Skins</span>
+              <span>♧ 586 Bundles</span>
+            </div>
 
-        <div class="card-content">
-          <div class="account-name">N587</div>
-          <span class="prime">♟ Prime Level 4</span>
-
-          <div class="stats">
-            <span>⌁ LV 54</span>
-            <span>♙ Heroic</span>
-            <span>◉ 75 Skins</span>
-            <span>♧ 34 Bundles</span>
+            <div class="price">LKR 55,000</div>
           </div>
+        </a>
 
-          <div class="price">LKR 4,500</div>
+        <div class="card-admin-controls admin-only" style="display: none;">
+          <button class="btn-edit" onclick="alert('Edit Account N588')">✏ Edit</button>
+          <button class="btn-delete" onclick="alert('Delete Account N588')">🗑 Delete</button>
         </div>
-      </a>
-
-      <!-- Card 5 -->
-      <a href="short.html"class="card-link card" data-status="sold" data-price="22000">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/03a9f4/fff?text=FF+Account+N586" alt="Account">
-          <span class="status-badge sold">SOLD</span>
-          <span class="level-badge">🔒 P6</span>
-        </div>
-
-        <div class="card-content">
-          <div class="account-name">N586</div>
-          <span class="prime">♟ Prime Level 6</span>
-
-          <div class="stats">
-            <span>⌁ LV 72</span>
-            <span>♙ Heroic</span>
-            <span>◉ 458 Skins</span>
-            <span>♧ 457 Bundles</span>
-          </div>
-
-          <div class="price">LKR 22,000</div>
-        </div>
-      </a>
-
-      <!-- Card 6 -->
-      <a href="short.html" class="card-link card" data-status="available" data-price="7500">
-        <div class="card-image">
-          <img src="https://placehold.co/600x350/00bcd4/fff?text=FF+Account+N437" alt="Account">
-          <span class="status-badge available">AVAILABLE</span>
-          <span class="level-badge">🔒 P5</span>
-        </div>
-
-        <div class="card-content">
-          <div class="account-name">N437</div>
-          <span class="prime">♟ Prime Level 5</span>
-
-          <div class="stats">
-            <span>⌁ LV 64</span>
-            <span>♙ Heroic</span>
-            <span>◉ 312 Skins</span>
-            <span>♧ 237 Bundles</span>
-          </div>
-
-          <div class="price">LKR 7,500</div>
-        </div>
-      </a>
+      </div>
 
     </div>
   </main>
 
   <script>
     let currentStatus = 'sold';
-
-    function handleLogin() {
-      alert('Redirecting to Login page...');
-    }
-
-    function handleSignUp() {
-      alert('Redirecting to Sign Up page...');
-    }
 
     function setStatusFilter(status, element) {
       document.querySelectorAll('.filters .filter[data-status]').forEach(btn => {
@@ -587,7 +640,7 @@
         const matchPrice = (cardPrice >= minPrice) && (cardPrice <= maxPrice);
 
         if (matchStatus && matchPrice) {
-          card.style.display = 'block';
+          card.style.display = 'flex';
           visibleCount++;
         } else {
           card.style.display = 'none';
@@ -597,8 +650,82 @@
       document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
     }
 
-    // Run filter on initial load
     filterAccounts();
   </script>
 
+  <!-- Firebase Auth Script for Admin Check -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
+      authDomain: "gaming-m4k.firebaseapp.com",
+      projectId: "gaming-m4k",
+      storageBucket: "gaming-m4k.firebasestorage.app",
+      messagingSenderId: "160833053716",
+      appId: "1:160833053716:web:7c2d55a58d27c88294b301",
+      measurementId: "G-T6XT0GWY87"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    // 🔴 ඔයාගේ Admin Email එක මෙතැනට ඇතුළත් කරන්න
+    const ADMIN_EMAILS = ["your-admin-email@gmail.com"];
+
+    const loginBtn = document.getElementById('loginBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const userProfile = document.getElementById('userProfile');
+    const avatarContainer = document.getElementById('avatarContainer');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminBanner = document.getElementById('adminBanner');
+
+    function loginWithGoogle() {
+      signInWithPopup(auth, provider).catch((error) => console.error(error));
+    }
+
+    function handleLogout() {
+      signOut(auth).catch((error) => console.error(error));
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.style.display = 'none';
+        signUpBtn.style.display = 'none';
+        userProfile.style.display = 'flex';
+
+        // Avatar එක පෙන්වීම
+        if (user.photoURL) {
+          avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" class="user-avatar" title="${user.email}">`;
+        } else {
+          const firstLetter = user.email ? user.email.charAt(0) : 'U';
+          avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
+        }
+
+        // 🔐 ඇඩ්මින් කෙනෙක්දැයි පරීක්ෂා කිරීම
+        if (ADMIN_EMAILS.includes(user.email)) {
+          adminBanner.style.display = 'flex';
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'flex');
+        } else {
+          adminBanner.style.display = 'none';
+          document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+        }
+
+      } else {
+        loginBtn.style.display = 'inline-flex';
+        signUpBtn.style.display = 'inline-flex';
+        userProfile.style.display = 'none';
+        adminBanner.style.display = 'none';
+        document.querySelectorAll('.admin-only').forEach(el => el.style.display = 'none');
+      }
+    });
+
+    loginBtn.addEventListener('click', loginWithGoogle);
+    signUpBtn.addEventListener('click', loginWithGoogle);
+    logoutBtn.addEventListener('click', handleLogout);
+  </script>
+
 </body>
+</html>
