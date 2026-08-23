@@ -132,34 +132,7 @@
   <main class="container">
     <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
     <div class="accounts-grid" id="accountsGrid">
-
-      <!-- Sample Card 1 -->
-      <div class="card" id="card-n581" data-status="sold" data-price="14000" data-name="N581" data-prime="Prime Level 6" data-level="65" data-rank="Heroic" data-skins="321" data-bundles="252" data-img="https://imgur.com/Ov3XWe1" data-badge="P6">
-        <div class="card-image">
-          <img src="https://imgur.com/Ov3XWe1" alt="Account">
-          <span class="status-badge sold">SOLD</span>
-          <span class="level-badge">🔒 P6</span>
-          <div class="pencil-badge" onclick="editCard('card-n581', event)"><i class="fa-solid fa-pencil"></i></div>
-        </div>
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-content">
-            <div class="account-name">N581</div>
-            <span class="prime">♟ Prime Level 6</span>
-            <div class="stats">
-              <span>⌁ LV 65</span>
-              <span>♙ Heroic</span>
-              <span>◉ 321 Skins</span>
-              <span>♧ 252 Bundles</span>
-            </div>
-            <div class="price">LKR 14,000</div>
-          </div>
-        </a>
-        <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard('card-n581', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-          <button class="btn-delete" onclick="deleteCard('card-n581', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
-        </div>
-      </div>
-
+      <!-- Firestore Database එකෙන් Data මෙතැනට Load වේ -->
     </div>
   </main>
 
@@ -206,22 +179,59 @@
             <input type="number" id="accBundles" placeholder="Bundles" required>
           </div>
         </div>
-        <button type="submit" class="btn-submit">Save Account</button>
+        <button type="submit" class="btn-submit" id="saveBtn">Save Account</button>
       </form>
     </div>
-  </div
+  </div>
 
-  <script>
+  <!-- Firebase Integration & Main Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
+      authDomain: "gaming-m4k.firebaseapp.com",
+      projectId: "gaming-m4k",
+      storageBucket: "gaming-m4k.firebasestorage.app",
+      messagingSenderId: "160833053716",
+      appId: "1:160833053716:web:7c2d55a58d27c88294b301",
+      measurementId: "G-T6XT0GWY87"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+    const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
+
+    let isCurrentUserAdmin = false;
     let currentStatus = 'all';
 
-    function setStatusFilter(status, element) {
+    // UI Elements
+    const loginBtn = document.getElementById('loginBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const userProfile = document.getElementById('userProfile');
+    const avatarContainer = document.getElementById('avatarContainer');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminBanner = document.getElementById('adminBanner');
+    const adminEmailText = document.getElementById('adminEmailText');
+    const modal = document.getElementById('accountModal');
+    const accountForm = document.getElementById('accountForm');
+    const openAddBtn = document.getElementById('openAddBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const accountsGrid = document.getElementById('accountsGrid');
+
+    // Global Filters
+    window.setStatusFilter = function(status, element) {
       document.querySelectorAll('.filters .filter[data-status]').forEach(btn => btn.classList.remove('active'));
       element.classList.add('active');
       currentStatus = status;
-      filterAccounts();
-    }
+      window.filterAccounts();
+    };
 
-    function filterAccounts() {
+    window.filterAccounts = function() {
       const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
       const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
       const cards = document.querySelectorAll('.card');
@@ -241,46 +251,9 @@
         }
       });
       document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
-    }
-
-    filterAccounts();
-  </script>
-
-  <!-- Firebase Auth & Account Operations Logic -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
-      authDomain: "gaming-m4k.firebaseapp.com",
-      projectId: "gaming-m4k",
-      storageBucket: "gaming-m4k.firebasestorage.app",
-      messagingSenderId: "160833053716",
-      appId: "1:160833053716:web:7c2d55a58d27c88294b301",
-      measurementId: "G-T6XT0GWY87"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
-    const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
-
-    let isCurrentUserAdmin = false;
-
-    // Elements
-    const loginBtn = document.getElementById('loginBtn');
-    const signUpBtn = document.getElementById('signUpBtn');
-    const userProfile = document.getElementById('userProfile');
-    const avatarContainer = document.getElementById('avatarContainer');
-    const logoutBtn = document.getElementById('logoutBtn');
-    const adminBanner = document.getElementById('adminBanner');
-    const adminEmailText = document.getElementById('adminEmailText');
-    const modal = document.getElementById('accountModal');
-    const accountForm = document.getElementById('accountForm');
-    const openAddBtn = document.getElementById('openAddBtn');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-
+    // Authentication Observer
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loginBtn.style.display = 'none';
@@ -306,26 +279,92 @@
         userProfile.style.display = 'none';
         adminBanner.style.display = 'none';
       }
+      renderAdminControls();
     });
 
     loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
     signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
     logoutBtn.addEventListener('click', () => signOut(auth));
 
-    // Functions Bound to Global Window Scope
-    window.deleteCard = function(cardId, e) {
+    // Admin Panel Controls Hide/Show
+    function renderAdminControls() {
+      const adminControls = document.querySelectorAll('.card-admin-controls, .pencil-badge');
+      adminControls.forEach(el => {
+        el.style.display = isCurrentUserAdmin ? 'flex' : 'none';
+      });
+    }
+
+    // Realtime Database Sync (Firestore Listener)
+    const accountsRef = collection(db, "accounts");
+    onSnapshot(accountsRef, (snapshot) => {
+      accountsGrid.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const cardId = docSnap.id;
+        const cardHTML = renderCardHTML(cardId, data);
+        accountsGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+      renderAdminControls();
+      window.filterAccounts();
+    });
+
+    function renderCardHTML(id, data) {
+      return `
+        <div class="card" id="${id}" 
+             data-status="${data.status}" 
+             data-price="${data.price}" 
+             data-name="${data.name}" 
+             data-prime="${data.prime}" 
+             data-level="${data.lv}" 
+             data-rank="${data.rank}" 
+             data-skins="${data.skins}" 
+             data-bundles="${data.bundles}" 
+             data-img="${data.img}" 
+             data-badge="${data.badge}">
+          <div class="card-image">
+            <img src="${data.img}" alt="Account">
+            <span class="status-badge ${data.status}">${data.status}</span>
+            <span class="level-badge">🔒 ${data.badge}</span>
+            <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+              <i class="fa-solid fa-pencil"></i>
+            </div>
+          </div>
+          <a href="short.html" style="text-decoration: none; color: inherit;">
+            <div class="card-content">
+              <div class="account-name">${data.name}</div>
+              <span class="prime">♟ ${data.prime}</span>
+              <div class="stats">
+                <span>⌁ LV ${data.lv}</span>
+                <span>♙ ${data.rank}</span>
+                <span>◉ ${data.skins} Skins</span>
+                <span>♧ ${data.bundles} Bundles</span>
+              </div>
+              <div class="price">LKR ${parseInt(data.price).toLocaleString()}</div>
+            </div>
+          </a>
+          <div class="card-admin-controls" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+            <button class="btn-edit" onclick="editCard('${id}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+            <button class="btn-delete" onclick="deleteCard('${id}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Delete Card from Database
+    window.deleteCard = async function(cardId, e) {
       if (e) e.stopPropagation();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
 
-      if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට (Delete කිරීමට) අවශ්‍යද?")) {
-        const card = document.getElementById(cardId);
-        if (card) {
-          card.remove();
-          window.filterAccounts();
+      if (confirm("ඔබට මෙම ගිණුම Database එකෙන්ම ඉවත් කිරීමට අවශ්‍යද?")) {
+        try {
+          await deleteDoc(doc(db, "accounts", cardId));
+        } catch (err) {
+          alert("Error deleting account: " + err.message);
         }
       }
     };
 
+    // Edit Card Data Populate
     window.editCard = function(cardId, e) {
       if (e) e.stopPropagation();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
@@ -358,85 +397,41 @@
       modal.style.display = "flex";
     });
 
-    closeModalBtn.addEventListener('click', () => {
-      modal.style.display = "none";
-    });
+    closeModalBtn.addEventListener('click', () => { modal.style.display = "none"; });
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = "none"; });
 
-    // Submissions Processing Logic
-    accountForm.addEventListener('submit', function(e) {
+    // Save/Update to Firestore
+    accountForm.addEventListener('submit', async function(e) {
       e.preventDefault();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
 
       const editId = document.getElementById('editCardId').value;
-      const name = document.getElementById('accName').value;
-      const status = document.getElementById('accStatus').value;
-      const price = document.getElementById('accPrice').value;
-      const img = document.getElementById('accImg').value;
-      const prime = document.getElementById('accPrime').value;
-      const badge = document.getElementById('accBadge').value;
-      const lv = document.getElementById('accLv').value;
-      const rank = document.getElementById('accRank').value;
-      const skins = document.getElementById('accSkins').value;
-      const bundles = document.getElementById('accBundles').value;
+      const accountData = {
+        name: document.getElementById('accName').value,
+        status: document.getElementById('accStatus').value,
+        price: Number(document.getElementById('accPrice').value),
+        img: document.getElementById('accImg').value,
+        prime: document.getElementById('accPrime').value,
+        badge: document.getElementById('accBadge').value,
+        lv: Number(document.getElementById('accLv').value),
+        rank: document.getElementById('accRank').value,
+        skins: Number(document.getElementById('accSkins').value),
+        bundles: Number(document.getElementById('accBundles').value),
+        updatedAt: new Date()
+      };
 
-      const cardId = editId ? editId : 'card-' + Date.now();
-
-      const cardHTML = `
-        <div class="card-image">
-          <img src="${img}" alt="Account">
-          <span class="status-badge ${status}">${status}</span>
-          <span class="level-badge">🔒 ${badge}</span>
-          <div class="pencil-badge" onclick="window.editCard('${cardId}', event)"><i class="fa-solid fa-pencil"></i></div>
-        </div>
-        <a href="short.html" style="text-decoration: none; color: inherit;">
-          <div class="card-content">
-            <div class="account-name">${name}</div>
-            <span class="prime">♟ ${prime}</span>
-            <div class="stats">
-              <span>⌁ LV ${lv}</span>
-              <span>♙ ${rank}</span>
-              <span>◉ ${skins} Skins</span>
-              <span>♧ ${bundles} Bundles</span>
-            </div>
-            <div class="price">LKR ${parseInt(price).toLocaleString()}</div>
-          </div>
-        </a>
-        <div class="card-admin-controls">
-          <button class="btn-edit" onclick="window.editCard('${cardId}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-          <button class="btn-delete" onclick="window.deleteCard('${cardId}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
-        </div>
-      `;
-
-      if (editId) {
-        const existingCard = document.getElementById(editId);
-        if (existingCard) {
-          existingCard.innerHTML = cardHTML;
-          updateCardAttributes(existingCard, status, price, name, prime, lv, rank, skins, bundles, img, badge);
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "accounts", editId), accountData);
+        } else {
+          await addDoc(collection(db, "accounts"), accountData);
         }
-      } else {
-        const newCard = document.createElement('div');
-        newCard.className = 'card';
-        newCard.id = cardId;
-        newCard.innerHTML = cardHTML;
-        updateCardAttributes(newCard, status, price, name, prime, lv, rank, skins, bundles, img, badge);
-        document.getElementById('accountsGrid').prepend(newCard);
+        modal.style.display = "none";
+        accountForm.reset();
+      } catch (err) {
+        alert("Error saving data: " + err.message);
       }
-
-      modal.style.display = "none";
-      window.filterAccounts();
     });
-
-    function updateCardAttributes(card, status, price, name, prime, lv, rank, skins, bundles, img, badge) {
-      card.setAttribute('data-status', status);
-      card.setAttribute('data-price', price);
-      card.setAttribute('data-name', name);
-      card.setAttribute('data-prime', prime);
-      card.setAttribute('data-level', lv);
-      card.setAttribute('data-rank', rank);
-      card.setAttribute('data-skins', skins);
-      card.setAttribute('data-bundles', bundles);
-      card.setAttribute('data-img', img);
-      card.setAttribute('data-badge', badge);
-    }
   </script>
 
 </body>
