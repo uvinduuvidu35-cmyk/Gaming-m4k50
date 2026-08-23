@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gaming m4k Store - Browse Accounts</title>
 
-  <!-- Font Awesome Icons එකතු කර ඇත -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
@@ -173,6 +172,8 @@
       padding: 10px 13px;
       border-top: 1px solid #eee;
       background: #fafafa;
+      position: relative;
+      z-index: 10;
     }
 
     .btn-edit, .btn-delete {
@@ -224,7 +225,7 @@
       font-size: 13px;
       cursor: pointer;
       transition: 0.2s;
-      z-index: 2;
+      z-index: 10;
     }
 
     .pencil-badge:hover {
@@ -334,6 +335,7 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      position: relative;
     }
 
     .card:hover {
@@ -558,13 +560,13 @@
     <div class="accounts-grid" id="accountsGrid">
 
       <!-- Card 1 -->
-      <div class="card" data-status="sold" data-price="14000">
+      <div class="card" id="card-n581" data-status="sold" data-price="14000">
         <div class="card-image">
           <img src="https://imgur.com/Ov3XWe1" alt="Account">
           <span class="status-badge sold">SOLD</span>
           <span class="level-badge">🔒 P6</span>
           
-          <div class="pencil-badge" onclick="editCard(this)" title="Edit Account">
+          <div class="pencil-badge" onclick="editCard('card-n581', event)" title="Edit Account">
             <i class="fa-solid fa-pencil"></i>
           </div>
         </div>
@@ -586,23 +588,23 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard(this)">
+          <button class="btn-edit" onclick="editCard('card-n581', event)">
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
-          <button class="btn-delete" onclick="deleteCard(this)">
+          <button class="btn-delete" onclick="deleteCard('card-n581', event)">
             <i class="fa-solid fa-trash-can"></i> Delete
           </button>
         </div>
       </div>
 
       <!-- Card 2 -->
-      <div class="card" data-status="sold" data-price="14000">
+      <div class="card" id="card-n577" data-status="sold" data-price="14000">
         <div class="card-image">
           <img src="https://placehold.co/600x350/0288d1/fff?text=FF+Account+N577" alt="Account">
           <span class="status-badge sold">SOLD</span>
           <span class="level-badge">🔒 P5</span>
 
-          <div class="pencil-badge" onclick="editCard(this)" title="Edit Account">
+          <div class="pencil-badge" onclick="editCard('card-n577', event)" title="Edit Account">
             <i class="fa-solid fa-pencil"></i>
           </div>
         </div>
@@ -624,23 +626,23 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard(this)">
+          <button class="btn-edit" onclick="editCard('card-n577', event)">
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
-          <button class="btn-delete" onclick="deleteCard(this)">
+          <button class="btn-delete" onclick="deleteCard('card-n577', event)">
             <i class="fa-solid fa-trash-can"></i> Delete
           </button>
         </div>
       </div>
 
       <!-- Card 3 -->
-      <div class="card" data-status="available" data-price="55000">
+      <div class="card" id="card-n588" data-status="available" data-price="55000">
         <div class="card-image">
           <img src="https://placehold.co/600x350/0097a7/fff?text=FF+Account+N588" alt="Account">
           <span class="status-badge available">AVAILABLE</span>
           <span class="level-badge">🔒 P8</span>
 
-          <div class="pencil-badge" onclick="editCard(this)" title="Edit Account">
+          <div class="pencil-badge" onclick="editCard('card-n588', event)" title="Edit Account">
             <i class="fa-solid fa-pencil"></i>
           </div>
         </div>
@@ -662,10 +664,10 @@
         </a>
 
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard(this)">
+          <button class="btn-edit" onclick="editCard('card-n588', event)">
             <i class="fa-solid fa-pen-to-square"></i> Edit
           </button>
-          <button class="btn-delete" onclick="deleteCard(this)">
+          <button class="btn-delete" onclick="deleteCard('card-n588', event)">
             <i class="fa-solid fa-trash-can"></i> Delete
           </button>
         </div>
@@ -713,7 +715,7 @@
     filterAccounts();
   </script>
 
-  <!-- Firebase Auth & Security Logic -->
+  <!-- Firebase Auth & Direct Card Removal Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -758,34 +760,35 @@
       signOut(auth);
     }
 
-    // Delete ක්‍රියාව සඳහා සකස් කළ කාර්යය
-    window.deleteCard = function(buttonElement) {
+    // Direct ID Removal with Event Propagation Stop
+    window.deleteCard = function(cardId, e) {
+      if (e) e.stopPropagation();
+
       if (!isCurrentUserAdmin) {
         alert("❌ Access Denied! මෙම ගිණුම මැකීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
         return;
       }
-      
+
       if (confirm("ඔබට මෙම ගිණුම සැබැවින්ම ඉවත් කිරීමට (Delete කිරීමට) අවශ්‍යද?")) {
-        const card = buttonElement.closest('.card');
-        if (card) {
-          card.remove(); // පිටුවෙන් අදාළ කාඩ් එක සම්පූර්ණයෙන්ම ඉවත් කරයි
-          filterAccounts(); // ගණන නැවත හරියට සකස් කරයි
-          alert("✅ ගිණුම සාර්ථකව ඉවත් කරන ලදී!");
+        const targetCard = document.getElementById(cardId);
+        if (targetCard) {
+          targetCard.remove(); // Direct removal
+          filterAccounts();
         }
       }
     };
 
-    // Edit ක්‍රියාව සඳහා සකස් කළ කාර්යය
-    window.editCard = function(buttonElement) {
+    window.editCard = function(cardId, e) {
+      if (e) e.stopPropagation();
+
       if (!isCurrentUserAdmin) {
         alert("❌ Access Denied! මෙම ගිණුම සංස්කරණය කිරීමට හැක්කේ Admin (uvinduuvidu35@gmail.com) ට පමණි.");
         return;
       }
-      
-      const card = buttonElement.closest('.card');
-      const accountName = card.querySelector('.account-name') ? card.querySelector('.account-name').innerText : "Account";
-      alert("✏️ Admin Mode: You are editing " + accountName);
-      // මෙතැනට Edit කිරීම සඳහා අවශ්‍ය Form එකක් හෝ Modal එකක් සම්බන්ධ කළ හැක.
+
+      const targetCard = document.getElementById(cardId);
+      const name = targetCard ? targetCard.querySelector('.account-name').innerText : '';
+      alert("✏️ Editing: " + name);
     };
 
     window.addNewAccount = function() {
@@ -793,7 +796,7 @@
         alert("❌ Access Denied!");
         return;
       }
-      alert("➕ නව ගිණුමක් එකතු කිරීමේ විධානය ක්‍රියාත්මක විය.");
+      alert("➕ නව ගිණුමක් එකතු කිරීමට අවශ්‍ය Form එක මෙතැනින් පෙන්විය හැක.");
     };
 
     onAuthStateChanged(auth, (user) => {
