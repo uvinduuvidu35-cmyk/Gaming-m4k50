@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -51,7 +50,7 @@ button{
     width:38px;
     height:38px;
     border-radius:50%;
-    object-fit:cover; /* ඉමේජ් එක කපී යන්නේ නැතිව ලස්සනට පෙනීමට */
+    object-fit:cover;
     border:2px solid #90caf9;
 }
 
@@ -117,9 +116,6 @@ button{
     letter-spacing:.5px;
 }
 
-
-/* HERO */
-
 .hero{
     min-height:565px;
     position:relative;
@@ -129,24 +125,10 @@ button{
     align-items:center;
     justify-content:center;
     text-align:center;
-
     background:
-        radial-gradient(
-            circle at 12% 52%,
-            rgba(13, 71, 161, 0.8) 0 7%,
-            transparent 30%
-        ),
-        radial-gradient(
-            circle at 85% 25%,
-            rgba(10, 37, 64, 0.8) 0,
-            transparent 35%
-        ),
-        linear-gradient(
-            145deg,
-            rgba(3, 16, 33, 0.85),
-            rgba(1, 5, 10, 0.85) 62%,
-            rgba(2, 11, 23, 0.85)
-        ),
+        radial-gradient(circle at 12% 52%, rgba(13, 71, 161, 0.8) 0 7%, transparent 30%),
+        radial-gradient(circle at 85% 25%, rgba(10, 37, 64, 0.8) 0, transparent 35%),
+        linear-gradient(145deg, rgba(3, 16, 33, 0.85), rgba(1, 5, 10, 0.85) 62%, rgba(2, 11, 23, 0.85)),
         url(https://images.wallpapersden.com/image/download/free-fire-2023-gaming_bmZqaW6UmZqaraWkpJRmbmdlrWZlbWU.jpg);
     background-size: cover;
     background-position: center;
@@ -225,9 +207,6 @@ button{
     color:#aaa;
 }
 
-
-/* INFO STRIP (MOVING ANIMATION) */
-
 .feature-strip{
     background:linear-gradient(90deg,#0d47a1,#42a5f5);
     color:#fff;
@@ -242,7 +221,7 @@ button{
 
 .feature-strip-track{
     display:flex;
-    gap:110px; /* ටෙක්ස්ට් අතර පරතරය වැඩි කර ඇත */
+    gap:110px;
     padding-right:100px;
     animation: scrollText 20s linear infinite;
     flex-shrink: 0;
@@ -253,26 +232,12 @@ button{
 }
 
 @keyframes scrollText {
-    0% {
-        transform: translateX(-100%);
-    }
-    100% {
-        transform: translateX(0%);
-    }
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0%); }
 }
 
-
-/* SECTIONS */
-
-section{
-    padding:62px 5%;
-}
-
-.section-head{
-    text-align:center;
-    margin-bottom:34px;
-}
-
+section{ padding:62px 5%; }
+.section-head{ text-align:center; margin-bottom:34px; }
 .eyebrow{
     display:inline-block;
     color:#1565c0;
@@ -285,52 +250,16 @@ section{
     letter-spacing:1px;
     margin-bottom:12px;
 }
+.section-head h2{ font-size:30px; margin-bottom:8px; }
+.section-head p{ font-size:12px; color:#777; }
 
-.section-head h2{
-    font-size:30px;
-    margin-bottom:8px;
-}
+.featured{ min-height:390px; }
+.empty{ text-align:center; color:#bbb; padding:25px; }
+.empty .star{ font-size:38px; color:#ddd; margin-bottom:10px; }
+.empty p{ font-size:11px; }
+.center{ text-align:center; margin-top:20px; }
 
-.section-head p{
-    font-size:12px;
-    color:#777;
-}
-
-
-/* FEATURED */
-
-.featured{
-    min-height:390px;
-}
-
-.empty{
-    text-align:center;
-    color:#bbb;
-    padding:25px;
-}
-
-.empty .star{
-    font-size:38px;
-    color:#ddd;
-    margin-bottom:10px;
-}
-
-.empty p{
-    font-size:11px;
-}
-
-.center{
-    text-align:center;
-    margin-top:20px;
-}
-
-
-/* HOW IT WORKS */
-
-.how{
-    background:#fafafa;
-}
-
+.how{ background:#fafafa; }
 .steps{
     max-width:1000px;
     margin:auto;
@@ -338,7 +267,6 @@ section{
     grid-template-columns:1fr 1fr;
     gap:12px;
 }
-
 .step{
     background:#fff;
     border:1px solid #e9e9e9;
@@ -348,7 +276,6 @@ section{
     gap:13px;
     box-shadow:0 2px 8px #00000008;
 }
-
 .num{
     flex:0 0 30px;
     width:30px;
@@ -362,28 +289,10 @@ section{
     font-weight:bold;
     font-size:13px;
 }
+.step h3{ font-size:12px; margin-bottom:5px; }
+.step p{ font-size:10px; color:#777; line-height:1.5; }
 
-.step h3{
-    font-size:12px;
-    margin-bottom:5px;
-}
-
-.step p{
-    font-size:10px;
-    color:#777;
-    line-height:1.5;
-}
-
-
-/* TRUST */
-
-.trust{
-    text-align:center;
-    min-height:230px;
-}
-
-
-/* FLOATING BUTTONS */
+.trust{ text-align:center; min-height:230px; }
 
 .bubble{
     position:fixed;
@@ -396,7 +305,6 @@ section{
     box-shadow:0 8px 25px #0004;
     z-index:30;
 }
-
 .chat{
     position:fixed;
     right:22px;
@@ -413,9 +321,6 @@ section{
     box-shadow:0 7px 20px #0d47a155;
 }
 
-
-/* FOOTER */
-
 footer{
     background:#020b17;
     color:#aaa;
@@ -424,76 +329,25 @@ footer{
     font-size:11px;
 }
 
-
-/* RESPONSIVE */
-
 @media(max-width:800px){
-
-    .topbar{
-        height:auto;
-        min-height:64px;
-        padding:10px 4%;
-    }
-
-    .nav{
-        display:none;
-    }
-
-    .actions .btn{
-        padding:9px 12px;
-    }
-
-    .hero{
-        min-height:530px;
-    }
-
-    .hero-kicker{
-        font-size:16px;
-        letter-spacing:2px;
-    }
-
-    .hero h1{
-        font-size:46px;
-    }
-
-    .steps{
-        grid-template-columns:1fr;
-    }
-
-    section{
-        padding:50px 4%;
-    }
+    .topbar{ height:auto; min-height:64px; padding:10px 4%; }
+    .nav{ display:none; }
+    .actions .btn{ padding:9px 12px; }
+    .hero{ min-height:530px; }
+    .hero-kicker{ font-size:16px; letter-spacing:2px; }
+    .hero h1{ font-size:46px; }
+    .steps{ grid-template-columns:1fr; }
+    section{ padding:50px 4%; }
 }
 
 @media(max-width:480px){
-
-    .brand small{
-        display:none;
-    }
-
-    .brand strong{
-        font-size:11px;
-    }
-
-    .hero h1{
-        font-size:38px;
-    }
-
-    .hero p{
-        font-size:11px;
-    }
-
-    .stat{
-        padding:8px 11px;
-    }
-
-    .stat b{
-        font-size:15px;
-    }
-
-    .section-head h2{
-        font-size:25px;
-    }
+    .brand small{ display:none; }
+    .brand strong{ font-size:11px; }
+    .hero h1{ font-size:38px; }
+    .hero p{ font-size:11px; }
+    .stat{ padding:8px 11px; }
+    .stat b{ font-size:15px; }
+    .section-head h2{ font-size:25px; }
 }
 </style>
 </head>
@@ -501,386 +355,160 @@ footer{
 <body>
 
 <!-- NAVBAR -->
-
 <header class="topbar">
-
     <a class="brand" href="#">
-
         <img class="brand-logo" src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo">
-
         <span>
             <small>GAMING</small>
             <strong>M4K STORE</strong>
         </span>
-
     </a>
 
     <nav class="nav">
-
         <a href="#home">⌂ Home</a>
         <a href="#accounts">▣ Accounts</a>
         <a href="#sale">♡ On Sale</a>
-
     </nav>
 
     <div class="actions">
-
-        <button
-            class="btn btn-outline"
-            onclick="alert('Login page')">
-            ↪ Login
+        <!-- Google Login එක සඳහා button එක සකස් කරන ලදී -->
+        <button class="btn btn-outline" id="loginBtn">
+            ↪ Login with Google
         </button>
-
-        <button
-            class="btn btn-red"
-            onclick="alert('Sign up page')">
+        <button class="btn btn-red" id="signUpBtn">
             ♙ Sign Up
         </button>
-
     </div>
-
 </header>
-
-
-<!-- NOTICE -->
 
 <div class="notice">
     ⚡ WELCOME TO GAMING m4k STORE 🔥
 </div>
 
-
 <main>
-
-
-<!-- HERO -->
-
-<section class="hero">
-
-    <div class="hero-content">
-
-        <div class="live">
-            ● LIVE · REAL-TIME STOCK
+    <section class="hero">
+        <div class="hero-content">
+            <div class="live">● LIVE · REAL-TIME STOCK</div>
+            <div class="hero-kicker">FREE FIRE MARKETPLACE</div>
+            <h1>GAMING m4k<br>STORE</h1>
+            <p>Buy verified Free Fire accounts — fast, secure, best rates in Sri Lanka.</p>
+            <a class="btn btn-red" href="home.html">▣ Browse Accounts</a>
+            <div class="stats">
+                <div class="stat"><b>5+</b><span>AVAILABLE</span></div>
+                <div class="stat"><b>102+</b><span>SOLD</span></div>
+                <div class="stat"><b>102+</b><span>HAPPY BUYERS</span></div>
+            </div>
         </div>
+    </section>
 
-        <div class="hero-kicker">
-            FREE FIRE MARKETPLACE
+    <div class="feature-strip">
+        <div class="feature-strip-track">
+            <span>◉ Real-Time Info</span>
+            <span>◉ WhatsApp Support</span>
+            <span>♙ Secure Payments</span>
+            <span>♧ 24/7 Live Chat</span>
+            <span>♛ Grand Prize Accounts</span>
+            <span>☆ Premium Quality</span>
         </div>
-
-        <h1>
-            GAMING m4k<br>
-            STORE
-        </h1>
-
-        <p>
-            Buy verified Free Fire accounts —
-            fast, secure, best rates in Sri Lanka.
-        </p>
-
-        <a
-            class="btn btn-red"
-            href="home.html">
-            ▣ Browse Accounts
-        </a>
-
-
-        <div class="stats">
-
-            <div class="stat">
-                <b>5+</b>
-                <span>AVAILABLE</span>
-            </div>
-
-            <div class="stat">
-                <b>102+</b>
-                <span>SOLD</span>
-            </div>
-
-            <div class="stat">
-                <b>102+</b>
-                <span>HAPPY BUYERS</span>
-            </div>
-
+        <div class="feature-strip-track">
+            <span>◉ Real-Time Info</span>
+            <span>◉ WhatsApp Support</span>
+            <span>♙ Secure Payments</span>
+            <span>♧ 24/7 Live Chat</span>
+            <span>♛ Grand Prize Accounts</span>
+            <span>☆ Premium Quality</span>
         </div>
-
     </div>
 
-</section>
-
-
-<!-- INFO STRIP (MOVING) -->
-
-<div class="feature-strip">
-    <div class="feature-strip-track">
-        <span>◉ Real-Time Info</span>
-        <span>◉ WhatsApp Support</span>
-        <span>♙ Secure Payments</span>
-        <span>♧ 24/7 Live Chat</span>
-        <span>♛ Grand Prize Accounts</span>
-        <span>☆ Premium Quality</span>
-    </div>
-    <div class="feature-strip-track">
-        <span>◉ Real-Time Info</span>
-        <span>◉ WhatsApp Support</span>
-        <span>♙ Secure Payments</span>
-        <span>♧ 24/7 Live Chat</span>
-        <span>♛ Grand Prize Accounts</span>
-        <span>☆ Premium Quality</span>
-    </div>
-</div>
-
-
-<!-- FEATURED ACCOUNTS -->
-
-<section
-    class="featured"
-    id="accounts">
-
-    <div class="section-head">
-
-        <span class="eyebrow">
-            ☆ ADMIN PICKS
-        </span>
-
-        <h2>
-            Featured Accounts
-        </h2>
-
-        <p>
-            Hand-picked premium accounts
-            with exclusive items
-        </p>
-
-    </div>
-
-
-    <div class="empty">
-
-        <div class="star">
-            ☆
+    <section class="featured" id="accounts">
+        <div class="section-head">
+            <span class="eyebrow">☆ ADMIN PICKS</span>
+            <h2>Featured Accounts</h2>
+            <p>Hand-picked premium accounts with exclusive items</p>
         </div>
+        <div class="empty">
+            <div class="star">☆</div>
+            <p>No featured accounts right now — check back soon!</p>
+        </div>
+        <div class="center">
+            <a class="btn btn-red" href="home.html">▦ Browse All Accounts</a>
+        </div>
+    </section>
 
-        <p>
-            No featured accounts right now —
-            check back soon!
-        </p>
+    <section class="how" id="sale">
+        <div class="section-head">
+            <span class="eyebrow">◉ STEP BY STEP</span>
+            <h2>How It Works</h2>
+            <p>Simple steps — buy an account or top up your diamonds</p>
+        </div>
+        <div class="steps">
+            <article class="step">
+                <div class="num">1</div>
+                <div>
+                    <h3>Create Account</h3>
+                    <p>Register or sign in with Google — takes under a minute.</p>
+                </div>
+            </article>
+            <article class="step">
+                <div class="num">2</div>
+                <div>
+                    <h3>Browse & Choose</h3>
+                    <p>Filter by level, rank, bundles and verify with real-time account info.</p>
+                </div>
+            </article>
+            <article class="step">
+                <div class="num">3</div>
+                <div>
+                    <h3>Pay & Upload Slip</h3>
+                    <p>Bank transfer and upload your payment slip for verification.</p>
+                </div>
+            </article>
+            <article class="step">
+                <div class="num">4</div>
+                <div>
+                    <h3>Receive Credentials</h3>
+                    <p>Admin confirms and sends login details via WhatsApp.</p>
+                </div>
+            </article>
+        </div>
+    </section>
 
-    </div>
-
-
-    <div class="center">
-
-        <a
-            class="btn btn-red"
-            href="home.html"
-            ▦ Browse All Accounts
-        </a>
-
-    </div>
-
-</section>
-
-
-<!-- HOW IT WORKS -->
-
-<section
-    class="how"
-    id="sale">
-
-    <div class="section-head">
-
-        <span class="eyebrow">
-            ◉ STEP BY STEP
-        </span>
-
-        <h2>
-            How It Works
-        </h2>
-
-        <p>
-            Simple steps — buy an account
-            or top up your diamonds
-        </p>
-
-    </div>
-
-
-    <div class="steps">
-
-
-        <article class="step">
-
-            <div class="num">
-                1
-            </div>
-
-            <div>
-
-                <h3>
-                    Create Account
-                </h3>
-
-                <p>
-                    Register or sign in with Google —
-                    takes under a minute.
-                </p>
-
-            </div>
-
-        </article>
-
-
-        <article class="step">
-
-            <div class="num">
-                2
-            </div>
-
-            <div>
-
-                <h3>
-                    Browse & Choose
-                </h3>
-
-                <p>
-                    Filter by level, rank, bundles
-                    and verify with real-time account info.
-                </p>
-
-            </div>
-
-        </article>
-
-
-        <article class="step">
-
-            <div class="num">
-                3
-            </div>
-
-            <div>
-
-                <h3>
-                    Pay & Upload Slip
-                </h3>
-
-                <p>
-                    Bank transfer and upload
-                    your payment slip for verification.
-                </p>
-
-            </div>
-
-        </article>
-
-
-        <article class="step">
-
-            <div class="num">
-                4
-            </div>
-
-            <div>
-
-                <h3>
-                    Receive Credentials
-                </h3>
-
-                <p>
-                    Admin confirms and sends
-                    login details via WhatsApp.
-                </p>
-
-            </div>
-
-        </article>
-
-
-    </div>
-
-</section>
-
-
-<!-- TRUSTED -->
-
-<section class="trust">
-
-    <div class="section-head">
-
-        <span class="eyebrow">
-            ⌁ WHY CHOOSE US
-        </span>
-
-        <h2>
-            Trusted by Thousands
-        </h2>
-
-    </div>
-
-</section>
-
+    <section class="trust">
+        <div class="section-head">
+            <span class="eyebrow">⌁ WHY CHOOSE US</span>
+            <h2>Trusted by Thousands</h2>
+        </div>
+    </section>
 </main>
 
-
-<!-- FLOATING BUTTONS -->
-
-<div class="chat">
-    ◌
-</div>
-
+<div class="chat">◌</div>
 <div class="bubble"></div>
-
-
-<!-- FOOTER -->
 
 <footer>
     © 2026 GAMING m4k Store — Free Fire Marketplace
 </footer>
 
-
 <script>
-
 /* Smooth scrolling */
-
-document
-.querySelectorAll('a[href^="#"]')
-.forEach(link => {
-
+document.querySelectorAll('a[href^="#"]').forEach(link => {
     link.addEventListener('click', function(e){
-
-        const id =
-            this.getAttribute('href');
-
+        const id = this.getAttribute('href');
         if(id.length > 1){
-
-            const target =
-                document.querySelector(id);
-
+            const target = document.querySelector(id);
             if(target){
-
                 e.preventDefault();
-
-                target.scrollIntoView({
-                    behavior:'smooth'
-                });
-
+                target.scrollIntoView({ behavior:'smooth' });
             }
-
         }
-
     });
-
 });
-
 </script>
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-app.js";
-  import { getAnalytics } from "https://www.gstatic.com/firebasejs/12.18.0/firebase-analytics.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
 
-  // Your web app's Firebase configuration
-  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+<!-- Firebase Script එක නිවැරදිව පහත පරිදි සකස් කරන ලදී -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
   const firebaseConfig = {
     apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
     authDomain: "gaming-m4k.firebaseapp.com",
@@ -891,33 +519,25 @@ document
     measurementId: "G-T6XT0GWY87"
   };
 
-  // Initialize Firebase
   const app = initializeApp(firebaseConfig);
-  const analytics = getAnalytics(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
+
+  function loginWithGoogle() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const user = result.user;
+        alert("Login සාර්ථකයි: " + user.displayName);
+      }).catch((error) => {
+        console.error("Login දෝෂයක්:", error.message);
+        alert("Login වීමට නොහැකි විය: " + error.message);
+      });
+  }
+
+  // Button එක මත click කළ විට ලොගින් එක ක්‍රියාත්මක කිරීම
+  document.getElementById('loginBtn').addEventListener('click', loginWithGoogle);
+  document.getElementById('signUpBtn').addEventListener('click', loginWithGoogle);
 </script>
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
-const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const provider = new GoogleAuthProvider();
-
-function loginWithGoogle() {
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const user = result.user;
-      console.log("Login සාර්ථකයි:", user.email);
-    }).catch((error) => {
-      console.error("Login දෝෂයක්:", error.message);
-    });
 </body>
 </html>
