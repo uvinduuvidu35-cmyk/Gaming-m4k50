@@ -32,7 +32,7 @@
     .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
     .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
 
-    /* Card Admin Controls */
+    /* Card Controls */
     .card-admin-controls { display: flex; gap: 6px; padding: 10px 13px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
     .btn-edit, .btn-delete { flex: 1; padding: 7px; border-radius: 6px; font-size: 12px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 5px; }
     .btn-edit { background: #ff9800; color: white; }
@@ -67,12 +67,12 @@
     .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; color: #555; font-size: 11px; margin-bottom: 8px; }
     .price { color: #0d47a1; font-weight: 800; font-size: 14px; }
 
-    /* Modal Styling */
+    /* Modal Popup UI */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
     .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .modal-header h3 { font-size: 16px; color: #0d47a1; }
-    .close-modal { font-size: 20px; cursor: pointer; color: #888; }
+    .close-modal { font-size: 20px; cursor: pointer; color: #888; font-weight: bold; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
     .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
@@ -109,7 +109,7 @@
   <!-- Admin Control Bar -->
   <div class="admin-banner" id="adminBanner" style="display: none;">
     <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
-    <button class="btn-admin" onclick="openAddModal()">+ Add New Account</button>
+    <button class="btn-admin" id="openAddBtn">+ Add New Account</button>
   </div>
 
   <!-- Hero & Filters -->
@@ -146,10 +146,10 @@
             <div class="account-name">N581</div>
             <span class="prime">♟ Prime Level 6</span>
             <div class="stats">
-              <span class="stat-lv">⌁ LV 65</span>
-              <span class="stat-rank">♙ Heroic</span>
-              <span class="stat-skins">◉ 321 Skins</span>
-              <span class="stat-bundles">♧ 252 Bundles</span>
+              <span>⌁ LV 65</span>
+              <span>♙ Heroic</span>
+              <span>◉ 321 Skins</span>
+              <span>♧ 252 Bundles</span>
             </div>
             <div class="price">LKR 14,000</div>
           </div>
@@ -163,12 +163,12 @@
     </div>
   </main>
 
-  <!-- Add / Edit Modal -->
+  <!-- Add / Edit Modal Form -->
   <div class="modal" id="accountModal">
     <div class="modal-content">
       <div class="modal-header">
         <h3 id="modalTitle">Add New Account</h3>
-        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <span class="close-modal" id="closeModalBtn">&times;</span>
       </div>
       <form id="accountForm">
         <input type="hidden" id="editCardId">
@@ -194,22 +194,22 @@
         </div>
         <div class="form-group">
           <label>Prime Tag & Level Badge</label>
-          <input type="text" id="accPrime" placeholder="Prime Level 7 ★">
-          <input type="text" id="accBadge" placeholder="P7" style="margin-top:5px;">
+          <input type="text" id="accPrime" placeholder="e.g. Prime Level 7 ★" required>
+          <input type="text" id="accBadge" placeholder="e.g. P7" style="margin-top:5px;" required>
         </div>
         <div class="form-group">
           <label>Stats (LV | Rank | Skins | Bundles)</label>
           <div style="display:flex; gap:5px;">
-            <input type="number" id="accLv" placeholder="LV">
-            <input type="text" id="accRank" placeholder="Rank">
-            <input type="number" id="accSkins" placeholder="Skins">
-            <input type="number" id="accBundles" placeholder="Bundles">
+            <input type="number" id="accLv" placeholder="LV" required>
+            <input type="text" id="accRank" placeholder="Rank" required>
+            <input type="number" id="accSkins" placeholder="Skins" required>
+            <input type="number" id="accBundles" placeholder="Bundles" required>
           </div>
         </div>
         <button type="submit" class="btn-submit">Save Account</button>
       </form>
     </div>
-  </div>
+  </div
 
   <script>
     let currentStatus = 'all';
@@ -246,7 +246,7 @@
     filterAccounts();
   </script>
 
-  <!-- Firebase Auth & Add/Edit/Delete Script -->
+  <!-- Firebase Auth & Account Operations Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -268,7 +268,7 @@
 
     let isCurrentUserAdmin = false;
 
-    // UI Elements
+    // Elements
     const loginBtn = document.getElementById('loginBtn');
     const signUpBtn = document.getElementById('signUpBtn');
     const userProfile = document.getElementById('userProfile');
@@ -278,6 +278,8 @@
     const adminEmailText = document.getElementById('adminEmailText');
     const modal = document.getElementById('accountModal');
     const accountForm = document.getElementById('accountForm');
+    const openAddBtn = document.getElementById('openAddBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
 
     onAuthStateChanged(auth, (user) => {
       if (user) {
@@ -310,34 +312,20 @@
     signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
     logoutBtn.addEventListener('click', () => signOut(auth));
 
-    // Modal Control Functions
-    window.openAddModal = function() {
-      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
-      document.getElementById('modalTitle').innerText = "Add New Account";
-      document.getElementById('editCardId').value = "";
-      accountForm.reset();
-      modal.style.display = "flex";
-    };
-
-    window.closeModal = function() {
-      modal.style.display = "none";
-    };
-
-    // Delete Functionality
+    // Functions Bound to Global Window Scope
     window.deleteCard = function(cardId, e) {
       if (e) e.stopPropagation();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
 
-      if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට අවශ්‍යද?")) {
+      if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට (Delete කිරීමට) අවශ්‍යද?")) {
         const card = document.getElementById(cardId);
         if (card) {
           card.remove();
-          filterAccounts();
+          window.filterAccounts();
         }
       }
     };
 
-    // Edit Functionality
     window.editCard = function(cardId, e) {
       if (e) e.stopPropagation();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
@@ -362,7 +350,19 @@
       modal.style.display = "flex";
     };
 
-    // Form Submit (Save New / Update Existing Card)
+    openAddBtn.addEventListener('click', () => {
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+      document.getElementById('modalTitle').innerText = "Add New Account";
+      document.getElementById('editCardId').value = "";
+      accountForm.reset();
+      modal.style.display = "flex";
+    });
+
+    closeModalBtn.addEventListener('click', () => {
+      modal.style.display = "none";
+    });
+
+    // Submissions Processing Logic
     accountForm.addEventListener('submit', function(e) {
       e.preventDefault();
 
@@ -378,14 +378,14 @@
       const skins = document.getElementById('accSkins').value;
       const bundles = document.getElementById('accBundles').value;
 
-      const cardId = editId || 'card-' + Date.now();
+      const cardId = editId ? editId : 'card-' + Date.now();
 
       const cardHTML = `
         <div class="card-image">
           <img src="${img}" alt="Account">
           <span class="status-badge ${status}">${status}</span>
           <span class="level-badge">🔒 ${badge}</span>
-          <div class="pencil-badge" onclick="editCard('${cardId}', event)"><i class="fa-solid fa-pencil"></i></div>
+          <div class="pencil-badge" onclick="window.editCard('${cardId}', event)"><i class="fa-solid fa-pencil"></i></div>
         </div>
         <a href="short.html" style="text-decoration: none; color: inherit;">
           <div class="card-content">
@@ -401,31 +401,31 @@
           </div>
         </a>
         <div class="card-admin-controls">
-          <button class="btn-edit" onclick="editCard('${cardId}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-          <button class="btn-delete" onclick="deleteCard('${cardId}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
+          <button class="btn-edit" onclick="window.editCard('${cardId}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+          <button class="btn-delete" onclick="window.deleteCard('${cardId}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
         </div>
       `;
 
       if (editId) {
-        // Update Existing Card
-        const card = document.getElementById(editId);
-        card.innerHTML = cardHTML;
-        setCardAttributes(card, status, price, name, prime, lv, rank, skins, bundles, img, badge);
+        const existingCard = document.getElementById(editId);
+        if (existingCard) {
+          existingCard.innerHTML = cardHTML;
+          updateCardAttributes(existingCard, status, price, name, prime, lv, rank, skins, bundles, img, badge);
+        }
       } else {
-        // Create New Card
         const newCard = document.createElement('div');
         newCard.className = 'card';
         newCard.id = cardId;
         newCard.innerHTML = cardHTML;
-        setCardAttributes(newCard, status, price, name, prime, lv, rank, skins, bundles, img, badge);
+        updateCardAttributes(newCard, status, price, name, prime, lv, rank, skins, bundles, img, badge);
         document.getElementById('accountsGrid').prepend(newCard);
       }
 
-      closeModal();
-      filterAccounts();
+      modal.style.display = "none";
+      window.filterAccounts();
     });
 
-    function setCardAttributes(card, status, price, name, prime, lv, rank, skins, bundles, img, badge) {
+    function updateCardAttributes(card, status, price, name, prime, lv, rank, skins, bundles, img, badge) {
       card.setAttribute('data-status', status);
       card.setAttribute('data-price', price);
       card.setAttribute('data-name', name);
