@@ -112,12 +112,17 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 .form-group label{ display:block; font-size:12px; color:#666; margin-bottom:4px; }
 .form-group input, .form-group select{ width:100%; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; }
 
-/* Image Input Rows with Icons */
-.photo-input-row{ display:flex; align-items:center; gap:8px; margin-bottom:8px; }
-.photo-input-row input{ flex:1; }
-.icon-btn{ background:none; border:none; font-size:16px; cursor:pointer; padding:5px; }
-.icon-btn.delete{ color:#e53935; }
-.icon-btn.edit{ color:#1e88e5; }
+/* EVO GUN ADMIN GRID STYLES */
+.evo-item-row{ display:flex; align-items:center; gap:8px; background:#f9f9f9; padding:8px; border-radius:6px; border:1px solid #eee; }
+.evo-item-row input[type="checkbox"]{ width:18px; height:18px; cursor:pointer; }
+.evo-item-row label{ margin:0; font-weight:bold; font-size:13px; flex:1; cursor:pointer; }
+.evo-item-row select{ width:90px; padding:4px; font-size:12px; }
+
+/* Image Input Grid */
+.photo-preview-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-top:10px; }
+.photo-preview-card{ position:relative; width:100%; height:80px; border:1px solid #ddd; border-radius:6px; overflow:hidden; background:#f9f9f9; }
+.photo-preview-card img{ width:100%; height:100%; object-fit:cover; }
+.photo-preview-card .remove-btn{ position:absolute; top:3px; right:3px; background:rgba(229,57,53,0.85); color:#fff; border:none; border-radius:50%; width:20px; height:20px; font-size:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
 
 .modal-buttons{ display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
 
@@ -144,9 +149,11 @@ footer a:hover{ color:#1e88e5; }
     .cards{ grid-template-columns:repeat(2,1fr); }
     .footer-grid{ grid-template-columns:1fr; gap:25px; }
     .weapon-grid{ grid-template-columns:1fr; }
+    .photo-preview-grid{ grid-template-columns:repeat(3, 1fr); }
 }
 @media(max-width:550px){
     .cards{ grid-template-columns:1fr 1fr; gap:9px; }
+    .photo-preview-grid{ grid-template-columns:repeat(2, 1fr); }
 }
 </style>
 </head>
@@ -239,11 +246,11 @@ footer a:hover{ color:#1e88e5; }
 <div class="stat"><strong id="stat-firstskins">0</strong><small>FIRST SKINS</small></div>
 </div>
 
-<!-- EVO GUN (All 18 Guns) -->
+<!-- EVO GUN SECTION -->
 <div class="section">
     <div class="section-title">⚡ EVO GUN DETAILS</div>
     <div class="weapon-grid" id="evo-guns-display">
-        <!-- Guns will be injected dynamically -->
+        <!-- Filtered Evo Guns render dynamically -->
     </div>
 </div>
 
@@ -291,15 +298,19 @@ footer a:hover{ color:#1e88e5; }
             <div class="form-group"><label>Diamonds</label><input type="number" id="edit-diamonds"></div>
             <div class="form-group"><label>Emotes</label><input type="number" id="edit-emotes"></div>
 
-            <h3>Photo Management (Up to 15)</h3>
-            <div id="photos-input-container">
-                <!-- Dynamically generated image inputs -->
+            <h3>Photo Management (Direct Upload from Device)</h3>
+            <div class="form-group">
+                <label>Select Photos from Computer / Device</label>
+                <input type="file" id="file-input" accept="image/*" multiple onchange="handleFileSelect(event)">
             </div>
-            <button type="button" class="btn" onclick="addPhotoInput()" style="margin-top:5px; font-size:12px;">+ Add Photo URL</button>
+            <div class="photo-preview-grid" id="photo-preview-grid">
+                <!-- Image previews will render here -->
+            </div>
 
-            <h3>EVO Gun Levels (Max Level 7)</h3>
+            <h3>EVO Gun Selection & Level Settings</h3>
+            <p style="font-size:11px; color:#666; margin-bottom:10px;">Tick the box to enable the Evo Gun and set its level.</p>
             <div id="evo-inputs-container" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <!-- 18 Evo Gun Level Inputs generated dynamically -->
+                <!-- Dynamically generated with Checkboxes & Level Selects -->
             </div>
 
             <div class="modal-buttons">
@@ -429,21 +440,45 @@ function updateUI(acc, id) {
     currentPhotos = acc.photos || [];
     renderGallery();
 
-    // Evo Guns Handling
+    // Evo Guns Display & Modal Population Logic
     const evoContainer = document.getElementById("evo-guns-display");
     evoContainer.innerHTML = "";
     const evoData = acc.evoGuns || {};
+    let hasEvoGuns = false;
+
     evoGunList.forEach(gun => {
-        const lvl = evoData[gun] || 0;
-        evoContainer.innerHTML += `
-            <div class="weapon">
-                <b>◉ ${gun}</b>
-                <span class="level">Lv ${lvl}</span>
-            </div>
-        `;
-        const inputElem = document.getElementById(`evo-${gun}`);
-        if(inputElem) inputElem.value = lvl;
+        const lvl = parseInt(evoData[gun]) || 0;
+        
+        const checkElem = document.getElementById(`evo-check-${gun}`);
+        const selectElem = document.getElementById(`evo-${gun}`);
+
+        if(checkElem && selectElem) {
+            if (lvl > 0) {
+                checkElem.checked = true;
+                selectElem.disabled = false;
+                selectElem.value = lvl;
+            } else {
+                checkElem.checked = false;
+                selectElem.disabled = true;
+                selectElem.value = "1";
+            }
+        }
+
+        // Display guns on website if checked/level >= 1
+        if (lvl >= 1) {
+            hasEvoGuns = true;
+            evoContainer.innerHTML += `
+                <div class="weapon">
+                    <b>◉ ${gun}</b>
+                    <span class="level">Lv ${lvl}</span>
+                </div>
+            `;
+        }
     });
+
+    if (!hasEvoGuns) {
+        evoContainer.innerHTML = `<p style="color:#888; font-size:12px; grid-column:span 2;">No Evo Guns available for this account.</p>`;
+    }
 
     // Fill Modal Fields
     document.getElementById("edit-title").value = acc.title || id;
@@ -457,7 +492,7 @@ function updateUI(acc, id) {
     document.getElementById("edit-diamonds").value = acc.diamonds || 0;
     document.getElementById("edit-emotes").value = acc.emotes || 0;
 
-    renderPhotoInputs();
+    renderPhotoPreviews();
 }
 
 // GALLERY RENDER
@@ -502,16 +537,16 @@ function closeFullscreen() {
     document.getElementById("fullscreen-overlay").style.display = "none";
 }
 
-// EVO GUN INPUTS GENERATOR
+// EVO GUN INPUTS GENERATOR (Checkbox + Select)
 function renderEvoGunInputs() {
     const container = document.getElementById("evo-inputs-container");
     container.innerHTML = "";
     evoGunList.forEach(gun => {
         container.innerHTML += `
-            <div class="form-group">
-                <label>${gun} Level</label>
-                <select id="evo-${gun}">
-                    <option value="0">Lv 0</option>
+            <div class="evo-item-row">
+                <input type="checkbox" id="evo-check-${gun}" onchange="toggleEvoSelect('${gun}')">
+                <label for="evo-check-${gun}">${gun}</label>
+                <select id="evo-${gun}" disabled>
                     <option value="1">Lv 1</option>
                     <option value="2">Lv 2</option>
                     <option value="3">Lv 3</option>
@@ -525,35 +560,48 @@ function renderEvoGunInputs() {
     });
 }
 
-// PHOTO INPUTS GENERATOR
-function renderPhotoInputs() {
-    const container = document.getElementById("photos-input-container");
+function toggleEvoSelect(gun) {
+    const isChecked = document.getElementById(`evo-check-${gun}`).checked;
+    const selectElem = document.getElementById(`evo-${gun}`);
+    selectElem.disabled = !isChecked;
+}
+
+// FILE UPLOAD AND BASE64 CONVERSION
+function handleFileSelect(event) {
+    const files = Array.from(event.target.files);
+    if (currentPhotos.length + files.length > 15) {
+        alert("Maximum 15 photos allowed!");
+        return;
+    }
+
+    files.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            currentPhotos.push(e.target.result);
+            renderPhotoPreviews();
+        };
+        reader.readAsDataURL(file);
+    });
+
+    event.target.value = "";
+}
+
+function renderPhotoPreviews() {
+    const container = document.getElementById("photo-preview-grid");
     container.innerHTML = "";
     currentPhotos.forEach((url, index) => {
         container.innerHTML += `
-            <div class="photo-input-row" id="photo-row-${index}">
-                <input type="text" value="${url}" placeholder="Photo URL ${index + 1}" onchange="updatePhotoUrl(${index}, this.value)">
-                <button type="button" class="icon-btn edit" onclick="focusPhotoInput(${index})" title="Edit">✏️</button>
-                <button type="button" class="icon-btn delete" onclick="deletePhotoInput(${index})" title="Delete">🗑️</button>
+            <div class="photo-preview-card">
+                <img src="${url}" alt="photo preview">
+                <button type="button" class="remove-btn" onclick="removePhoto(${index})">&times;</button>
             </div>
         `;
     });
 }
 
-function addPhotoInput() {
-    if (currentPhotos.length >= 15) {
-        alert("Maximum 15 photos allowed!");
-        return;
-    }
-    currentPhotos.push("");
-    renderPhotoInputs();
-}
-
-function updatePhotoUrl(index, value) { currentPhotos[index] = value; }
-function focusPhotoInput(index) { document.querySelector(`#photo-row-${index} input`).focus(); }
-function deletePhotoInput(index) {
+function removePhoto(index) {
     currentPhotos.splice(index, 1);
-    renderPhotoInputs();
+    renderPhotoPreviews();
 }
 
 // SIMILAR ACCOUNTS
@@ -592,12 +640,11 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
         return;
     }
 
-    const filteredPhotos = currentPhotos.filter(url => url.trim() !== "");
-
     const evoGunsData = {};
     evoGunList.forEach(gun => {
-        const elem = document.getElementById(`evo-${gun}`);
-        if(elem) evoGunsData[gun] = parseInt(elem.value) || 0;
+        const isChecked = document.getElementById(`evo-check-${gun}`).checked;
+        const levelVal = document.getElementById(`evo-${gun}`).value;
+        evoGunsData[gun] = isChecked ? (parseInt(levelVal) || 1) : 0;
     });
 
     const updatedData = {
@@ -611,7 +658,7 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
         bundles: parseInt(document.getElementById("edit-bundles").value) || 0,
         diamonds: parseInt(document.getElementById("edit-diamonds").value) || 0,
         emotes: parseInt(document.getElementById("edit-emotes").value) || 0,
-        photos: filteredPhotos,
+        photos: currentPhotos,
         evoGuns: evoGunsData
     };
 
