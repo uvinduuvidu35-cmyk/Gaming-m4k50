@@ -271,17 +271,17 @@ footer a:hover{ color:#1e88e5; }
     <div class="section-title">🎖️ MEMBERSHIP INCLUDED</div>
     <div class="membership-grid">
         <div class="membership-card">
-            <img src="https://i.ibb.co/3s3hQ3p/lite-card.png" alt="Lite" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
+            <img id="img-lite" src="https://i.ibb.co/3s3hQ3p/lite-card.png" alt="Lite" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
             <div class="m-title">LITE</div>
             <div class="m-days" id="display-lite-days">0d</div>
         </div>
         <div class="membership-card">
-            <img src="https://i.ibb.co/6yq4Y3s/weekly-card.png" alt="Weekly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
+            <img id="img-weekly" src="https://i.ibb.co/6yq4Y3s/weekly-card.png" alt="Weekly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
             <div class="m-title">WEEKLY</div>
             <div class="m-days" id="display-weekly-days">0d</div>
         </div>
         <div class="membership-card">
-            <img src="https://i.ibb.co/jZnfH4M/monthly-card.png" alt="Monthly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
+            <img id="img-monthly" src="https://i.ibb.co/jZnfH4M/monthly-card.png" alt="Monthly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
             <div class="m-title">MONTHLY</div>
             <div class="m-days" id="display-monthly-days">0d</div>
         </div>
@@ -340,6 +340,11 @@ footer a:hover{ color:#1e88e5; }
                 <div class="form-group"><label>Weekly (Days)</label><input type="number" id="edit-weekly-days" value="0"></div>
                 <div class="form-group"><label>Monthly (Days)</label><input type="number" id="edit-monthly-days" value="0"></div>
             </div>
+
+            <h3>Membership Card Images (URLs)</h3>
+            <div class="form-group"><label>Lite Card Image URL</label><input type="url" id="edit-lite-img" placeholder="https://example.com/lite.png"></div>
+            <div class="form-group"><label>Weekly Card Image URL</label><input type="url" id="edit-weekly-img" placeholder="https://example.com/weekly.png"></div>
+            <div class="form-group"><label>Monthly Card Image URL</label><input type="url" id="edit-monthly-img" placeholder="https://example.com/monthly.png"></div>
 
             <h3>Photo Management (Image URL)</h3>
             <div class="form-group">
@@ -474,7 +479,7 @@ function fetchAccountDetails(id) {
 }
 
 function updateUI(acc, id) {
-    // 1. Text / Details ලෝඩ් කිරීම
+    // 1. Details ලෝඩ් කිරීම
     document.getElementById("breadcrumb-id").textContent = acc.title || id;
     document.getElementById("acc-title").textContent = acc.title || id;
     document.getElementById("acc-uid").textContent = "◉ UID: " + (acc.uid || "N/A");
@@ -493,6 +498,16 @@ function updateUI(acc, id) {
     document.getElementById("display-lite-days").textContent = (membership.lite || 0) + "d";
     document.getElementById("display-weekly-days").textContent = (membership.weekly || 0) + "d";
     document.getElementById("display-monthly-days").textContent = (membership.monthly || 0) + "d";
+
+    // Membership Card Images Display
+    const membershipImgs = acc.membershipImages || {};
+    const defaultLite = "https://i.ibb.co/3s3hQ3p/lite-card.png";
+    const defaultWeekly = "https://i.ibb.co/6yq4Y3s/weekly-card.png";
+    const defaultMonthly = "https://i.ibb.co/jZnfH4M/monthly-card.png";
+    
+    document.getElementById("img-lite").src = membershipImgs.lite || defaultLite;
+    document.getElementById("img-weekly").src = membershipImgs.weekly || defaultWeekly;
+    document.getElementById("img-monthly").src = membershipImgs.monthly || defaultMonthly;
 
     // Evo Guns Display & Modal Population Logic
     const evoContainer = document.getElementById("evo-guns-display");
@@ -548,6 +563,10 @@ function updateUI(acc, id) {
     document.getElementById("edit-lite-days").value = membership.lite || 0;
     document.getElementById("edit-weekly-days").value = membership.weekly || 0;
     document.getElementById("edit-monthly-days").value = membership.monthly || 0;
+
+    document.getElementById("edit-lite-img").value = membershipImgs.lite || "";
+    document.getElementById("edit-weekly-img").value = membershipImgs.weekly || "";
+    document.getElementById("edit-monthly-img").value = membershipImgs.monthly || "";
 
     currentPhotos = acc.photos || [];
     renderPhotoPreviews();
@@ -729,6 +748,11 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
             lite: parseInt(document.getElementById("edit-lite-days").value) || 0,
             weekly: parseInt(document.getElementById("edit-weekly-days").value) || 0,
             monthly: parseInt(document.getElementById("edit-monthly-days").value) || 0
+        },
+        membershipImages: {
+            lite: document.getElementById("edit-lite-img").value.trim(),
+            weekly: document.getElementById("edit-weekly-img").value.trim(),
+            monthly: document.getElementById("edit-monthly-img").value.trim()
         }
     };
 
@@ -739,7 +763,7 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
             activePhotoIndex = 0;
             fetchAccountDetails(currentAccId);
         })
-        .catch(err => alert("Error updating account: " + err.message));
+        .catch(err => alert("Error deleting account or saving data: " + err.message));
 });
 
 function accountInfo(){ alert("Please login to check real-time account information."); }
