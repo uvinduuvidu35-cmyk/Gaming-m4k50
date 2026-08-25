@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - GAMING M4K STORE</title>
+    <title>Checkout - GAMING NM4K STORE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -318,10 +318,10 @@
             GAMING NM4K
         </div>
         <nav>
-            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="home.html"><i class="fa-solid fa-users"></i> Accounts</a>
-            <a href="home.html"><i class="fa-solid fa-tags"></i> On Sale</a>
-            <a href="buy.html" class="active"><i class="fa-solid fa-credit-card"></i> Payment</a>
+            <a href="#"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="#"><i class="fa-solid fa-users"></i> Accounts</a>
+            <a href="#"><i class="fa-solid fa-tags"></i> On Sale</a>
+            <a href="#" class="active"><i class="fa-solid fa-credit-card"></i> Payment</a>
         </nav>
         <div class="user-profile">
             <i class="fa-solid fa-user"></i> Uvindu555...
@@ -401,7 +401,7 @@
                     <li><i class="fa-solid fa-clock" style="color: var(--light-blue);"></i> Account confirmation within 1-2 hours</li>
                 </ul>
 
-                <a href="https://wa.me/94707072161?text=Hello%20GAMING%20NM4K,%20I%20have%20completed%20the%20payment.%20Please%20find%20my%20order%20details." target="_blank" class="btn-whatsapp">
+                <a id="whatsappBtn" href="#" target="_blank" class="btn-whatsapp">
                     <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Submit Order & Open WhatsApp
                 </a>
             </div>
@@ -417,8 +417,8 @@
                 <div class="item-preview">
                     <div class="item-img"></div>
                     <div>
-                        <div style="font-weight: bold; font-size: 14px;">N585</div>
-                        <div style="font-size: 12px; color: var(--text-muted);">Lv 65 · Heroic <span class="badge-available">AVAILABLE</span></div>
+                        <div id="accName" style="font-weight: bold; font-size: 14px;">N585</div>
+                        <div style="font-size: 12px; color: var(--text-muted);"><span id="accLevel">Lv 65</span> · <span id="accRank">Heroic</span> <span class="badge-available">AVAILABLE</span></div>
                     </div>
                 </div>
 
@@ -436,10 +436,10 @@
                     <span id="summaryTotal" class="price-total">LKR 11,000</span>
                 </div>
 
-                <ul class="specs-list">
-                    <li><i class="fa-solid fa-gun"></i> 161 Gun Skins</li>
-                    <li><i class="fa-solid fa-shirt"></i> 198 Bundles</li>
-                    <li><i class="fa-solid fa-gem"></i> 37 Diamonds</li>
+                <ul class="specs-list" id="specsList">
+                    <li><i class="fa-solid fa-gun"></i> <span id="gunSkins">161</span> Gun Skins</li>
+                    <li><i class="fa-solid fa-shirt"></i> <span id="bundleCount">198</span> Bundles</li>
+                    <li><i class="fa-solid fa-gem"></i> <span id="diamondCount">37</span> Diamonds</li>
                 </ul>
 
                 <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 8px; font-size: 12px; color: #166534;">
@@ -452,14 +452,33 @@
     </div>
 
     <script>
-        // URL Parameter එකෙන් Account Price එක ගන්නා ආකාරය
+        // URL එකෙන් dynamic Data ලබාගැනීම
         const urlParams = new URLSearchParams(window.location.search);
+        
+        const accName = urlParams.get('name') || 'N585';
         const accountPrice = urlParams.get('price') || '11,000';
+        const accLevel = urlParams.get('level') || '65';
+        const accRank = urlParams.get('rank') || 'Heroic';
+        const guns = urlParams.get('guns') || '161';
+        const bundles = urlParams.get('bundles') || '198';
+        const diamonds = urlParams.get('diamonds') || '37';
 
-        // ගණන් සැකසීම
+        // Order Summary හි ඩේටා යාවත්කාලීන කිරීම
+        document.getElementById('accName').innerText = accName;
+        document.getElementById('accLevel').innerText = 'Lv ' + accLevel;
+        document.getElementById('accRank').innerText = accRank;
         document.getElementById('displayAmount').innerText = 'LKR ' + accountPrice;
         document.getElementById('summaryAccountPrice').innerText = 'LKR ' + accountPrice;
         document.getElementById('summaryTotal').innerText = 'LKR ' + accountPrice;
+
+        document.getElementById('gunSkins').innerText = guns;
+        document.getElementById('bundleCount').innerText = bundles;
+        document.getElementById('diamondCount').innerText = diamonds;
+
+        // WhatsApp Link එක dynamically සකස් කිරීම
+        const whatsappMsg = `Hello GAMING NM4K, I want to buy Account ${accName} for LKR ${accountPrice}.`;
+        const whatsappUrl = `https://wa.me/94707072161?text=${encodeURIComponent(whatsappMsg)}`;
+        document.getElementById('whatsappBtn').href = whatsappUrl;
 
         // Payment Details මාරු කිරීමේ Function එක
         function updatePaymentDetails() {
