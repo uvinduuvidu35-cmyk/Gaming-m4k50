@@ -47,7 +47,6 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 /* ========================= GALLERY ========================= */
 .gallery{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:10px; box-shadow:0 3px 15px rgba(0,0,0,.04); }
 .main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#000; display:flex; justify-content:center; align-items:center; cursor:pointer; }
-/* Changed to object-fit: contain so full image displays without crop */
 .main-image img{ width:100%; height:100%; object-fit:contain; }
 .placeholder{ text-align:center; color:#999; }
 .placeholder .game-icon{ font-size:65px; margin-bottom:12px; }
@@ -82,7 +81,7 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 
 /* ACTIONS */
 .actions{ display:grid; gap:9px; margin-top:13px; }
-.action{ width:100%; padding:14px; border-radius:9px; border:1px solid #1e88e5; background:#1e88e5; color:white; font-weight:bold; font-size:13px; }
+.action{ width:100%; padding:14px; border-radius:9px; border:1px solid #1e88e5; background:#1e88e5; color:white; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; justify-content:center; text-align:center; }
 .action:hover{ background:#1565c0; }
 .action.outline{ background:white; color:#1565c0; }
 .action.outline:hover{ background:#e3f2fd; }
@@ -258,7 +257,10 @@ footer a:hover{ color:#1e88e5; }
 <!-- ACTIONS -->
 <div class="actions">
 <button class="action outline" onclick="accountInfo()">◉ Check Real Time Account Info</button>
-<button class="action" onclick="loginPurchase()">→ Login to Purchase</button>
+
+<!-- Changed Button to 'Buy Account' Linked to HTML Page -->
+<a href="buy.html" id="buy-account-link" class="action">💳 Buy Account</a>
+
 <button class="action whatsapp" onclick="openWhatsApp()">◉ Ask on WhatsApp Channel</button>
 <button class="action btn-admin" id="admin-edit-btn" onclick="openAdminModal()">⚙️ Edit Account (Admin)</button>
 </div>
@@ -373,6 +375,12 @@ window.addEventListener("DOMContentLoaded", function() {
     const idParam = urlParams.get("id");
     if(idParam) currentAccId = idParam;
     
+    // Dynamically set account ID in buy link
+    const buyLink = document.getElementById("buy-account-link");
+    if(buyLink) {
+        buyLink.href = `buy.html?id=${currentAccId}`;
+    }
+
     renderEvoGunInputs();
     fetchAccountDetails(currentAccId);
     fetchSimilarAccounts();
@@ -597,7 +605,6 @@ function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
                 const ctx = canvas.getContext('2d');
                 ctx.drawImage(img, 0, 0, width, height);
 
-                // Export low-file size JPEG data url
                 const compressedBase64 = canvas.toDataURL('image/jpeg', quality);
                 resolve(compressedBase64);
             };
@@ -715,7 +722,6 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
 });
 
 function accountInfo(){ alert("Please login to check real-time account information."); }
-function loginPurchase(){ alert("Please login to continue with your purchase."); }
 function openWhatsApp(){
     const phone = "94700000000";
     const currentTitle = document.getElementById("acc-title").textContent;
