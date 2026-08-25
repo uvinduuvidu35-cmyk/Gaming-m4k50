@@ -161,6 +161,7 @@
           <label>Price (LKR)</label>
           <input type="number" id="accPrice" required placeholder="e.g. 25000">
         </div>
+        <!-- මුළුමනින්ම URL එක විතරක් ඇතුළත් කිරීමට පමණක් ලබා දී ඇත -->
         <div class="form-group">
           <label>Account Image URL</label>
           <input type="url" id="accImgUrl" required placeholder="https://example.com/image.jpg">
@@ -294,7 +295,7 @@
       });
     }
 
-    // Realtime Database Sync with Optimization Query (Limit 20)
+    // දත්ත ඉක්මනින් ලෝඩ් වීමට පළමු ගිණුම් 20 ට සීමා කර ඇත (Optimization Query)
     const accountsRef = collection(db, "accounts");
     const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
 
