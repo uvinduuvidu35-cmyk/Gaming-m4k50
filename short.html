@@ -45,17 +45,18 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 .main{ display:grid; grid-template-columns:1.15fr 1fr; gap:25px; }
 
 /* ========================= GALLERY ========================= */
-.gallery{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:10px; box-shadow:0 3px 15px rgba(0,0,0,.04); }
-.main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#000; display:flex; justify-content:center; align-items:center; cursor:pointer; }
+.gallery{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:10px; box-shadow:0 3px 15px rgba(0,0,0,.04); position:relative; }
+.main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#000; display:flex; justify-content:center; align-items:center; cursor:pointer; position:relative; }
 .main-image img{ width:100%; height:100%; object-fit:contain; }
 .placeholder{ text-align:center; color:#999; }
 .placeholder .game-icon{ font-size:65px; margin-bottom:12px; }
 .placeholder b{ display:block; color:#555; margin-bottom:5px; }
-/* Thumbs: Overlay නැත, ප්‍රධාන පින්තූරයට පහළින් ඇති හිස්තැනට කෙලින්ම පහළින් පේළියට සැකසීය */
-.thumbs{ display:flex; gap:9px; margin-top:11px; overflow-x:auto; padding-bottom:5px; position:static; background:transparent; }
-.thumb{ min-width:78px; height:55px; background:#000; border:2px solid #e4e4e4; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
+
+/* THUMBS OVERLAY INSIDE MAIN GALLERY AT BOTTOM */
+.thumbs{ display:flex; gap:8px; overflow-x:auto; padding:8px; position:absolute; bottom:18px; left:18px; right:18px; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); border-radius:8px; z-index:10; }
+.thumb{ min-width:65px; height:48px; background:#000; border:2px solid rgba(255,255,255,0.4); border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; flex-shrink:0; }
 .thumb img{ width:100%; height:100%; object-fit:contain; }
-.thumb.active{ border-color:#1e88e5; }
+.thumb.active{ border-color:#1e88e5; box-shadow:0 0 8px #1e88e5; }
 
 /* ========================= DETAILS & STATS ========================= */
 .status{ display:inline-block; padding:5px 10px; border-radius:5px; background:#e9f8ef; color:#1a9b51; font-size:10px; font-weight:bold; }
@@ -74,11 +75,18 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 
 /* SECTIONS */
 .section{ margin-top:13px; padding:17px; background:#fff; border:1px solid #e5e5e5; border-radius:11px; }
-.section-title{ font-size:11px; color:#777; font-weight:bold; margin-bottom:8px; }
+.section-title{ font-size:11px; color:#777; font-weight:bold; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
 .weapon-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
 .weapon{ display:flex; align-items:center; justify-content:space-between; padding:8px 6px; border-bottom:1px solid #eee; }
 .weapon b{ color:#333; font-size:13px; }
 .level{ color:#1e88e5; border:1px solid #90caf9; padding:4px 9px; border-radius:5px; font-size:10px; font-weight:bold; }
+
+/* MEMBERSHIP SECTION STYLES */
+.membership-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:10px; }
+.membership-card{ border:1px solid #e3e3e3; border-radius:8px; padding:10px; text-align:center; background:#fafafa; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.membership-card img{ width:50px; height:35px; object-fit:contain; margin-bottom:5px; }
+.membership-card .m-title{ font-size:10px; font-weight:bold; color:#555; text-transform:uppercase; }
+.membership-card .m-days{ font-size:14px; font-weight:900; color:#1e88e5; margin-top:2px; }
 
 /* ACTIONS */
 .actions{ display:grid; gap:9px; margin-top:13px; }
@@ -97,7 +105,8 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 .cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
 .card{ background:#fff; border:1px solid #e3e3e3; border-radius:11px; overflow:hidden; transition:.25s; cursor:pointer; }
 .card:hover{ transform:translateY(-4px); border-color:#1e88e5; box-shadow:0 8px 25px rgba(0,0,0,.08); }
-.card-image{ height:155px; background:#f3f3f3; display:flex; justify-content:center; align-items:center; font-size:45px; color:#aaa; }
+.card-image{ height:155px; background:#f3f3f3; display:flex; justify-content:center; align-items:center; font-size:45px; color:#aaa; overflow:hidden; }
+.card-image img{ width:100%; height:100%; object-fit:cover; }
 .card-body{ padding:13px; }
 .available{ display:inline-block; padding:4px 7px; background:#e9f8ef; color:#1a9b51; border-radius:4px; font-size:8px; font-weight:bold; }
 .card h3{ margin-top:10px; font-size:15px; color:#333; }
@@ -151,6 +160,7 @@ footer a:hover{ color:#1e88e5; }
     .footer-grid{ grid-template-columns:1fr; gap:25px; }
     .weapon-grid{ grid-template-columns:1fr; }
     .photo-preview-grid{ grid-template-columns:repeat(3, 1fr); }
+    .membership-grid{ grid-template-columns:repeat(3, 1fr); }
 }
 @media(max-width:550px){
     .cards{ grid-template-columns:1fr 1fr; gap:9px; }
@@ -212,8 +222,9 @@ footer a:hover{ color:#1e88e5; }
         </div>
     </div>
 
+    <!-- Thumbnails Inside Main Image Overlay -->
     <div class="thumbs" id="thumbs-container">
-        <!-- Dynamic thumbnails -->
+        <!-- Dynamic overlay thumbnails -->
     </div>
 </div>
 </div>
@@ -252,6 +263,28 @@ footer a:hover{ color:#1e88e5; }
     <div class="section-title">⚡ EVO GUN DETAILS</div>
     <div class="weapon-grid" id="evo-guns-display">
         <!-- Filtered Evo Guns render dynamically -->
+    </div>
+</div>
+
+<!-- MEMBERSHIP INCLUDED SECTION -->
+<div class="section">
+    <div class="section-title">🎖️ MEMBERSHIP INCLUDED</div>
+    <div class="membership-grid">
+        <div class="membership-card">
+            <img src="https://i.ibb.co/3s3hQ3p/lite-card.png" alt="Lite" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
+            <div class="m-title">LITE</div>
+            <div class="m-days" id="display-lite-days">0d</div>
+        </div>
+        <div class="membership-card">
+            <img src="https://i.ibb.co/6yq4Y3s/weekly-card.png" alt="Weekly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
+            <div class="m-title">WEEKLY</div>
+            <div class="m-days" id="display-weekly-days">0d</div>
+        </div>
+        <div class="membership-card">
+            <img src="https://i.ibb.co/jZnfH4M/monthly-card.png" alt="Monthly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
+            <div class="m-title">MONTHLY</div>
+            <div class="m-days" id="display-monthly-days">0d</div>
+        </div>
     </div>
 </div>
 
@@ -300,6 +333,13 @@ footer a:hover{ color:#1e88e5; }
             <div class="form-group"><label>Bundles</label><input type="number" id="edit-bundles"></div>
             <div class="form-group"><label>Diamonds</label><input type="number" id="edit-diamonds"></div>
             <div class="form-group"><label>Emotes</label><input type="number" id="edit-emotes"></div>
+
+            <h3>Membership Remaining Days (Admin)</h3>
+            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
+                <div class="form-group"><label>Lite (Days)</label><input type="number" id="edit-lite-days" value="0"></div>
+                <div class="form-group"><label>Weekly (Days)</label><input type="number" id="edit-weekly-days" value="0"></div>
+                <div class="form-group"><label>Monthly (Days)</label><input type="number" id="edit-monthly-days" value="0"></div>
+            </div>
 
             <h3>Photo Management (Direct Upload from Device)</h3>
             <div class="form-group">
@@ -431,7 +471,7 @@ function fetchAccountDetails(id) {
 }
 
 function updateUI(acc, id) {
-    // 1. Text / Details පළමුව ලෝඩ් කිරීම
+    // 1. Text / Details ලෝඩ් කිරීම
     document.getElementById("breadcrumb-id").textContent = acc.title || id;
     document.getElementById("acc-title").textContent = acc.title || id;
     document.getElementById("acc-uid").textContent = "◉ UID: " + (acc.uid || "N/A");
@@ -444,6 +484,12 @@ function updateUI(acc, id) {
     document.getElementById("stat-bundles").textContent = acc.bundles || 0;
     document.getElementById("stat-diamonds").textContent = acc.diamonds || 0;
     document.getElementById("stat-emotes").textContent = acc.emotes || 0;
+
+    // Membership Days Display
+    const membership = acc.membership || {};
+    document.getElementById("display-lite-days").textContent = (membership.lite || 0) + "d";
+    document.getElementById("display-weekly-days").textContent = (membership.weekly || 0) + "d";
+    document.getElementById("display-monthly-days").textContent = (membership.monthly || 0) + "d";
 
     // Evo Guns Display & Modal Population Logic
     const evoContainer = document.getElementById("evo-guns-display");
@@ -484,7 +530,7 @@ function updateUI(acc, id) {
         evoContainer.innerHTML = `<p style="color:#888; font-size:12px; grid-column:span 2;">No Evo Guns available for this account.</p>`;
     }
 
-    // Modal එකට අවශ්‍ය දත්ත ඇතුළත් කිරීම
+    // Modal එකට දත්ත ඇතුළත් කිරීම
     document.getElementById("edit-title").value = acc.title || id;
     document.getElementById("edit-uid").value = acc.uid || "";
     document.getElementById("edit-price").value = acc.price || "";
@@ -496,16 +542,20 @@ function updateUI(acc, id) {
     document.getElementById("edit-diamonds").value = acc.diamonds || 0;
     document.getElementById("edit-emotes").value = acc.emotes || 0;
 
+    document.getElementById("edit-lite-days").value = membership.lite || 0;
+    document.getElementById("edit-weekly-days").value = membership.weekly || 0;
+    document.getElementById("edit-monthly-days").value = membership.monthly || 0;
+
     renderPhotoPreviews();
 
-    // 2. පින්තූර (Images) පසුව ලෝඩ් කිරීම (Lazy Loading Process)
+    // 2. පින්තූර (Images) ලෝඩ් කිරීම
     currentPhotos = acc.photos || [];
     setTimeout(() => {
         renderGallery();
     }, 50);
 }
 
-// GALLERY RENDER - loading="lazy" එකතු කර ඇත
+// GALLERY RENDER - Overlay Thumbnails Inside Main Image
 function renderGallery() {
     const mainImgElem = document.getElementById("main-image-container");
     const thumbsElem = document.getElementById("thumbs-container");
@@ -515,7 +565,7 @@ function renderGallery() {
         thumbsElem.innerHTML = "";
         currentPhotos.forEach((url, idx) => {
             thumbsElem.innerHTML += `
-                <div class="thumb ${idx === activePhotoIndex ? 'active' : ''}" onclick="selectPhoto(${idx})">
+                <div class="thumb ${idx === activePhotoIndex ? 'active' : ''}" onclick="selectPhoto(event, ${idx})">
                     <img src="${url}" alt="thumb" loading="lazy">
                 </div>
             `;
@@ -531,7 +581,8 @@ function renderGallery() {
     }
 }
 
-function selectPhoto(idx) {
+function selectPhoto(e, idx) {
+    e.stopPropagation(); // Main image click event එක නතර කිරීමට
     activePhotoIndex = idx;
     renderGallery();
 }
@@ -654,16 +705,17 @@ function removePhoto(index) {
     renderPhotoPreviews();
 }
 
-// SIMILAR ACCOUNTS
+// SIMILAR ACCOUNTS (LOADS FIRST IMAGE AUTOMATICALLY)
 function fetchSimilarAccounts() {
     db.collection("accounts").limit(4).get().then(snapshot => {
         const container = document.getElementById("similar-cards-container");
         container.innerHTML = "";
         snapshot.forEach(doc => {
             const data = doc.data();
+            const firstImg = (data.photos && data.photos.length > 0) ? `<img src="${data.photos[0]}" alt="account">` : '🎮';
             const cardHTML = `
                 <div class="card" onclick="window.location.href='short.html?id=${doc.id}'">
-                    <div class="card-image">🎮</div>
+                    <div class="card-image">${firstImg}</div>
                     <div class="card-body">
                         <span class="available">${data.status || 'AVAILABLE'}</span>
                         <h3>${data.title || doc.id}</h3>
@@ -709,7 +761,12 @@ document.getElementById("adminForm").addEventListener("submit", function(e) {
         diamonds: parseInt(document.getElementById("edit-diamonds").value) || 0,
         emotes: parseInt(document.getElementById("edit-emotes").value) || 0,
         photos: currentPhotos,
-        evoGuns: evoGunsData
+        evoGuns: evoGunsData,
+        membership: {
+            lite: parseInt(document.getElementById("edit-lite-days").value) || 0,
+            weekly: parseInt(document.getElementById("edit-weekly-days").value) || 0,
+            monthly: parseInt(document.getElementById("edit-monthly-days").value) || 0
+        }
     };
 
     db.collection("accounts").doc(currentAccId).set(updatedData, { merge: true })
