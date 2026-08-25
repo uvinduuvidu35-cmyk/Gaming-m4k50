@@ -51,7 +51,8 @@ header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; positio
 .placeholder{ text-align:center; color:#999; }
 .placeholder .game-icon{ font-size:65px; margin-bottom:12px; }
 .placeholder b{ display:block; color:#555; margin-bottom:5px; }
-.thumbs{ display:flex; gap:9px; margin-top:11px; overflow-x:auto; padding-bottom:5px; }
+/* Thumbs: Overlay නැත, ප්‍රධාන පින්තූරයට පහළින් ඇති හිස්තැනට කෙලින්ම පහළින් පේළියට සැකසීය */
+.thumbs{ display:flex; gap:9px; margin-top:11px; overflow-x:auto; padding-bottom:5px; position:static; background:transparent; }
 .thumb{ min-width:78px; height:55px; background:#000; border:2px solid #e4e4e4; border-radius:7px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; }
 .thumb img{ width:100%; height:100%; object-fit:contain; }
 .thumb.active{ border-color:#1e88e5; }
@@ -258,7 +259,6 @@ footer a:hover{ color:#1e88e5; }
 <div class="actions">
 <button class="action outline" onclick="accountInfo()">◉ Check Real Time Account Info</button>
 
-<!-- Changed Button to 'Buy Account' Linked to HTML Page -->
 <a href="buy.html" id="buy-account-link" class="action">💳 Buy Account</a>
 
 <button class="action whatsapp" onclick="openWhatsApp()">◉ Ask on WhatsApp Channel</button>
@@ -375,7 +375,6 @@ window.addEventListener("DOMContentLoaded", function() {
     const idParam = urlParams.get("id");
     if(idParam) currentAccId = idParam;
     
-    // Dynamically set account ID in buy link
     const buyLink = document.getElementById("buy-account-link");
     if(buyLink) {
         buyLink.href = `buy.html?id=${currentAccId}`;
@@ -432,6 +431,7 @@ function fetchAccountDetails(id) {
 }
 
 function updateUI(acc, id) {
+    // 1. Text / Details පළමුව ලෝඩ් කිරීම
     document.getElementById("breadcrumb-id").textContent = acc.title || id;
     document.getElementById("acc-title").textContent = acc.title || id;
     document.getElementById("acc-uid").textContent = "◉ UID: " + (acc.uid || "N/A");
@@ -444,10 +444,6 @@ function updateUI(acc, id) {
     document.getElementById("stat-bundles").textContent = acc.bundles || 0;
     document.getElementById("stat-diamonds").textContent = acc.diamonds || 0;
     document.getElementById("stat-emotes").textContent = acc.emotes || 0;
-
-    // Photos Handling
-    currentPhotos = acc.photos || [];
-    renderGallery();
 
     // Evo Guns Display & Modal Population Logic
     const evoContainer = document.getElementById("evo-guns-display");
@@ -473,7 +469,6 @@ function updateUI(acc, id) {
             }
         }
 
-        // Display guns on website if checked/level >= 1
         if (lvl >= 1) {
             hasEvoGuns = true;
             evoContainer.innerHTML += `
@@ -489,7 +484,7 @@ function updateUI(acc, id) {
         evoContainer.innerHTML = `<p style="color:#888; font-size:12px; grid-column:span 2;">No Evo Guns available for this account.</p>`;
     }
 
-    // Fill Modal Fields
+    // Modal එකට අවශ්‍ය දත්ත ඇතුළත් කිරීම
     document.getElementById("edit-title").value = acc.title || id;
     document.getElementById("edit-uid").value = acc.uid || "";
     document.getElementById("edit-price").value = acc.price || "";
@@ -502,20 +497,26 @@ function updateUI(acc, id) {
     document.getElementById("edit-emotes").value = acc.emotes || 0;
 
     renderPhotoPreviews();
+
+    // 2. පින්තූර (Images) පසුව ලෝඩ් කිරීම (Lazy Loading Process)
+    currentPhotos = acc.photos || [];
+    setTimeout(() => {
+        renderGallery();
+    }, 50);
 }
 
-// GALLERY RENDER
+// GALLERY RENDER - loading="lazy" එකතු කර ඇත
 function renderGallery() {
     const mainImgElem = document.getElementById("main-image-container");
     const thumbsElem = document.getElementById("thumbs-container");
 
     if (currentPhotos.length > 0) {
-        mainImgElem.innerHTML = `<img src="${currentPhotos[activePhotoIndex]}" alt="Account Image">`;
+        mainImgElem.innerHTML = `<img src="${currentPhotos[activePhotoIndex]}" alt="Account Image" loading="lazy">`;
         thumbsElem.innerHTML = "";
         currentPhotos.forEach((url, idx) => {
             thumbsElem.innerHTML += `
                 <div class="thumb ${idx === activePhotoIndex ? 'active' : ''}" onclick="selectPhoto(${idx})">
-                    <img src="${url}" alt="thumb">
+                    <img src="${url}" alt="thumb" loading="lazy">
                 </div>
             `;
         });
@@ -546,7 +547,7 @@ function closeFullscreen() {
     document.getElementById("fullscreen-overlay").style.display = "none";
 }
 
-// EVO GUN INPUTS GENERATOR (Checkbox + Select)
+// EVO GUN INPUTS GENERATOR
 function renderEvoGunInputs() {
     const container = document.getElementById("evo-inputs-container");
     container.innerHTML = "";
@@ -575,7 +576,7 @@ function toggleEvoSelect(gun) {
     selectElem.disabled = !isChecked;
 }
 
-// AUTOMATIC IMAGE COMPRESSION FUNCTION (Converts & Resizes image to fit Firestore Limit)
+// AUTOMATIC IMAGE COMPRESSION FUNCTION
 function compressImage(file, maxWidth = 800, maxHeight = 800, quality = 0.7) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -641,7 +642,7 @@ function renderPhotoPreviews() {
     currentPhotos.forEach((url, index) => {
         container.innerHTML += `
             <div class="photo-preview-card">
-                <img src="${url}" alt="photo preview">
+                <img src="${url}" alt="photo preview" loading="lazy">
                 <button type="button" class="remove-btn" onclick="removePhoto(${index})">&times;</button>
             </div>
         `;
