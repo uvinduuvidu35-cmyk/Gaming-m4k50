@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout - GAMING M4K STORE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-blue: #1e3a8a;
+            --light-blue: #3b82f6;
+            --bg-gradient: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 50%, #60a5fa 100%);
+            --card-bg: #ffffff;
+            --text-dark: #1f2937;
+            --text-muted: #6b7280;
+            --accent-green: #10b981;
+            --whatsapp-green: #25D366;
+            --whatsapp-hover: #1da851;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f3f4f6;
+            color: var(--text-dark);
+            padding-bottom: 40px;
+        }
+
+        /* Header Styling */
+        header {
+            background: var(--card-bg);
+            color: var(--text-dark);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            font-size: 20px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #000000;
+        }
+
+        .logo-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: cover;
+        }
+
+        nav a {
+            color: var(--text-dark);
+            text-decoration: none;
+            margin: 0 16px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: color 0.2s;
+            padding-bottom: 4px;
+        }
+
+        nav a:hover {
+            color: var(--light-blue);
+        }
+
+        /* Active Nav Link Highlight */
+        nav a.active {
+            color: var(--light-blue);
+            border-bottom: 2px solid var(--light-blue);
+        }
+
+        .user-profile {
+            background: #f3f4f6;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 30px 0;
+            gap: 15px;
+        }
+
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .step-number {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .step.active .step-number {
+            background: var(--light-blue);
+            color: white;
+        }
+
+        .step.active {
+            color: var(--primary-blue);
+        }
+
+        .step.done .step-number {
+            background: var(--accent-green);
+            color: white;
+        }
+
+        .line {
+            width: 40px;
+            height: 2px;
+            background: #d1d5db;
+        }
+
+        /* Container Layout */
+        .main-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.8fr 1.2fr;
+            gap: 25px;
+            padding: 0 20px;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .card-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--primary-blue);
+        }
+
+        /* Edit Button for Admin */
+        .btn-edit-admin {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #f3f4f6;
+            border: 1px solid #d1d5db;
+            padding: 5px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            color: var(--text-dark);
+        }
+
+        /* Form Elements */
+        select, input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #d1d5db;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            outline: none;
+        }
+
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+        }
+
+        .copy-btn {
+            background: #eff6ff;
+            color: var(--light-blue);
+            border: none;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        /* Upload Area */
+        .upload-box {
+            border: 2px dashed #93c5fd;
+            background: #eff6ff;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+            cursor: pointer;
+            margin: 15px 0;
+        }
+
+        .upload-box i {
+            font-size: 32px;
+            color: var(--light-blue);
+            margin-bottom: 8px;
+        }
+
+        /* WhatsApp Button */
+        .btn-whatsapp {
+            width: 100%;
+            background: var(--whatsapp-green);
+            color: white;
+            border: none;
+            padding: 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-decoration: none;
+            transition: background 0.2s;
+        }
+
+        .btn-whatsapp:hover {
+            background: var(--whatsapp-hover);
+        }
+
+        /* Order Summary */
+        .item-preview {
+            display: flex;
+            gap: 12px;
+            background: #f9fafb;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+
+        .item-img {
+            width: 60px;
+            height: 60px;
+            background: #374151;
+            border-radius: 6px;
+        }
+
+        .badge-available {
+            background: #dcfce7;
+            color: var(--accent-green);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+
+        .price-total {
+            font-weight: bold;
+            color: #ef4444;
+            font-size: 16px;
+        }
+
+        .specs-list {
+            list-style: none;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin: 15px 0;
+        }
+
+        .specs-list li {
+            margin-bottom: 6px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header -->
+    <header>
+        <div class="logo">
+            <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
+            GAMING NM4K
+        </div>
+        <nav>
+            <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="home.html"><i class="fa-solid fa-users"></i> Accounts</a>
+            <a href="home.html"><i class="fa-solid fa-tags"></i> On Sale</a>
+            <a href="buy.html" class="active"><i class="fa-solid fa-credit-card"></i> Payment</a>
+        </nav>
+        <div class="user-profile">
+            <i class="fa-solid fa-user"></i> Uvindu555...
+        </div>
+    </header>
+
+    <!-- Progress Indicator -->
+    <div class="progress-container">
+        <div class="step done">
+            <div class="step-number"><i class="fa-solid fa-check"></i></div>
+            <span>Choose</span>
+        </div>
+        <div class="line"></div>
+        <div class="step active">
+            <div class="step-number">2</div>
+            <span>Payment</span>
+        </div>
+        <div class="line"></div>
+        <div class="step">
+            <div class="step-number">3</div>
+            <span>Confirm</span>
+        </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="main-container">
+
+        <!-- Left Section: Payment Details -->
+        <div>
+            <div class="card">
+                <button class="btn-edit-admin" onclick="toggleEdit()"><i class="fa-solid fa-pen"></i> Edit</button>
+                <div class="card-title">
+                    <i class="fa-solid fa-building-columns"></i> Bank Transfer Details
+                </div>
+
+                <label style="font-size: 12px; color: var(--text-muted);">Select Method</label>
+                <select id="paymentMethod" onchange="updatePaymentDetails()">
+                    <option value="ezcash">Ez Cash</option>
+                    <option value="boc">Bank Of Ceylon - Vavuniya</option>
+                    <option value="combank">Commercial Bank</option>
+                </select>
+
+                <div id="paymentDisplay">
+                    <div class="detail-row">
+                        <span style="color: var(--text-muted);">Bank</span>
+                        <span id="displayBank" style="font-weight: 600;">Ez Cash</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--text-muted);">Acc No. / Mobile</span>
+                        <span id="displayAcc" style="font-weight: 600;">0771697548</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                    <div class="detail-row">
+                        <span style="color: var(--text-muted);">Amount</span>
+                        <span id="displayAmount" style="font-weight: 600; color: #ef4444;">LKR 11,000</span>
+                        <button class="copy-btn">Copy</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-upload"></i> Upload Payment Slip
+                </div>
+                
+                <div class="upload-box" onclick="document.getElementById('fileInput').click();">
+                    <i class="fa-solid fa-cloud-arrow-up"></i>
+                    <p style="font-weight: 600; font-size: 14px;">Tap to select your payment slip</p>
+                    <p style="font-size: 11px; color: var(--text-muted); margin-top: 4px;">PNG, JPG or PDF - Max 16MB</p>
+                    <input type="file" id="fileInput" style="display: none;">
+                </div>
+
+                <ul style="font-size: 12px; color: var(--text-muted); list-style: none; padding-left: 5px; margin-bottom: 20px;">
+                    <li style="margin-bottom: 5px;"><i class="fa-solid fa-circle-info" style="color: var(--light-blue);"></i> Admin will be notified instantly</li>
+                    <li style="margin-bottom: 5px;"><i class="fa-brands fa-whatsapp" style="color: var(--accent-green);"></i> You'll be redirected to WhatsApp after submit</li>
+                    <li><i class="fa-solid fa-clock" style="color: var(--light-blue);"></i> Account confirmation within 1-2 hours</li>
+                </ul>
+
+                <a href="https://wa.me/94707072161?text=Hello%20GAMING%20NM4K,%20I%20have%20completed%20the%20payment.%20Please%20find%20my%20order%20details." target="_blank" class="btn-whatsapp">
+                    <i class="fa-brands fa-whatsapp" style="font-size: 18px;"></i> Submit Order & Open WhatsApp
+                </a>
+            </div>
+        </div>
+
+        <!-- Right Section: Order Summary -->
+        <div>
+            <div class="card">
+                <div class="card-title">
+                    <i class="fa-solid fa-cart-shopping"></i> Order Summary
+                </div>
+
+                <div class="item-preview">
+                    <div class="item-img"></div>
+                    <div>
+                        <div style="font-weight: bold; font-size: 14px;">N585</div>
+                        <div style="font-size: 12px; color: var(--text-muted);">Lv 65 · Heroic <span class="badge-available">AVAILABLE</span></div>
+                    </div>
+                </div>
+
+                <div class="price-row">
+                    <span>Account Price</span>
+                    <span id="summaryAccountPrice" style="font-weight: 600; color: #ef4444;">LKR 11,000</span>
+                </div>
+                <div class="price-row">
+                    <span>Service Fee</span>
+                    <span style="color: var(--accent-green); font-weight: 600;">Free</span>
+                </div>
+                <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 10px 0;">
+                <div class="price-row">
+                    <span style="font-weight: bold;">Total</span>
+                    <span id="summaryTotal" class="price-total">LKR 11,000</span>
+                </div>
+
+                <ul class="specs-list">
+                    <li><i class="fa-solid fa-gun"></i> 161 Gun Skins</li>
+                    <li><i class="fa-solid fa-shirt"></i> 198 Bundles</li>
+                    <li><i class="fa-solid fa-gem"></i> 37 Diamonds</li>
+                </ul>
+
+                <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 8px; font-size: 12px; color: #166534;">
+                    <i class="fa-solid fa-shield-halved"></i> <strong>Buyer Protection</strong><br>
+                    All accounts verified before listing. Contact us on WhatsApp immediately for any issues.
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // URL Parameter එකෙන් Account Price එක ගන්නා ආකාරය
+        const urlParams = new URLSearchParams(window.location.search);
+        const accountPrice = urlParams.get('price') || '11,000';
+
+        // ගණන් සැකසීම
+        document.getElementById('displayAmount').innerText = 'LKR ' + accountPrice;
+        document.getElementById('summaryAccountPrice').innerText = 'LKR ' + accountPrice;
+        document.getElementById('summaryTotal').innerText = 'LKR ' + accountPrice;
+
+        // Payment Details මාරු කිරීමේ Function එක
+        function updatePaymentDetails() {
+            const method = document.getElementById('paymentMethod').value;
+            const bankText = document.getElementById('displayBank');
+            const accText = document.getElementById('displayAcc');
+
+            if(method === 'ezcash') {
+                bankText.innerText = 'Ez Cash';
+                accText.innerText = '0771697548';
+            } else if(method === 'boc') {
+                bankText.innerText = 'Bank Of Ceylon';
+                accText.innerText = '84818958';
+            } else if(method === 'combank') {
+                bankText.innerText = 'Commercial Bank';
+                accText.innerText = '8001234567';
+            }
+        }
+
+        // Admin Edit පහසුකම සඳහා මූලික Alert එකක්
+        function toggleEdit() {
+            alert('Admin Edit Mode: විස්තර වෙනස් කිරීමට පහසුකම් මෙතැනට එකතු කළ හැක.');
+        }
+    </script>
+</body>
+</html>
