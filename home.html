@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -89,7 +88,7 @@
   <!-- Header -->
   <header class="header">
     <a href="home.html" class="logo">
-      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
+      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img" loading="lazy">
       GAMING M4K STORE
     </a>
     <nav class="nav">
@@ -133,7 +132,7 @@
   <main class="container">
     <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
     <div class="accounts-grid" id="accountsGrid">
-      <!-- Firestore Database එකෙන් Data මෙතැනට Load වේ -->
+      <!-- Firestore Data -->
     </div>
   </main>
 
@@ -163,9 +162,8 @@
           <input type="number" id="accPrice" required placeholder="e.g. 25000">
         </div>
         <div class="form-group">
-          <label>Upload Account Image</label>
-          <input type="file" id="accImgFile" accept="image/*">
-          <input type="hidden" id="accImgBase64">
+          <label>Account Image URL</label>
+          <input type="url" id="accImgUrl" required placeholder="https://example.com/image.jpg">
         </div>
         <div class="form-group">
           <label>Prime Tag & Level Badge</label>
@@ -190,7 +188,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
@@ -224,19 +222,6 @@
     const openAddBtn = document.getElementById('openAddBtn');
     const closeModalBtn = document.getElementById('closeModalBtn');
     const accountsGrid = document.getElementById('accountsGrid');
-    const accImgFileInput = document.getElementById('accImgFile');
-
-    // Convert Image File to Base64
-    accImgFileInput.addEventListener('change', function(e) {
-      const file = e.target.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(event) {
-          document.getElementById('accImgBase64').value = event.target.result;
-        };
-        reader.readAsDataURL(file);
-      }
-    });
 
     // Global Filters
     window.setStatusFilter = function(status, element) {
@@ -309,9 +294,11 @@
       });
     }
 
-    // Realtime Database Sync
+    // Realtime Database Sync with Optimization Query (Limit 20)
     const accountsRef = collection(db, "accounts");
-    onSnapshot(accountsRef, (snapshot) => {
+    const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
+
+    onSnapshot(optimizedQuery, (snapshot) => {
       accountsGrid.innerHTML = "";
       snapshot.forEach((docSnap) => {
         const data = docSnap.data();
@@ -338,7 +325,7 @@
              data-img="${imgSource}" 
              data-badge="${data.badge}">
           <div class="card-image">
-            <img src="${imgSource}" alt="Account Image">
+            <img src="${imgSource}" alt="Account Image" loading="lazy">
             <span class="status-badge ${data.status}">${data.status}</span>
             <span class="level-badge">🔒 ${data.badge}</span>
             <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
@@ -394,7 +381,7 @@
       document.getElementById('accName').value = card.getAttribute('data-name') || '';
       document.getElementById('accStatus').value = card.getAttribute('data-status') || 'available';
       document.getElementById('accPrice').value = card.getAttribute('data-price') || '';
-      document.getElementById('accImgBase64').value = card.getAttribute('data-img') || '';
+      document.getElementById('accImgUrl').value = card.getAttribute('data-img') || '';
       document.getElementById('accPrime').value = card.getAttribute('data-prime') || '';
       document.getElementById('accBadge').value = card.getAttribute('data-badge') || '';
       document.getElementById('accLv').value = card.getAttribute('data-level') || '';
@@ -409,7 +396,6 @@
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
       document.getElementById('modalTitle').innerText = "Add New Account";
       document.getElementById('editCardId').value = "";
-      document.getElementById('accImgBase64').value = "";
       accountForm.reset();
       modal.style.display = "flex";
     });
@@ -427,7 +413,7 @@
         name: document.getElementById('accName').value,
         status: document.getElementById('accStatus').value,
         price: Number(document.getElementById('accPrice').value),
-        img: document.getElementById('accImgBase64').value,
+        img: document.getElementById('accImgUrl').value,
         prime: document.getElementById('accPrime').value,
         badge: document.getElementById('accBadge').value,
         lv: Number(document.getElementById('accLv').value),
