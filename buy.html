@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Checkout - GAMING M4K STORE</title>
+    <title>Checkout - GAMING NM4K STORE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <!-- Firebase SDKs -->
@@ -362,7 +362,7 @@
     <header>
         <div class="logo">
             <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
-            GAMING M4K
+            GAMING NM4K
         </div>
         <nav id="header-nav">
             <a href="index.html" id="nav-home"><i class="fa-solid fa-house"></i> Home</a>
@@ -407,9 +407,7 @@
 
                 <label style="font-size: 12px; color: var(--text-muted);">Select Method</label>
                 <select id="paymentMethod" onchange="updatePaymentDetails()">
-                    <option value="ezcash">Ez Cash</option>
-                    <option value="boc">Bank Of Ceylon - Vavuniya</option>
-                    <option value="combank">Commercial Bank</option>
+                    <!-- Loaded dynamically from Firebase -->
                 </select>
 
                 <button class="btn-add-bank" id="add-bank-btn" onclick="addNewBankOption()"><i class="fa-solid fa-plus"></i> Add New Bank</button>
@@ -417,12 +415,12 @@
                 <div id="paymentDisplay">
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Bank</span>
-                        <span id="displayBank" style="font-weight: 600;">Ez Cash</span>
+                        <span id="displayBank" style="font-weight: 600;">Loading...</span>
                         <button class="copy-btn" id="btn-copy-bank" onclick="copyText('displayBank')">Copy</button>
                     </div>
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Acc No. / Mobile</span>
-                        <span id="displayAcc" style="font-weight: 600;">0771697548</span>
+                        <span id="displayAcc" style="font-weight: 600;">Loading...</span>
                         <button class="copy-btn" id="btn-copy-acc" onclick="copyText('displayAcc')">Copy</button>
                     </div>
                     <div class="detail-row">
@@ -504,8 +502,8 @@
     </div>
 
     <script>
-        // Dynamic Payment Methods Data Store
-        const paymentData = {
+        // Dynamic Payment Methods Data Store (Syncs with Firebase)
+        let paymentData = {
             ezcash: { bank: 'Ez Cash', acc: '0771697548' },
             boc: { bank: 'Bank Of Ceylon', acc: '84818958' },
             combank: { bank: 'Commercial Bank', acc: '8001234567' }
@@ -541,6 +539,7 @@
             document.getElementById('nav-accounts').href = `home.html?id=${currentAccId}`;
             document.getElementById('nav-home').href = `index.html?id=${currentAccId}`;
 
+            loadBankDetailsFromFirebase();
             loadAccountDetails(currentAccId);
         });
 
@@ -565,6 +564,33 @@
             }
         });
 
+        // Firebase එකෙන් Bank Details Load කිරීම
+        function loadBankDetailsFromFirebase() {
+            db.collection("settings").doc("bankDetails").get().then(doc => {
+                if (doc.exists && doc.data().methods) {
+                    paymentData = doc.data().methods;
+                }
+                populateSelectDropdown();
+                updatePaymentDetails();
+            }).catch(err => {
+                console.error("Error loading bank details:", err);
+                populateSelectDropdown();
+                updatePaymentDetails();
+            });
+        }
+
+        // Dropdown එක පිරවීම
+        function populateSelectDropdown() {
+            const select = document.getElementById("paymentMethod");
+            select.innerHTML = "";
+            for (let key in paymentData) {
+                const opt = document.createElement("option");
+                opt.value = key;
+                opt.text = paymentData[key].bank;
+                select.add(opt);
+            }
+        }
+
         function loadAccountDetails(id) {
             db.collection("accounts").doc(id).get().then(doc => {
                 if (doc.exists) {
@@ -587,7 +613,7 @@
                         document.getElementById('itemImgContainer').innerHTML = `<img src="${acc.photos[0]}" alt="Account">`;
                     }
 
-                    const whatsappMsg = `Hello GAMING M4K, I want to buy Account ${title} (ID: ${id}) for LKR ${price}.`;
+                    const whatsappMsg = `Hello GAMING NM4K, I want to buy Account ${title} (ID: ${id}) for LKR ${price}.`;
                     const whatsappUrl = `https://wa.me/94707072161?text=${encodeURIComponent(whatsappMsg)}`;
                     document.getElementById('whatsappBtn').href = whatsappUrl;
                 } else {
@@ -617,16 +643,14 @@
             });
         }
 
-        // Direct Inline Editing Feature for Admins
+        // Direct Inline Editing and Saving to Firebase
         function toggleEdit() {
             const editBtn = document.getElementById("admin-edit-btn");
             const addBankBtn = document.getElementById("add-bank-btn");
             const bankElem = document.getElementById("displayBank");
             const accElem = document.getElementById("displayAcc");
-            const amountElem = document.getElementById("displayAmount");
 
             if (!isEditMode) {
-                // Edit Mode එකට මාරු වීම
                 isEditMode = true;
                 editBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save';
                 editBtn.style.background = "#10b981";
@@ -635,36 +659,40 @@
 
                 const currentBank = bankElem.innerText;
                 const currentAcc = accElem.innerText;
-                const currentAmount = amountElem.innerText;
 
                 bankElem.innerHTML = `<input type="text" id="inputBank" class="edit-input" value="${currentBank}">`;
                 accElem.innerHTML = `<input type="text" id="inputAcc" class="edit-input" value="${currentAcc}">`;
-                amountElem.innerHTML = `<input type="text" id="inputAmount" class="edit-input" value="${currentAmount}">`;
             } else {
-                // වෙනස්කම් Save කිරීම
-                isEditMode = false;
-                editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit';
-                editBtn.style.background = "#f3f4f6";
-                editBtn.style.color = "var(--text-dark)";
-                addBankBtn.style.display = "none";
-
                 const newBank = document.getElementById("inputBank").value;
                 const newAcc = document.getElementById("inputAcc").value;
-                const newAmount = document.getElementById("inputAmount").value;
-
-                bankElem.innerText = newBank;
-                accElem.innerText = newAcc;
-                amountElem.innerText = newAmount;
-
                 const selectedMethod = document.getElementById('paymentMethod').value;
+
                 if (paymentData[selectedMethod]) {
                     paymentData[selectedMethod].bank = newBank;
                     paymentData[selectedMethod].acc = newAcc;
                 }
+
+                // Save automatically to Firebase
+                db.collection("settings").doc("bankDetails").set({
+                    methods: paymentData
+                }).then(() => {
+                    isEditMode = false;
+                    editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit';
+                    editBtn.style.background = "#f3f4f6";
+                    editBtn.style.color = "var(--text-dark)";
+                    addBankBtn.style.display = "none";
+
+                    populateSelectDropdown();
+                    document.getElementById('paymentMethod').value = selectedMethod;
+                    bankElem.innerText = newBank;
+                    accElem.innerText = newAcc;
+                }).catch(err => {
+                    alert("Error saving to Firebase: " + err.message);
+                });
             }
         }
 
-        // අලුතින් බැංකුවක් එකතු කරගැනීමේ Function එක
+        // Add new Bank and sync with Firebase
         function addNewBankOption() {
             const bankName = prompt("Enter Bank Name (e.g., People's Bank):");
             if (!bankName) return;
@@ -675,15 +703,16 @@
             const key = "bank_" + Date.now();
             paymentData[key] = { bank: bankName, acc: accNo };
 
-            const select = document.getElementById("paymentMethod");
-            const newOption = document.createElement("option");
-            newOption.value = key;
-            newOption.text = bankName;
-            select.add(newOption);
-            select.value = key;
-
-            document.getElementById("inputBank").value = bankName;
-            document.getElementById("inputAcc").value = accNo;
+            db.collection("settings").doc("bankDetails").set({
+                methods: paymentData
+            }).then(() => {
+                populateSelectDropdown();
+                document.getElementById('paymentMethod').value = key;
+                document.getElementById("inputBank").value = bankName;
+                document.getElementById("inputAcc").value = accNo;
+            }).catch(err => {
+                alert("Error adding new bank to Firebase: " + err.message);
+            });
         }
     </script>
 </body>
