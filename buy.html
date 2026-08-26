@@ -5,6 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout - GAMING M4K STORE</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+
     <style>
         :root {
             --primary-blue: #1e3a8a;
@@ -89,6 +95,16 @@
             display: flex;
             align-items: center;
             gap: 8px;
+        }
+
+        .admin-badge {
+            display: none;
+            background: #ff9800;
+            color: #fff;
+            font-size: 10px;
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-weight: bold;
         }
 
         /* Progress Bar */
@@ -181,6 +197,7 @@
             font-size: 12px;
             cursor: pointer;
             color: var(--text-dark);
+            display: none;
         }
 
         /* Form Elements */
@@ -267,6 +284,17 @@
             height: 60px;
             background: #374151;
             border-radius: 6px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .item-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .badge-available {
@@ -315,16 +343,17 @@
     <header>
         <div class="logo">
             <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
-            GAMING NM4K
+            GAMING M4K
         </div>
-        <nav>
-            <a href="#"><i class="fa-solid fa-house"></i> Home</a>
-            <a href="#"><i class="fa-solid fa-users"></i> Accounts</a>
-            <a href="#"><i class="fa-solid fa-tags"></i> On Sale</a>
+        <nav id="header-nav">
+            <a href="index.html" id="nav-home"><i class="fa-solid fa-house"></i> Home</a>
+            <a href="home.html" id="nav-accounts"><i class="fa-solid fa-users"></i> Accounts</a>
+            <a href="short.html" id="nav-onsale"><i class="fa-solid fa-tags"></i> On Sale</a>
             <a href="#" class="active"><i class="fa-solid fa-credit-card"></i> Payment</a>
         </nav>
-        <div class="user-profile">
-            <i class="fa-solid fa-user"></i> Uvindu555...
+        <div class="user-profile" id="user-display">
+            <span class="admin-badge" id="admin-badge">ADMIN</span>
+            <i class="fa-solid fa-user"></i> <span id="user-name">Guest</span>
         </div>
     </header>
 
@@ -352,7 +381,7 @@
         <!-- Left Section: Payment Details -->
         <div>
             <div class="card">
-                <button class="btn-edit-admin" onclick="toggleEdit()"><i class="fa-solid fa-pen"></i> Edit</button>
+                <button class="btn-edit-admin" id="admin-edit-btn" onclick="toggleEdit()"><i class="fa-solid fa-pen"></i> Edit</button>
                 <div class="card-title">
                     <i class="fa-solid fa-building-columns"></i> Bank Transfer Details
                 </div>
@@ -368,17 +397,17 @@
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Bank</span>
                         <span id="displayBank" style="font-weight: 600;">Ez Cash</span>
-                        <button class="copy-btn">Copy</button>
+                        <button class="copy-btn" onclick="copyText('displayBank')">Copy</button>
                     </div>
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Acc No. / Mobile</span>
                         <span id="displayAcc" style="font-weight: 600;">0771697548</span>
-                        <button class="copy-btn">Copy</button>
+                        <button class="copy-btn" onclick="copyText('displayAcc')">Copy</button>
                     </div>
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Amount</span>
-                        <span id="displayAmount" style="font-weight: 600; color: #ef4444;">LKR 11,000</span>
-                        <button class="copy-btn">Copy</button>
+                        <span id="displayAmount" style="font-weight: 600; color: #ef4444;">LKR --</span>
+                        <button class="copy-btn" onclick="copyText('displayAmount')">Copy</button>
                     </div>
                 </div>
             </div>
@@ -415,16 +444,18 @@
                 </div>
 
                 <div class="item-preview">
-                    <div class="item-img"></div>
+                    <div class="item-img" id="itemImgContainer">
+                        <i class="fa-solid fa-gamepad"></i>
+                    </div>
                     <div>
-                        <div id="accName" style="font-weight: bold; font-size: 14px;">N585</div>
-                        <div style="font-size: 12px; color: var(--text-muted);"><span id="accLevel">Lv 65</span> · <span id="accRank">Heroic</span> <span class="badge-available">AVAILABLE</span></div>
+                        <div id="accName" style="font-weight: bold; font-size: 14px;">Loading...</div>
+                        <div style="font-size: 12px; color: var(--text-muted);"><span id="accLevel">Lv 0</span> · <span id="accRank">-</span> <span class="badge-available">AVAILABLE</span></div>
                     </div>
                 </div>
 
                 <div class="price-row">
                     <span>Account Price</span>
-                    <span id="summaryAccountPrice" style="font-weight: 600; color: #ef4444;">LKR 11,000</span>
+                    <span id="summaryAccountPrice" style="font-weight: 600; color: #ef4444;">LKR --</span>
                 </div>
                 <div class="price-row">
                     <span>Service Fee</span>
@@ -433,13 +464,13 @@
                 <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 10px 0;">
                 <div class="price-row">
                     <span style="font-weight: bold;">Total</span>
-                    <span id="summaryTotal" class="price-total">LKR 11,000</span>
+                    <span id="summaryTotal" class="price-total">LKR --</span>
                 </div>
 
                 <ul class="specs-list" id="specsList">
-                    <li><i class="fa-solid fa-gun"></i> <span id="gunSkins">161</span> Gun Skins</li>
-                    <li><i class="fa-solid fa-shirt"></i> <span id="bundleCount">198</span> Bundles</li>
-                    <li><i class="fa-solid fa-gem"></i> <span id="diamondCount">37</span> Diamonds</li>
+                    <li><i class="fa-solid fa-gun"></i> <span id="gunSkins">0</span> Gun Skins</li>
+                    <li><i class="fa-solid fa-shirt"></i> <span id="bundleCount">0</span> Bundles</li>
+                    <li><i class="fa-solid fa-gem"></i> <span id="diamondCount">0</span> Diamonds</li>
                 </ul>
 
                 <div style="background: #f0fdf4; border: 1px solid #bbf7d0; padding: 10px; border-radius: 8px; font-size: 12px; color: #166534;">
@@ -452,33 +483,95 @@
     </div>
 
     <script>
-        // URL එකෙන් dynamic Data ලබාගැනීම
-        const urlParams = new URLSearchParams(window.location.search);
-        
-        const accName = urlParams.get('name') || 'N585';
-        const accountPrice = urlParams.get('price') || '11,000';
-        const accLevel = urlParams.get('level') || '65';
-        const accRank = urlParams.get('rank') || 'Heroic';
-        const guns = urlParams.get('guns') || '161';
-        const bundles = urlParams.get('bundles') || '198';
-        const diamonds = urlParams.get('diamonds') || '37';
+        // Firebase Configuration
+        const firebaseConfig = {
+          apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
+          authDomain: "gaming-m4k.firebaseapp.com",
+          projectId: "gaming-m4k",
+          storageBucket: "gaming-m4k.firebasestorage.app",
+          messagingSenderId: "160833053716",
+          appId: "1:160833053716:web:7c2d55a58d27c88294b301",
+          measurementId: "G-T6XT0GWY87"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
 
-        // Order Summary හි ඩේටා යාවත්කාලීන කිරීම
-        document.getElementById('accName').innerText = accName;
-        document.getElementById('accLevel').innerText = 'Lv ' + accLevel;
-        document.getElementById('accRank').innerText = accRank;
-        document.getElementById('displayAmount').innerText = 'LKR ' + accountPrice;
-        document.getElementById('summaryAccountPrice').innerText = 'LKR ' + accountPrice;
-        document.getElementById('summaryTotal').innerText = 'LKR ' + accountPrice;
+        const adminEmails = ["uvinduuvidu35@gmail.com"];
+        let currentAccId = "M4K0558";
 
-        document.getElementById('gunSkins').innerText = guns;
-        document.getElementById('bundleCount').innerText = bundles;
-        document.getElementById('diamondCount').innerText = diamonds;
+        window.addEventListener("DOMContentLoaded", function() {
+            // URL එකෙන් dynamic Account ID එක ලබා ගැනීම
+            const urlParams = new URLSearchParams(window.location.search);
+            const idParam = urlParams.get('id');
+            if (idParam) {
+                currentAccId = idParam;
+            }
 
-        // WhatsApp Link එක dynamically සකස් කිරීම
-        const whatsappMsg = `Hello GAMING NM4K, I want to buy Account ${accName} for LKR ${accountPrice}.`;
-        const whatsappUrl = `https://wa.me/94707072161?text=${encodeURIComponent(whatsappMsg)}`;
-        document.getElementById('whatsappBtn').href = whatsappUrl;
+            // Header Links වලට dynamic ලෙස account ID එක ඇතුළත් කිරීම
+            document.getElementById('nav-onsale').href = `short.html?id=${currentAccId}`;
+            document.getElementById('nav-accounts').href = `home.html?id=${currentAccId}`;
+            document.getElementById('nav-home').href = `index.html?id=${currentAccId}`;
+
+            // Firestore එකෙන් අදාළ account එකේ ඩේටා ලබා ගැනීම
+            loadAccountDetails(currentAccId);
+        });
+
+        // Auth State Check
+        auth.onAuthStateChanged(user => {
+            const userNameElem = document.getElementById("user-name");
+            const adminBadge = document.getElementById("admin-badge");
+            const adminEditBtn = document.getElementById("admin-edit-btn");
+
+            if (user) {
+                userNameElem.textContent = user.displayName || user.email.split('@')[0];
+                if (adminEmails.includes(user.email)) {
+                    adminBadge.style.display = "inline-block";
+                    adminEditBtn.style.display = "block";
+                } else {
+                    adminBadge.style.display = "none";
+                    adminEditBtn.style.display = "none";
+                }
+            } else {
+                userNameElem.textContent = "Guest";
+                adminBadge.style.display = "none";
+                adminEditBtn.style.display = "none";
+            }
+        });
+
+        function loadAccountDetails(id) {
+            db.collection("accounts").doc(id).get().then(doc => {
+                if (doc.exists) {
+                    const acc = doc.data();
+                    const title = acc.title || id;
+                    const price = acc.price || "0";
+                    
+                    document.getElementById('accName').innerText = title;
+                    document.getElementById('accLevel').innerText = 'Lv ' + (acc.level || '0');
+                    document.getElementById('accRank').innerText = acc.rank || '-';
+                    document.getElementById('displayAmount').innerText = 'LKR ' + price;
+                    document.getElementById('summaryAccountPrice').innerText = 'LKR ' + price;
+                    document.getElementById('summaryTotal').innerText = 'LKR ' + price;
+
+                    document.getElementById('gunSkins').innerText = acc.skins || '0';
+                    document.getElementById('bundleCount').innerText = acc.bundles || '0';
+                    document.getElementById('diamondCount').innerText = acc.diamonds || '0';
+
+                    if (acc.photos && acc.photos.length > 0) {
+                        document.getElementById('itemImgContainer').innerHTML = `<img src="${acc.photos[0]}" alt="Account">`;
+                    }
+
+                    // WhatsApp Dynamic Link එක හැදීම
+                    const whatsappMsg = `Hello GAMING M4K, I want to buy Account ${title} (ID: ${id}) for LKR ${price}.`;
+                    const whatsappUrl = `https://wa.me/94707072161?text=${encodeURIComponent(whatsappMsg)}`;
+                    document.getElementById('whatsappBtn').href = whatsappUrl;
+                } else {
+                    document.getElementById('accName').innerText = id + " (Not Found)";
+                }
+            }).catch(err => {
+                console.error("Error loading account:", err);
+            });
+        }
 
         // Payment Details මාරු කිරීමේ Function එක
         function updatePaymentDetails() {
@@ -498,9 +591,15 @@
             }
         }
 
-        // Admin Edit පහසුකම සඳහා මූලික Alert එකක්
+        function copyText(elementId) {
+            const text = document.getElementById(elementId).innerText;
+            navigator.clipboard.writeText(text).then(() => {
+                alert("Copied: " + text);
+            });
+        }
+
         function toggleEdit() {
-            alert('Admin Edit Mode: විස්තර වෙනස් කිරීමට පහසුකම් මෙතැනට එකතු කළ හැක.');
+            alert('Admin Edit Mode Active: විස්තර වෙනස් කිරීමට කෙලින්ම Firebase හරහා පහසුකම් ලබාදී ඇත.');
         }
     </script>
 </body>
