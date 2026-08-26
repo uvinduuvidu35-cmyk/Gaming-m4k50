@@ -200,6 +200,19 @@
             display: none;
         }
 
+        .btn-add-bank {
+            background: #e0f2fe;
+            color: var(--light-blue);
+            border: 1px dashed var(--light-blue);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            margin-bottom: 15px;
+            display: none;
+        }
+
         /* Form Elements */
         select, input {
             width: 100%;
@@ -208,6 +221,12 @@
             border-radius: 8px;
             margin-bottom: 15px;
             outline: none;
+        }
+
+        .edit-input {
+            width: 60%;
+            margin-bottom: 0;
+            padding: 4px 8px;
         }
 
         .detail-row {
@@ -393,21 +412,23 @@
                     <option value="combank">Commercial Bank</option>
                 </select>
 
+                <button class="btn-add-bank" id="add-bank-btn" onclick="addNewBankOption()"><i class="fa-solid fa-plus"></i> Add New Bank</button>
+
                 <div id="paymentDisplay">
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Bank</span>
                         <span id="displayBank" style="font-weight: 600;">Ez Cash</span>
-                        <button class="copy-btn" onclick="copyText('displayBank')">Copy</button>
+                        <button class="copy-btn" id="btn-copy-bank" onclick="copyText('displayBank')">Copy</button>
                     </div>
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Acc No. / Mobile</span>
                         <span id="displayAcc" style="font-weight: 600;">0771697548</span>
-                        <button class="copy-btn" onclick="copyText('displayAcc')">Copy</button>
+                        <button class="copy-btn" id="btn-copy-acc" onclick="copyText('displayAcc')">Copy</button>
                     </div>
                     <div class="detail-row">
                         <span style="color: var(--text-muted);">Amount</span>
                         <span id="displayAmount" style="font-weight: 600; color: #ef4444;">LKR --</span>
-                        <button class="copy-btn" onclick="copyText('displayAmount')">Copy</button>
+                        <button class="copy-btn" id="btn-copy-amount" onclick="copyText('displayAmount')">Copy</button>
                     </div>
                 </div>
             </div>
@@ -483,6 +504,15 @@
     </div>
 
     <script>
+        // Dynamic Payment Methods Data Store
+        const paymentData = {
+            ezcash: { bank: 'Ez Cash', acc: '0771697548' },
+            boc: { bank: 'Bank Of Ceylon', acc: '84818958' },
+            combank: { bank: 'Commercial Bank', acc: '8001234567' }
+        };
+
+        let isEditMode = false;
+
         // Firebase Configuration
         const firebaseConfig = {
           apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
@@ -501,23 +531,19 @@
         let currentAccId = "M4K0558";
 
         window.addEventListener("DOMContentLoaded", function() {
-            // URL එකෙන් dynamic Account ID එක ලබා ගැනීම
             const urlParams = new URLSearchParams(window.location.search);
             const idParam = urlParams.get('id');
             if (idParam) {
                 currentAccId = idParam;
             }
 
-            // Header Links වලට dynamic ලෙස account ID එක ඇතුළත් කිරීම
             document.getElementById('nav-onsale').href = `short.html?id=${currentAccId}`;
             document.getElementById('nav-accounts').href = `home.html?id=${currentAccId}`;
             document.getElementById('nav-home').href = `index.html?id=${currentAccId}`;
 
-            // Firestore එකෙන් අදාළ account එකේ ඩේටා ලබා ගැනීම
             loadAccountDetails(currentAccId);
         });
 
-        // Auth State Check
         auth.onAuthStateChanged(user => {
             const userNameElem = document.getElementById("user-name");
             const adminBadge = document.getElementById("admin-badge");
@@ -561,7 +587,6 @@
                         document.getElementById('itemImgContainer').innerHTML = `<img src="${acc.photos[0]}" alt="Account">`;
                     }
 
-                    // WhatsApp Dynamic Link එක හැදීම
                     const whatsappMsg = `Hello GAMING M4K, I want to buy Account ${title} (ID: ${id}) for LKR ${price}.`;
                     const whatsappUrl = `https://wa.me/94707072161?text=${encodeURIComponent(whatsappMsg)}`;
                     document.getElementById('whatsappBtn').href = whatsappUrl;
@@ -573,21 +598,15 @@
             });
         }
 
-        // Payment Details මාරු කිරීමේ Function එක
         function updatePaymentDetails() {
+            if(isEditMode) return;
             const method = document.getElementById('paymentMethod').value;
             const bankText = document.getElementById('displayBank');
             const accText = document.getElementById('displayAcc');
 
-            if(method === 'ezcash') {
-                bankText.innerText = 'Ez Cash';
-                accText.innerText = '0771697548';
-            } else if(method === 'boc') {
-                bankText.innerText = 'Bank Of Ceylon';
-                accText.innerText = '84818958';
-            } else if(method === 'combank') {
-                bankText.innerText = 'Commercial Bank';
-                accText.innerText = '8001234567';
+            if (paymentData[method]) {
+                bankText.innerText = paymentData[method].bank;
+                accText.innerText = paymentData[method].acc;
             }
         }
 
@@ -598,8 +617,73 @@
             });
         }
 
+        // Direct Inline Editing Feature for Admins
         function toggleEdit() {
-            alert('Admin Edit Mode Active: විස්තර වෙනස් කිරීමට කෙලින්ම Firebase හරහා පහසුකම් ලබාදී ඇත.');
+            const editBtn = document.getElementById("admin-edit-btn");
+            const addBankBtn = document.getElementById("add-bank-btn");
+            const bankElem = document.getElementById("displayBank");
+            const accElem = document.getElementById("displayAcc");
+            const amountElem = document.getElementById("displayAmount");
+
+            if (!isEditMode) {
+                // Edit Mode එකට මාරු වීම
+                isEditMode = true;
+                editBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> Save';
+                editBtn.style.background = "#10b981";
+                editBtn.style.color = "#ffffff";
+                addBankBtn.style.display = "block";
+
+                const currentBank = bankElem.innerText;
+                const currentAcc = accElem.innerText;
+                const currentAmount = amountElem.innerText;
+
+                bankElem.innerHTML = `<input type="text" id="inputBank" class="edit-input" value="${currentBank}">`;
+                accElem.innerHTML = `<input type="text" id="inputAcc" class="edit-input" value="${currentAcc}">`;
+                amountElem.innerHTML = `<input type="text" id="inputAmount" class="edit-input" value="${currentAmount}">`;
+            } else {
+                // වෙනස්කම් Save කිරීම
+                isEditMode = false;
+                editBtn.innerHTML = '<i class="fa-solid fa-pen"></i> Edit';
+                editBtn.style.background = "#f3f4f6";
+                editBtn.style.color = "var(--text-dark)";
+                addBankBtn.style.display = "none";
+
+                const newBank = document.getElementById("inputBank").value;
+                const newAcc = document.getElementById("inputAcc").value;
+                const newAmount = document.getElementById("inputAmount").value;
+
+                bankElem.innerText = newBank;
+                accElem.innerText = newAcc;
+                amountElem.innerText = newAmount;
+
+                const selectedMethod = document.getElementById('paymentMethod').value;
+                if (paymentData[selectedMethod]) {
+                    paymentData[selectedMethod].bank = newBank;
+                    paymentData[selectedMethod].acc = newAcc;
+                }
+            }
+        }
+
+        // අලුතින් බැංකුවක් එකතු කරගැනීමේ Function එක
+        function addNewBankOption() {
+            const bankName = prompt("Enter Bank Name (e.g., People's Bank):");
+            if (!bankName) return;
+
+            const accNo = prompt("Enter Account Number / Details:");
+            if (!accNo) return;
+
+            const key = "bank_" + Date.now();
+            paymentData[key] = { bank: bankName, acc: accNo };
+
+            const select = document.getElementById("paymentMethod");
+            const newOption = document.createElement("option");
+            newOption.value = key;
+            newOption.text = bankName;
+            select.add(newOption);
+            select.value = key;
+
+            document.getElementById("inputBank").value = bankName;
+            document.getElementById("inputAcc").value = accNo;
         }
     </script>
 </body>
