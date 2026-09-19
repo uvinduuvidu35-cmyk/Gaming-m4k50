@@ -250,9 +250,9 @@ button{
 
 .edit-icon {
     display: none;
-    font-size: 12px;
+    font-size: 14px;
     cursor: pointer;
-    margin-left: 4px;
+    margin-left: 6px;
     color: #ffd700;
 }
 
@@ -585,7 +585,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     measurementId: "G-T6XT0GWY87"
   };
 
-  // ⚠️ මෙතැනට ඔයාගේ Admin Email එක ඇතුළත් කරන්න
+  // Admin Email එක (Lowercase වලින් තබා ඇත)
   const ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
   const app = initializeApp(firebaseConfig);
@@ -630,7 +630,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   // Admin එකට පමණක් Pencil Icons පෙන්වීම
   function toggleAdminEdit(isAdmin) {
     editIcons.forEach(icon => {
-        icon.style.display = isAdmin ? 'inline' : 'none';
+        icon.style.setProperty('display', isAdmin ? 'inline-block' : 'none', 'important');
     });
   }
 
@@ -648,8 +648,11 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
       }
 
-      // Check if logged-in user is Admin
-      if (user.email === ADMIN_EMAIL) {
+      // Safe Email Comparison (Lowercase භාවිතා කර ඇත)
+      const userEmail = user.email ? user.email.trim().toLowerCase() : "";
+      const adminEmail = ADMIN_EMAIL.trim().toLowerCase();
+
+      if (userEmail === adminEmail) {
           toggleAdminEdit(true);
       } else {
           toggleAdminEdit(false);
@@ -671,7 +674,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   // Edit Stats Functionality for Admin
   document.getElementById('editAvailable').addEventListener('click', () => {
       const newVal = prompt("AVAILABLE ගාන වෙනස් කරන්න:", statAvailable.innerText);
-      if(newVal !== null) {
+      if(newVal !== null && newVal.trim() !== "") {
           statAvailable.innerText = newVal;
           localStorage.setItem('statAvailable', newVal);
       }
@@ -679,7 +682,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
   document.getElementById('editSold').addEventListener('click', () => {
       const newVal = prompt("SOLD ගාන වෙනස් කරන්න:", statSold.innerText);
-      if(newVal !== null) {
+      if(newVal !== null && newVal.trim() !== "") {
           statSold.innerText = newVal;
           localStorage.setItem('statSold', newVal);
       }
@@ -687,7 +690,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
   document.getElementById('editBuyers').addEventListener('click', () => {
       const newVal = prompt("HAPPY BUYERS ගාන වෙනස් කරන්න:", statBuyers.innerText);
-      if(newVal !== null) {
+      if(newVal !== null && newVal.trim() !== "") {
           statBuyers.innerText = newVal;
           localStorage.setItem('statBuyers', newVal);
       }
