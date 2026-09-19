@@ -231,6 +231,7 @@ button{
 .stat{
     padding:9px 18px;
     border-right:1px solid #1565c0;
+    position: relative;
 }
 
 .stat:last-child{
@@ -245,6 +246,14 @@ button{
 .stat span{
     font-size:8px;
     color:#aaa;
+}
+
+.edit-icon {
+    display: none;
+    font-size: 12px;
+    cursor: pointer;
+    margin-left: 4px;
+    color: #ffd700;
 }
 
 .feature-strip{
@@ -272,8 +281,8 @@ button{
 }
 
 @keyframes scrollText {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(0%); }
+    0% { transform: translateX(0%); }
+    100% { transform: translateX(-100%); }
 }
 
 section{ padding:62px 5%; }
@@ -369,25 +378,27 @@ footer{
     font-size:11px;
 }
 
+/* Mobile & Responsive Rules */
 @media(max-width:800px){
-    .topbar{ height:auto; min-height:64px; padding:10px 4%; }
+    .topbar{ height:auto; min-height:64px; padding:10px 4%; flex-wrap: wrap; gap:10px; }
     .nav{ display:none; }
-    .actions .btn{ padding:9px 12px; }
-    .hero{ min-height:530px; }
+    .actions .btn{ padding:8px 12px; font-size: 11px; }
+    .hero{ min-height:480px; }
     .hero-kicker{ font-size:16px; letter-spacing:2px; }
-    .hero h1{ font-size:46px; }
+    .hero h1{ font-size:40px; }
     .steps{ grid-template-columns:1fr; }
-    section{ padding:50px 4%; }
+    section{ padding:40px 4%; }
 }
 
 @media(max-width:480px){
     .brand small{ display:none; }
-    .brand strong{ font-size:11px; }
-    .hero h1{ font-size:38px; }
+    .brand strong{ font-size:12px; }
+    .hero h1{ font-size:32px; }
     .hero p{ font-size:11px; }
-    .stat{ padding:8px 11px; }
-    .stat b{ font-size:15px; }
-    .section-head h2{ font-size:25px; }
+    .stats{ width: 100%; justify-content: space-around; }
+    .stat{ padding:8px 10px; }
+    .stat b{ font-size:14px; }
+    .section-head h2{ font-size:22px; }
 }
 </style>
 </head>
@@ -411,7 +422,7 @@ footer{
     </nav>
 
     <div class="actions">
-        <!-- Auth Buttons (ලොග් වී නැති විට පෙන්වයි) -->
+        <!-- Auth Buttons -->
         <button class="btn btn-outline" id="loginBtn">
             ↪ Login with Google
         </button>
@@ -419,7 +430,7 @@ footer{
             ♙ Sign Up
         </button>
 
-        <!-- User Profile Section (ලොග් වූ පසු පෙන්වයි) -->
+        <!-- User Profile Section -->
         <div class="user-profile" id="userProfile" style="display: none;">
             <div id="avatarContainer"></div>
             <button class="logout-btn" id="logoutBtn">Logout</button>
@@ -439,10 +450,20 @@ footer{
             <h1>GAMING m4k<br>STORE</h1>
             <p>Buy verified Free Fire accounts — fast, secure, best rates in Sri Lanka.</p>
             <a class="btn btn-red" href="home.html">▣ Browse Accounts</a>
+            
             <div class="stats">
-                <div class="stat"><b>5+</b><span>AVAILABLE</span></div>
-                <div class="stat"><b>102+</b><span>SOLD</span></div>
-                <div class="stat"><b>102+</b><span>HAPPY BUYERS</span></div>
+                <div class="stat">
+                    <b id="statAvailable">5+</b>
+                    <span>AVAILABLE <span class="edit-icon" id="editAvailable">✏️</span></span>
+                </div>
+                <div class="stat">
+                    <b id="statSold">102+</b>
+                    <span>SOLD <span class="edit-icon" id="editSold">✏️</span></span>
+                </div>
+                <div class="stat">
+                    <b id="statBuyers">102+</b>
+                    <span>HAPPY BUYERS <span class="edit-icon" id="editBuyers">✏️</span></span>
+                </div>
             </div>
         </div>
     </section>
@@ -564,6 +585,9 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     measurementId: "G-T6XT0GWY87"
   };
 
+  // ⚠️ මෙතැනට ඔයාගේ Admin Email එක ඇතුළත් කරන්න
+  const ADMIN_EMAIL = "your-admin-email@gmail.com";
+
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
@@ -574,47 +598,100 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   const avatarContainer = document.getElementById('avatarContainer');
   const logoutBtn = document.getElementById('logoutBtn');
 
+  // Stats elements
+  const statAvailable = document.getElementById('statAvailable');
+  const statSold = document.getElementById('statSold');
+  const statBuyers = document.getElementById('statBuyers');
+
+  const editIcons = document.querySelectorAll('.edit-icon');
+
+  // Load Saved Stats from LocalStorage
+  if(localStorage.getItem('statAvailable')) statAvailable.innerText = localStorage.getItem('statAvailable');
+  if(localStorage.getItem('statSold')) statSold.innerText = localStorage.getItem('statSold');
+  if(localStorage.getItem('statBuyers')) statBuyers.innerText = localStorage.getItem('statBuyers');
+
   // Login Function
   function loginWithGoogle() {
     signInWithPopup(auth, provider).catch((error) => {
         console.error("Login දෝෂයක්:", error.message);
+        alert("Login Error: " + error.message);
     });
   }
 
   // Logout Function
   function handleLogout() {
-    signOut(auth).catch((error) => {
+    signOut(auth).then(() => {
+        toggleAdminEdit(false);
+    }).catch((error) => {
         console.error("Logout දෝෂයක්:", error.message);
     });
   }
 
-  // පරිශීලකයා ලොග් වී ඇත්දැයි පරීක්ෂා කිරීම (Authentication State Observer)
+  // Admin එකට පමණක් Pencil Icons පෙන්වීම
+  function toggleAdminEdit(isAdmin) {
+    editIcons.forEach(icon => {
+        icon.style.display = isAdmin ? 'inline' : 'none';
+    });
+  }
+
+  // Authentication State Observer
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      // පරිශීලකයා ලොග් වී ඇත්නම් Buttons හයිඩ් කර Profile එක පෙන්වන්න
       loginBtn.style.display = 'none';
       signUpBtn.style.display = 'none';
       userProfile.style.display = 'flex';
 
-      // Profile Photo එක ඇත්නම් එය පෙන්වීම, නැතහොත් Email හි මුල් අකුර පෙන්වීම
       if (user.photoURL) {
         avatarContainer.innerHTML = `<img src="${user.photoURL}" alt="User Avatar" class="user-avatar" title="${user.email}">`;
       } else {
         const firstLetter = user.email ? user.email.charAt(0) : 'U';
         avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
       }
+
+      // Check if logged-in user is Admin
+      if (user.email === ADMIN_EMAIL) {
+          toggleAdminEdit(true);
+      } else {
+          toggleAdminEdit(false);
+      }
+
     } else {
-      // පරිශීලකයා ලොග් වී නැත්නම් Buttons පෙන්වන්න
       loginBtn.style.display = 'inline-flex';
       signUpBtn.style.display = 'inline-flex';
       userProfile.style.display = 'none';
       avatarContainer.innerHTML = '';
+      toggleAdminEdit(false);
     }
   });
 
   loginBtn.addEventListener('click', loginWithGoogle);
   signUpBtn.addEventListener('click', loginWithGoogle);
   logoutBtn.addEventListener('click', handleLogout);
+
+  // Edit Stats Functionality for Admin
+  document.getElementById('editAvailable').addEventListener('click', () => {
+      const newVal = prompt("AVAILABLE ගාන වෙනස් කරන්න:", statAvailable.innerText);
+      if(newVal !== null) {
+          statAvailable.innerText = newVal;
+          localStorage.setItem('statAvailable', newVal);
+      }
+  });
+
+  document.getElementById('editSold').addEventListener('click', () => {
+      const newVal = prompt("SOLD ගාන වෙනස් කරන්න:", statSold.innerText);
+      if(newVal !== null) {
+          statSold.innerText = newVal;
+          localStorage.setItem('statSold', newVal);
+      }
+  });
+
+  document.getElementById('editBuyers').addEventListener('click', () => {
+      const newVal = prompt("HAPPY BUYERS ගාන වෙනස් කරන්න:", statBuyers.innerText);
+      if(newVal !== null) {
+          statBuyers.innerText = newVal;
+          localStorage.setItem('statBuyers', newVal);
+      }
+  });
 </script>
 
 </body>
