@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gaming m4k Store - Account Details</title>
-  
-  <!-- FontAwesome Icons -->
+  <title>Gaming m4k Store - Browse Accounts</title>
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f0f4f8; color: #333; }
+    body { font-family: Arial, Helvetica, sans-serif; background: #f4f7fa; color: #333; }
 
-    /* Header Navigation */
+    /* Header & Navigation */
     .header { 
       height: 62px; 
-      background: #ffffff; 
+      background: #fff; 
       border-bottom: 1px solid #e1e8ed; 
       display: flex; 
       align-items: center; 
@@ -28,269 +27,234 @@
     .logo { 
       display: flex; 
       align-items: center; 
-      gap: 10px; 
+      gap: 9px; 
       font-size: 16px; 
       font-weight: 800; 
       color: #0d47a1; 
+      letter-spacing: 0.5px; 
       text-decoration: none; 
-      letter-spacing: 0.5px;
     }
-    .logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #00b0ff; }
+    .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
 
-    .menu-toggle { font-size: 22px; color: #0d47a1; cursor: pointer; display: none; }
+    /* Menu Toggle Icon - PC & Mobile Dono Ke Liye */
+    .menu-toggle { 
+      display: block; 
+      font-size: 22px; 
+      color: #0d47a1; 
+      cursor: pointer; 
+    }
 
-    .nav-wrapper { display: flex; align-items: center; gap: 20px; }
-    .nav { display: flex; gap: 15px; }
-    .nav a { text-decoration: none; color: #555; font-size: 14px; font-weight: 600; padding: 8px 12px; border-radius: 6px; transition: 0.3s; }
-    .nav a:hover, .nav a.active { background: #e3f2fd; color: #0d47a1; }
+    /* Collapsible Navigation Wrapper */
+    .nav-wrapper { 
+      display: none; 
+      flex-direction: column; 
+      position: absolute; 
+      top: 62px; 
+      left: 0; 
+      width: 100%; 
+      background: #ffffff; 
+      border-bottom: 1px solid #e1e8ed; 
+      padding: 15px 5%; 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+      gap: 15px;
+      z-index: 999;
+    }
 
-    .auth-buttons { display: flex; align-items: center; gap: 10px; }
+    .nav-wrapper.active { 
+      display: flex; 
+    }
+
+    .nav { 
+      display: flex; 
+      flex-direction: column; 
+      width: 100%; 
+      gap: 8px; 
+    }
+
+    .nav a { 
+      text-decoration: none; 
+      color: #555; 
+      font-size: 14px; 
+      padding: 10px; 
+      border-radius: 7px; 
+      font-weight: 600; 
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .nav a:hover, .nav a.active { 
+      background: #e3f2fd; 
+      color: #0d47a1; 
+    }
+
+    /* Social Links Section */
+    .social-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px 0;
+      border-top: 1px solid #eee;
+    }
+
+    .social-icon {
+      font-size: 20px;
+      color: #0d47a1;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .social-icon:hover {
+      color: #00b0ff;
+    }
+
+    .auth-buttons { 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      gap: 10px; 
+      width: 100%;
+    }
+
     .btn { padding: 8px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
     .btn.login { color: #555; }
     .btn.signup { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: white; border: none; box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2); }
 
     .user-profile { display: flex; align-items: center; gap: 10px; }
     .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #00b0ff; }
-    .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
     .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
-    /* Main Container */
-    .container { max-width: 1150px; margin: 25px auto; padding: 0 15px; }
+    /* Admin Banner */
+    .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
+    .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
 
-    .breadcrumb { font-size: 13px; color: #666; margin-bottom: 20px; display: flex; align-items: center; gap: 8px; }
-    .breadcrumb a { color: #0d47a1; text-decoration: none; font-weight: 600; }
+    /* Hero & Filters */
+    .hero { text-align: center; padding: 30px 20px 20px; background: #fff; }
+    .hero h1 { font-size: 26px; color: #0d47a1; margin-bottom: 6px; }
+    .hero p { font-size: 13px; color: #666; }
+    .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 7px 12px; border-radius: 18px; font-size: 11px; color: #0d47a1; cursor: pointer; font-weight: 600; }
+    .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
+    .price-input { width: 85px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; }
+    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
-    /* Main Details Layout */
-    .account-main-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 25px;
-      background: #ffffff;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
-      border: 1px solid #e1e8ed;
-    }
-
-    /* Left Side: Photo Gallery / Carousel */
-    .gallery-box { display: flex; flex-direction: column; gap: 12px; }
+    /* Main Container & Grid Layout */
+    .container { max-width: 1250px; margin: auto; padding: 15px 12px 50px; }
+    .result-count { font-size: 13px; margin-bottom: 12px; font-weight: 600; color: #555; }
     
-    .main-image-container {
-      position: relative;
-      width: 100%;
-      height: 380px;
-      background: #0a0a0a;
-      border-radius: 12px;
-      overflow: hidden;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid #e1e8ed;
+    .accounts-grid { 
+      display: grid; 
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 12px; 
     }
 
-    .main-image-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
+    .card { 
+      background: white; 
+      border: 1px solid #e0e6ed; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+      transition: transform 0.3s ease, box-shadow 0.3s ease; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      position: relative; 
     }
 
-    .img-counter {
-      position: absolute;
-      top: 12px;
-      right: 12px;
-      background: rgba(0, 0, 0, 0.7);
-      color: #fff;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: bold;
-      backdrop-filter: blur(4px);
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15);
+      border-color: #90caf9;
     }
 
-    .nav-arrow {
-      position: absolute;
-      top: 50%;
-      transform: translateY(-50%);
-      background: rgba(13, 71, 161, 0.8);
-      color: white;
-      border: none;
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 16px;
-      transition: 0.2s;
-    }
-    .nav-arrow:hover { background: #00b0ff; }
-    .nav-arrow.left { left: 10px; }
-    .nav-arrow.right { right: 10px; }
+    .card-image { height: 130px; position: relative; background: #181818; overflow: hidden; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .card:hover .card-image img { transform: scale(1.08); }
 
-    /* Thumbnails Row (Up to 15 Photos) */
-    .thumbnail-scroll-container {
-      display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 8px;
-      scroll-behavior: smooth;
-    }
-    .thumbnail-scroll-container::-webkit-scrollbar { height: 6px; }
-    .thumbnail-scroll-container::-webkit-scrollbar-thumb { background: #0d47a1; border-radius: 10px; }
-
-    .thumb-img {
-      width: 70px;
-      height: 50px;
-      object-fit: cover;
-      border-radius: 6px;
-      cursor: pointer;
-      border: 2px solid transparent;
-      opacity: 0.6;
-      transition: 0.2s;
-      flex-shrink: 0;
-    }
-    .thumb-img.active, .thumb-img:hover {
-      border-color: #00b0ff;
-      opacity: 1;
-    }
-
-    /* Right Side: Account Details */
-    .details-right { display: flex; flex-direction: column; gap: 15px; }
-
-    .acc-header { display: flex; align-items: center; justify-content: space-between; }
-    .status-badge {
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 11px;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
+    .status-badge { position: absolute; top: 8px; left: 8px; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; text-transform: uppercase; z-index: 2; }
+    .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
     .status-badge.available { background: #e8f5e9; color: #2e7d32; }
-    .status-badge.sold { background: #ffebee; color: #c62828; }
+    .status-badge.onsale { background: #fff8e1; color: #f57f17; }
+    .level-badge { position: absolute; right: 8px; bottom: 8px; background: rgba(13, 71, 161, 0.85); backdrop-filter: blur(4px); color: white; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; z-index: 2; }
+    
+    .card-content { padding: 10px; }
+    .account-name { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #222; }
+    .prime { display: inline-block; background: #1565c0; color: white; padding: 2px 6px; border-radius: 8px; font-size: 9px; margin-bottom: 8px; font-weight: 600; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; color: #666; font-size: 10px; margin-bottom: 8px; }
+    .price { color: #0d47a1; font-weight: 800; font-size: 13px; }
 
-    .acc-uid-title { font-size: 24px; font-weight: 800; color: #0d47a1; }
-    .acc-uid-sub { font-size: 13px; color: #666; font-weight: 600; }
+    /* Admin Controls */
+    .card-admin-controls { display: flex; gap: 5px; padding: 8px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
+    .btn-edit, .btn-delete { flex: 1; padding: 5px; border-radius: 5px; font-size: 10px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .btn-edit { background: #ff9800; color: white; }
+    .btn-delete { background: #f44336; color: white; }
+    .pencil-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; z-index: 10; }
 
-    .price-tag { font-size: 28px; font-weight: 900; color: #0d47a1; margin-top: 5px; }
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .modal-header h3 { font-size: 16px; color: #0d47a1; }
+    .close-modal { font-size: 20px; cursor: pointer; color: #888; font-weight: bold; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+    .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
+    .btn-submit { width: 100%; padding: 10px; background: #0d47a1; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .url-preview { margin-top: 6px; width: 100%; height: 100px; border-radius: 6px; border: 1px dashed #ccc; display: none; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
+    .url-preview img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Prime Level Bar */
-    .prime-card {
-      background: linear-gradient(135deg, #e3f2fd, #bbdefb);
-      padding: 12px 16px;
-      border-radius: 10px;
-      border: 1px solid #90caf9;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    @media (max-width: 992px) {
+      .accounts-grid { grid-template-columns: repeat(3, 1fr); }
     }
-    .prime-info { display: flex; align-items: center; gap: 10px; color: #0d47a1; font-weight: bold; font-size: 14px; }
-    .prime-bars { display: flex; gap: 4px; }
-    .prime-bar-item { width: 8px; height: 22px; background: #cbd5e1; border-radius: 3px; }
-    .prime-bar-item.active { background: linear-gradient(180deg, #0d47a1, #00b0ff); }
 
-    /* Account Stats Grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      background: #f8fafc;
-      padding: 12px;
-      border-radius: 10px;
-      border: 1px solid #e1e8ed;
-      text-align: center;
-    }
-    .stat-box { display: flex; flex-direction: column; gap: 2px; }
-    .stat-val { font-size: 15px; font-weight: 800; color: #1e293b; }
-    .stat-lbl { font-size: 10px; color: #64748b; font-weight: 700; text-transform: uppercase; }
-
-    /* Evo Guns List */
-    .section-title { font-size: 13px; font-weight: 800; color: #0d47a1; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px; }
-    .evo-guns-list { display: flex; flex-direction: column; gap: 6px; background: #f8fafc; padding: 12px; border-radius: 10px; border: 1px solid #e1e8ed; }
-    .evo-item { display: flex; justify-content: space-between; align-items: center; font-size: 13px; font-weight: 700; color: #334155; }
-    .evo-lvl { background: #ff9800; color: white; padding: 2px 8px; border-radius: 4px; font-size: 10px; font-weight: bold; }
-
-    /* Memberships */
-    .membership-container { display: flex; gap: 10px; }
-    .member-card { background: #e0f2fe; border: 1px solid #bae6fd; padding: 8px 12px; border-radius: 8px; font-size: 12px; font-weight: 700; color: #0369a1; display: flex; align-items: center; gap: 6px; }
-
-    /* Action Buttons */
-    .buy-btn-whatsapp {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      background: #25d366;
-      color: white;
-      text-decoration: none;
-      padding: 14px;
-      border-radius: 10px;
-      font-weight: 800;
-      font-size: 15px;
-      box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3);
-      transition: 0.2s;
-    }
-    .buy-btn-whatsapp:hover { background: #20ba5a; }
-
-    /* Similar Accounts Section */
-    .similar-section { margin-top: 40px; }
-    .similar-title { font-size: 20px; font-weight: 800; color: #0d47a1; margin-bottom: 15px; }
-    .accounts-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px; }
-
-    /* Card Design matching home.html */
-    .acc-card { background: white; border-radius: 12px; border: 1px solid #e1e8ed; overflow: hidden; transition: 0.3s; text-decoration: none; color: inherit; }
-    .acc-card:hover { transform: translateY(-5px); box-shadow: 0 8px 20px rgba(0,0,0,0.1); }
-    .card-img-box { height: 160px; position: relative; background: #000; }
-    .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
-    .card-body { padding: 12px; display: flex; flex-direction: column; gap: 6px; }
-    .card-price { font-size: 18px; font-weight: 800; color: #0d47a1; }
-
-    /* Footer */
-    .footer {
-      background: #0f172a;
-      color: #94a3b8;
-      padding: 40px 5% 20px 5%;
-      margin-top: 50px;
-    }
-    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 30px; margin-bottom: 30px; }
-    .footer-col h3 { color: #fff; font-size: 16px; margin-bottom: 15px; }
-    .footer-col p { font-size: 13px; line-height: 1.6; }
-    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .footer-links a { color: #94a3b8; text-decoration: none; font-size: 13px; transition: 0.2s; }
-    .footer-links a:hover { color: #00b0ff; }
-    .social-icons { display: flex; gap: 12px; margin-top: 10px; }
-    .social-btn { width: 36px; height: 36px; border-radius: 50%; background: #1e293b; color: #fff; display: flex; align-items: center; justify-content: center; text-decoration: none; transition: 0.3s; }
-    .social-btn:hover { background: #00b0ff; color: #fff; }
-    .footer-bottom { text-align: center; border-top: 1px solid #1e293b; padding-top: 20px; font-size: 12px; }
-
-    @media (max-width: 768px) {
-      .account-main-grid { grid-template-columns: 1fr; }
-      .menu-toggle { display: block; }
-      .nav-wrapper { display: none; flex-direction: column; position: absolute; top: 62px; left: 0; width: 100%; background: #fff; padding: 20px; border-bottom: 1px solid #ddd; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-      .nav-wrapper.active { display: flex; }
-      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 600px) {
+      .accounts-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+      .card-image { height: 105px; }
+      .card-content { padding: 8px; }
+      .account-name { font-size: 11px; margin-bottom: 3px; }
+      .prime { font-size: 8px; padding: 2px 4px; margin-bottom: 5px; }
+      .stats { font-size: 9px; gap: 2px; }
+      .price { font-size: 11px; }
+      .hero { padding: 20px 10px 15px; }
+      .hero h1 { font-size: 20px; }
     }
   </style>
 </head>
+
 <body>
 
   <!-- Header -->
   <header class="header">
     <a href="home.html" class="logo">
-      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
+      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img" loading="lazy">
       GAMING M4K STORE
     </a>
 
-    <div class="menu-toggle" id="menuBtn">
+    <!-- Menu Toggle Icon -->
+    <div class="menu-toggle" id="mobileMenuBtn">
       <i class="fa-solid fa-bars"></i>
     </div>
 
+    <!-- Dropdown Menu Wrapper -->
     <div class="nav-wrapper" id="navWrapper">
       <nav class="nav">
-        <a href="index.html"> Home</a>
+        <a href="index.html">⌂ Home</a>
         <a href="home.html" class="active">🎮 Accounts</a>
-        <a href="home.html#sale">🏷 On Sale</a>
+        <a href="#sale">🏷 On Sale</a>
       </nav>
+
+      <!-- Social Media Links -->
+      <div class="social-links">
+        <a href="#" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" target="_blank" class="social-icon" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+
       <div class="auth-buttons">
         <button class="btn login" id="loginBtn">↪ Login</button>
         <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
@@ -302,167 +266,90 @@
     </div>
   </header>
 
-  <!-- Main Container -->
+  <!-- Admin Control Bar -->
+  <div class="admin-banner" id="adminBanner" style="display: none;">
+    <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
+    <button class="btn-admin" id="openAddBtn">+ Add New Account</button>
+  </div>
+
+  <!-- Hero & Filters -->
+  <section class="hero">
+    <h1>Browse FF Accounts</h1>
+    <p>Explore verified accounts — use filters to find your perfect match</p>
+  </section>
+
+  <div class="filters">
+    <button class="filter active" data-status="all" onclick="setStatusFilter('all', this)">All</button>
+    <button class="filter" data-status="available" onclick="setStatusFilter('available', this)">Available</button>
+    <button class="filter" data-status="onsale" onclick="setStatusFilter('onsale', this)">On Sale</button>
+    <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
+    <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
+    <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
+    <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
+  </div>
+
+  <!-- Accounts Grid -->
   <main class="container">
-    
-    <div class="breadcrumb">
-      <a href="home.html">Home</a> <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
-      <a href="home.html">Accounts</a> <i class="fa-solid fa-chevron-right" style="font-size: 10px;"></i>
-      <span id="bcUid">Loading...</span>
-    </div>
-
-    <!-- Loading Placeholder -->
-    <div id="loadingBox" style="text-align: center; padding: 60px; font-weight: bold; color: #0d47a1;">
-      <i class="fa-solid fa-spinner fa-spin fa-2x"></i><br><br>Account Details Loading...
-    </div>
-
-    <!-- Account Details Main Card -->
-    <div class="account-main-grid" id="detailsCard" style="display: none;">
-      
-      <!-- Gallery Column -->
-      <div class="gallery-box">
-        <div class="main-image-container">
-          <img id="mainImg" src="" alt="Main Image">
-          <span class="img-counter" id="imgCounter">1/1</span>
-          <button class="nav-arrow left" id="prevImgBtn"><i class="fa-solid fa-chevron-left"></i></button>
-          <button class="nav-arrow right" id="nextImgBtn"><i class="fa-solid fa-chevron-right"></i></button>
-        </div>
-
-        <!-- Thumbnail Scroll Bar (Up to 15 Photos) -->
-        <div class="thumbnail-scroll-container" id="thumbContainer"></div>
-      </div>
-
-      <!-- Details Column -->
-      <div class="details-right">
-        <div class="acc-header">
-          <span class="status-badge" id="accStatus">AVAILABLE</span>
-          <span class="acc-uid-sub" id="accDocId">ID: -</span>
-        </div>
-
-        <div>
-          <h1 class="acc-uid-title" id="accUid">UID: --------</h1>
-          <div class="price-tag" id="accPrice">LKR 0</div>
-        </div>
-
-        <!-- Prime Level -->
-        <div class="prime-card">
-          <div class="prime-info">
-            <i class="fa-solid fa-chess-king"></i>
-            <span id="primeText">Prime Level 0</span>
-          </div>
-          <div class="prime-bars" id="primeBars">
-            <div class="prime-bar-item"></div>
-            <div class="prime-bar-item"></div>
-            <div class="prime-bar-item"></div>
-            <div class="prime-bar-item"></div>
-            <div class="prime-bar-item"></div>
-            <div class="prime-bar-item"></div>
-            <div class="prime-bar-item"></div>
-          </div>
-        </div>
-
-        <!-- Stats Grid -->
-        <div class="stats-grid">
-          <div class="stat-box">
-            <span class="stat-val" id="statLv">-</span>
-            <span class="stat-lbl">Level</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-val" id="statRank">-</span>
-            <span class="stat-lbl">Rank</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-val" id="statSkins">-</span>
-            <span class="stat-lbl">Gun Skins</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-val" id="statBundles">-</span>
-            <span class="stat-lbl">Bundles</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-val" id="statDiamonds">-</span>
-            <span class="stat-lbl">Diamonds</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-val" id="statEmotes">-</span>
-            <span class="stat-lbl">Emotes</span>
-          </div>
-          <div class="stat-box">
-            <span class="stat-val" id="statAnimations">-</span>
-            <span class="stat-lbl">Animations</span>
-          </div>
-        </div>
-
-        <!-- Evo Guns Details -->
-        <div id="evoSection" style="display: none;">
-          <div class="section-title"><i class="fa-solid fa-fire"></i> Evo Gun Details</div>
-          <div class="evo-guns-list" id="evoList"></div>
-        </div>
-
-        <!-- Membership Included -->
-        <div id="membershipSection" style="display: none;">
-          <div class="section-title"><i class="fa-solid fa-id-card"></i> Membership Included</div>
-          <div class="membership-container" id="membershipList"></div>
-        </div>
-
-        <!-- WhatsApp Buy Button -->
-        <a href="#" id="buyWhatsappBtn" target="_blank" class="buy-btn-whatsapp">
-          <i class="fa-brands fa-whatsapp fa-xl"></i> Ask on WhatsApp / Buy Now
-        </a>
-
-      </div>
-    </div>
-
-    <!-- Similar Accounts Section -->
-    <section class="similar-section">
-      <h2 class="similar-title">Similar Accounts</h2>
-      <div class="accounts-grid" id="similarGrid">
-        <!-- Dynamic Cards -->
-      </div>
-    </section>
-
+    <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
+    <div class="accounts-grid" id="accountsGrid"></div>
   </main>
 
-  <!-- Footer -->
-  <footer class="footer">
-    <div class="footer-grid">
-      <div class="footer-col">
-        <h3>GAMING M4K STORE</h3>
-        <p>Sri Lanka's #1 Trusted Free Fire Account Marketplace. Buy and sell verified gaming accounts safely with instant delivery.</p>
-        <div class="social-icons">
-          <a href="#" class="social-btn"><i class="fa-brands fa-facebook-f"></i></a>
-          <a href="#" class="social-btn"><i class="fa-brands fa-whatsapp"></i></a>
-          <a href="#" class="social-btn"><i class="fa-brands fa-youtube"></i></a>
-          <a href="#" class="social-btn"><i class="fa-brands fa-tiktok"></i></a>
+  <!-- Modal Form -->
+  <div class="modal" id="accountModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Account</h3>
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+      </div>
+      <form id="accountForm">
+        <input type="hidden" id="editCardId">
+        <div class="form-group">
+          <label>Account Name</label>
+          <input type="text" id="accName" required placeholder="e.g. N589">
         </div>
-      </div>
-      <div class="footer-col">
-        <h3>Quick Links</h3>
-        <ul class="footer-links">
-          <li><a href="index.html">Home</a></li>
-          <li><a href="home.html">Browse Accounts</a></li>
-          <li><a href="home.html#sale">On Sale</a></li>
-        </ul>
-      </div>
-      <div class="footer-col">
-        <h3>Support & Contact</h3>
-        <ul class="footer-links">
-          <li><a href="#">Contact Us</a></li>
-          <li><a href="#">Terms & Conditions</a></li>
-          <li><a href="#">My Orders</a></li>
-        </ul>
-      </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="accStatus">
+            <option value="available">AVAILABLE</option>
+            <option value="onsale">ON SALE</option>
+            <option value="sold">SOLD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price (LKR)</label>
+          <input type="number" id="accPrice" required placeholder="e.g. 25000">
+        </div>
+        <div class="form-group">
+          <label>Account Image Direct URL</label>
+          <input type="url" id="accImgUrl" required placeholder="https://example.com/image.jpg" oninput="updateImagePreview(this.value)">
+          <div class="url-preview" id="urlPreviewBox">
+            <img id="imgPreview" src="" alt="Image Preview">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Prime Tag & Level Badge</label>
+          <input type="text" id="accPrime" placeholder="e.g. Prime Level 7 ★" required>
+          <input type="text" id="accBadge" placeholder="e.g. P7" style="margin-top:5px;" required>
+        </div>
+        <div class="form-group">
+          <label>Stats (LV | Rank | Skins | Bundles)</label>
+          <div style="display:flex; gap:5px;">
+            <input type="number" id="accLv" placeholder="LV" required>
+            <input type="text" id="accRank" placeholder="Rank" required>
+            <input type="number" id="accSkins" placeholder="Skins" required>
+            <input type="number" id="accBundles" placeholder="Bundles" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit" id="saveBtn">Save Account</button>
+      </form>
     </div>
-    <div class="footer-bottom">
-      Free Fire is a registered trademark of Garena. This site is not affiliated with or endorsed by Garena.
-    </div>
-  </footer>
+  </div>
 
-  <!-- Firebase Integration Script -->
+  <!-- Firebase Script -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, doc, getDoc, collection, getDocs, limit, query } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
@@ -478,214 +365,264 @@
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
+    const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
-    // Responsive Mobile Menu
-    const menuBtn = document.getElementById('menuBtn');
+    let isCurrentUserAdmin = false;
+    let currentStatus = 'all';
+
+    // Menu Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navWrapper = document.getElementById('navWrapper');
-    menuBtn.addEventListener('click', () => navWrapper.classList.toggle('active'));
 
-    // Authentication State
+    mobileMenuBtn.addEventListener('click', () => {
+      navWrapper.classList.toggle('active');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (navWrapper.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    const loginBtn = document.getElementById('loginBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const userProfile = document.getElementById('userProfile');
+    const avatarContainer = document.getElementById('avatarContainer');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminBanner = document.getElementById('adminBanner');
+    const adminEmailText = document.getElementById('adminEmailText');
+    const modal = document.getElementById('accountModal');
+    const accountForm = document.getElementById('accountForm');
+    const openAddBtn = document.getElementById('openAddBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const accountsGrid = document.getElementById('accountsGrid');
+
+    window.updateImagePreview = function(url) {
+      const previewBox = document.getElementById('urlPreviewBox');
+      const previewImg = document.getElementById('imgPreview');
+      if (url && url.trim() !== "") {
+        previewImg.src = url;
+        previewBox.style.display = 'flex';
+      } else {
+        previewBox.style.display = 'none';
+      }
+    };
+
+    window.setStatusFilter = function(status, element) {
+      document.querySelectorAll('.filters .filter[data-status]').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+      currentStatus = status;
+      window.filterAccounts();
+    };
+
+    window.filterAccounts = function() {
+      const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+      const cards = document.querySelectorAll('.card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardStatus = card.getAttribute('data-status');
+        const cardPrice = parseFloat(card.getAttribute('data-price'));
+        const matchStatus = (currentStatus === 'all') || (cardStatus === currentStatus);
+        const matchPrice = (cardPrice >= minPrice) && (cardPrice <= maxPrice);
+
+        if (matchStatus && matchPrice) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
+    };
+
     onAuthStateChanged(auth, (user) => {
-      const loginBtn = document.getElementById('loginBtn');
-      const signUpBtn = document.getElementById('signUpBtn');
-      const userProfile = document.getElementById('userProfile');
-      const avatarContainer = document.getElementById('avatarContainer');
-
       if (user) {
         loginBtn.style.display = 'none';
         signUpBtn.style.display = 'none';
         userProfile.style.display = 'flex';
+
         avatarContainer.innerHTML = user.photoURL 
           ? `<img src="${user.photoURL}" class="user-avatar" title="${user.email}">` 
           : `<div class="user-initial-avatar">${user.email.charAt(0).toUpperCase()}</div>`;
+
+        isCurrentUserAdmin = (user.email.toLowerCase() === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
+
+        if (isCurrentUserAdmin) {
+          adminBanner.style.display = 'flex';
+          if(adminEmailText) adminEmailText.innerText = user.email;
+        } else {
+          adminBanner.style.display = 'none';
+        }
       } else {
+        isCurrentUserAdmin = false;
         loginBtn.style.display = 'inline-block';
         signUpBtn.style.display = 'inline-block';
         userProfile.style.display = 'none';
+        adminBanner.style.display = 'none';
       }
+      renderAdminControls();
     });
 
-    document.getElementById('loginBtn').onclick = () => signInWithPopup(auth, provider);
-    document.getElementById('signUpBtn').onclick = () => signInWithPopup(auth, provider);
-    document.getElementById('logoutBtn').onclick = () => signOut(auth);
+    loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
+    signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
+    logoutBtn.addEventListener('click', () => signOut(auth));
 
-    // Get Account ID from URL
-    const urlParams = new URLSearchParams(window.location.search);
-    const accountId = urlParams.get('id');
-
-    let imagesList = [];
-    let currentImgIndex = 0;
-
-    // Load Main Account Data
-    async function fetchAccountDetails() {
-      const loadingBox = document.getElementById('loadingBox');
-      const detailsCard = document.getElementById('detailsCard');
-
-      if (!accountId) {
-        loadingBox.innerHTML = "❌ No Account ID provided.";
-        return;
-      }
-
-      try {
-        const docRef = doc(db, "accounts", accountId);
-        const docSnap = await getDoc(docRef);
-
-        if (docSnap.exists()) {
-          const data = docSnap.data();
-
-          // Populate Basic Data
-          const uid = data.uid || data.name || 'N/A';
-          document.getElementById('accUid').innerText = `UID: ${uid}`;
-          document.getElementById('bcUid').innerText = uid;
-          document.getElementById('accDocId').innerText = `ID: ${accountId}`;
-          document.getElementById('accPrice').innerText = `LKR ${parseInt(data.price || 0).toLocaleString()}`;
-          
-          const statusElem = document.getElementById('accStatus');
-          statusElem.innerText = (data.status || 'available').toUpperCase();
-          statusElem.className = `status-badge ${data.status || 'available'}`;
-
-          // Photos List Handling (Up to 15 Images)
-          if (Array.isArray(data.images) && data.images.length > 0) {
-            imagesList = data.images;
-          } else if (data.img) {
-            imagesList = [data.img];
-          } else {
-            imagesList = ['https://via.placeholder.com/600x400?text=No+Image'];
-          }
-
-          renderGallery();
-
-          // Prime Level Bars Calculation (1 to 7)
-          const primeLevel = parseInt(data.primeLevel || data.prime || 0);
-          document.getElementById('primeText').innerText = `Prime Level ${primeLevel}`;
-          const bars = document.querySelectorAll('#primeBars .prime-bar-item');
-          bars.forEach((bar, index) => {
-            if (index < primeLevel) bar.classList.add('active');
-          });
-
-          // Stats Data
-          document.getElementById('statLv').innerText = data.lv || data.level || '-';
-          document.getElementById('statRank').innerText = data.rank || '-';
-          document.getElementById('statSkins').innerText = data.skins || data.gunSkins || '-';
-          document.getElementById('statBundles').innerText = data.bundles || '-';
-          document.getElementById('statDiamonds').innerText = data.diamonds || '0';
-          document.getElementById('statEmotes').innerText = data.emotes || '-';
-          document.getElementById('statAnimations').innerText = data.animations || '-';
-
-          // Evo Gun Details Render
-          if (data.evoGuns && Array.isArray(data.evoGuns) && data.evoGuns.length > 0) {
-            const evoSection = document.getElementById('evoSection');
-            const evoList = document.getElementById('evoList');
-            evoList.innerHTML = '';
-            data.evoGuns.forEach(gun => {
-              evoList.innerHTML += `
-                <div class="evo-item">
-                  <span>${gun.name}</span>
-                  <span class="evo-lvl">Lv ${gun.level}</span>
-                </div>
-              `;
-            });
-            evoSection.style.display = 'block';
-          }
-
-          // Memberships Handling
-          if (data.memberships && (data.memberships.weekly || data.memberships.monthly)) {
-            const membershipSection = document.getElementById('membershipSection');
-            const membershipList = document.getElementById('membershipList');
-            membershipList.innerHTML = '';
-
-            if (data.memberships.weekly) {
-              membershipList.innerHTML += `<div class="member-card"><i class="fa-solid fa-calendar-week"></i> Weekly Membership</div>`;
-            }
-            if (data.memberships.monthly) {
-              membershipList.innerHTML += `<div class="member-card"><i class="fa-solid fa-calendar-days"></i> Monthly Membership</div>`;
-            }
-            membershipSection.style.display = 'block';
-          }
-
-          // WhatsApp Button Link setup
-          const whatsappNumber = "94700000000"; // Replace with your WhatsApp number
-          const msg = encodeURIComponent(`Hello Gaming m4k Store, I am interested in buying Account UID: ${uid} (ID: ${accountId}) listed for LKR ${data.price}.`);
-          document.getElementById('buyWhatsappBtn').href = `https://wa.me/${whatsappNumber}?text=${msg}`;
-
-          loadingBox.style.display = 'none';
-          detailsCard.style.display = 'grid';
-
-          // Load Similar Accounts
-          loadSimilarAccounts();
-
-        } else {
-          loadingBox.innerHTML = "❌ Account not found.";
-        }
-      } catch (err) {
-        loadingBox.innerHTML = "❌ Error loading account: " + err.message;
-      }
-    }
-
-    // Gallery Render Function
-    function renderGallery() {
-      const mainImg = document.getElementById('mainImg');
-      const imgCounter = document.getElementById('imgCounter');
-      const thumbContainer = document.getElementById('thumbContainer');
-
-      mainImg.src = imagesList[currentImgIndex];
-      imgCounter.innerText = `${currentImgIndex + 1}/${imagesList.length}`;
-
-      thumbContainer.innerHTML = '';
-      imagesList.forEach((src, idx) => {
-        const thumb = document.createElement('img');
-        thumb.src = src;
-        thumb.className = `thumb-img ${idx === currentImgIndex ? 'active' : ''}`;
-        thumb.onclick = () => {
-          currentImgIndex = idx;
-          renderGallery();
-        };
-        thumbContainer.appendChild(thumb);
+    function renderAdminControls() {
+      const adminControls = document.querySelectorAll('.card-admin-controls, .pencil-badge');
+      adminControls.forEach(el => {
+        el.style.display = isCurrentUserAdmin ? 'flex' : 'none';
       });
     }
 
-    document.getElementById('prevImgBtn').onclick = () => {
-      currentImgIndex = (currentImgIndex - 1 + imagesList.length) % imagesList.length;
-      renderGallery();
-    };
+    const accountsRef = collection(db, "accounts");
+    const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
 
-    document.getElementById('nextImgBtn').onclick = () => {
-      currentImgIndex = (currentImgIndex + 1) % imagesList.length;
-      renderGallery();
-    };
+    onSnapshot(optimizedQuery, (snapshot) => {
+      accountsGrid.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const cardId = docSnap.id;
+        accountsGrid.insertAdjacentHTML('beforeend', renderCardHTML(cardId, data));
+      });
+      renderAdminControls();
+      window.filterAccounts();
+    });
 
-    // Load Similar Accounts Grid
-    async function loadSimilarAccounts() {
-      const similarGrid = document.getElementById('similarGrid');
-      try {
-        const q = query(collection(db, "accounts"), limit(4));
-        const querySnapshot = await getDocs(q);
+    function renderCardHTML(id, data) {
+      const fallbackImg = 'https://via.placeholder.com/300x190?text=No+Image';
+      const imgSource = data.img || fallbackImg;
 
-        similarGrid.innerHTML = '';
-        querySnapshot.forEach((docSnap) => {
-          if (docSnap.id !== accountId) {
-            const acc = docSnap.data();
-            const displayImg = (acc.images && acc.images.length > 0) ? acc.images[0] : (acc.img || '');
-            
-            similarGrid.innerHTML += `
-              <a href="short.html?id=${docSnap.id}" class="acc-card">
-                <div class="card-img-box">
-                  <img src="${displayImg}" alt="Account Image">
-                </div>
-                <div class="card-body">
-                  <div style="font-weight: bold; font-size: 14px;">UID: ${acc.uid || acc.name || 'FF Account'}</div>
-                  <div class="card-price">LKR ${parseInt(acc.price || 0).toLocaleString()}</div>
-                </div>
-              </a>
-            `;
-          }
-        });
-      } catch (err) {
-        console.log("Error loading similar accounts:", err);
-      }
+      return `
+        <div class="card" id="${id}" 
+             data-status="${data.status}" 
+             data-price="${data.price}" 
+             data-name="${data.name}" 
+             data-prime="${data.prime}" 
+             data-level="${data.lv}" 
+             data-rank="${data.rank}" 
+             data-skins="${data.skins}" 
+             data-bundles="${data.bundles}" 
+             data-img="${imgSource}" 
+             data-badge="${data.badge}">
+          <div class="card-image">
+            <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
+            <span class="status-badge ${data.status}">${data.status}</span>
+            <span class="level-badge">🔒 ${data.badge}</span>
+            <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+              <i class="fa-solid fa-pencil"></i>
+            </div>
+          </div>
+          <a href="short.html?id=${id}" style="text-decoration: none; color: inherit;">
+            <div class="card-content">
+              <div class="account-name">${data.name}</div>
+              <span class="prime">♟ ${data.prime}</span>
+              <div class="stats">
+                <span>⌁ LV ${data.lv}</span>
+                <span>♙ ${data.rank}</span>
+                <span>◉ ${data.skins} Skins</span>
+                <span>♧ ${data.bundles} Bundles</span>
+              </div>
+              <div class="price">LKR ${parseInt(data.price).toLocaleString()}</div>
+            </div>
+          </a>
+          <div class="card-admin-controls" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+            <button class="btn-edit" onclick="editCard('${id}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+            <button class="btn-delete" onclick="deleteCard('${id}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
+          </div>
+        </div>
+      `;
     }
 
-    fetchAccountDetails();
+    window.deleteCard = async function(cardId, e) {
+      if (e) e.stopPropagation();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      if (confirm("Kya aap is account ko remove karna chahte hain?")) {
+        try {
+          await deleteDoc(doc(db, "accounts", cardId));
+        } catch (err) {
+          alert("Error deleting account: " + err.message);
+        }
+      }
+    };
+
+    window.editCard = function(cardId, e) {
+      if (e) e.stopPropagation();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      const card = document.getElementById(cardId);
+      if (!card) return;
+
+      document.getElementById('modalTitle').innerText = "Edit Account";
+      document.getElementById('editCardId').value = cardId;
+
+      document.getElementById('accName').value = card.getAttribute('data-name') || '';
+      document.getElementById('accStatus').value = card.getAttribute('data-status') || 'available';
+      document.getElementById('accPrice').value = card.getAttribute('data-price') || '';
+      
+      const imgUrl = card.getAttribute('data-img') || '';
+      document.getElementById('accImgUrl').value = imgUrl;
+      window.updateImagePreview(imgUrl);
+
+      document.getElementById('accPrime').value = card.getAttribute('data-prime') || '';
+      document.getElementById('accBadge').value = card.getAttribute('data-badge') || '';
+      document.getElementById('accLv').value = card.getAttribute('data-level') || '';
+      document.getElementById('accRank').value = card.getAttribute('data-rank') || '';
+      document.getElementById('accSkins').value = card.getAttribute('data-skins') || '';
+      document.getElementById('accBundles').value = card.getAttribute('data-bundles') || '';
+
+      modal.style.display = "flex";
+    };
+
+    openAddBtn.addEventListener('click', () => {
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+      document.getElementById('modalTitle').innerText = "Add New Account";
+      document.getElementById('editCardId').value = "";
+      accountForm.reset();
+      window.updateImagePreview('');
+      modal.style.display = "flex";
+    });
+
+    closeModalBtn.addEventListener('click', () => { modal.style.display = "none"; });
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+    accountForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      const editId = document.getElementById('editCardId').value;
+      const accountData = {
+        name: document.getElementById('accName').value,
+        status: document.getElementById('accStatus').value,
+        price: Number(document.getElementById('accPrice').value),
+        img: document.getElementById('accImgUrl').value,
+        prime: document.getElementById('accPrime').value,
+        badge: document.getElementById('accBadge').value,
+        lv: Number(document.getElementById('accLv').value),
+        rank: document.getElementById('accRank').value,
+        skins: Number(document.getElementById('accSkins').value),
+        bundles: Number(document.getElementById('accBundles').value),
+        updatedAt: new Date()
+      };
+
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "accounts", editId), accountData);
+        } else {
+          await addDoc(collection(db, "accounts"), accountData);
+        }
+        modal.style.display = "none";
+        accountForm.reset();
+        window.updateImagePreview('');
+      } catch (err) {
+        alert("Error saving data: " + err.message);
+      }
+    });
   </script>
+
 </body>
 </html>
