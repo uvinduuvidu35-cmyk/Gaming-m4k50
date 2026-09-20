@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gaming m4k Store - Browse Accounts</title>
+  <title>Gaming m4k Store - Account Details</title>
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
@@ -11,7 +11,7 @@
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, Helvetica, sans-serif; background: #f4f7fa; color: #333; }
 
-    /* Header & Navigation */
+    /* Header & Navigation System */
     .header { 
       height: 62px; 
       background: #fff; 
@@ -36,7 +36,6 @@
     }
     .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
 
-    /* Menu Toggle Icon */
     .menu-toggle { 
       display: block; 
       font-size: 22px; 
@@ -44,7 +43,6 @@
       cursor: pointer; 
     }
 
-    /* Collapsible Navigation Wrapper */
     .nav-wrapper { 
       display: none; 
       flex-direction: column; 
@@ -52,8 +50,7 @@
       top: 62px; 
       left: 0; 
       width: 100%; 
-      background: rgba(255, 255, 255, 0.98); 
-      backdrop-filter: blur(8px);
+      background: #ffffff; 
       border-bottom: 1px solid #e1e8ed; 
       padding: 15px 5%; 
       box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
@@ -63,12 +60,7 @@
 
     .nav-wrapper.active { display: flex; }
 
-    .nav { 
-      display: flex; 
-      flex-direction: column; 
-      width: 100%; 
-      gap: 8px; 
-    }
+    .nav { display: flex; flex-direction: column; width: 100%; gap: 8px; }
 
     .nav a { 
       text-decoration: none; 
@@ -78,21 +70,27 @@
       border-radius: 7px; 
       font-weight: 600; 
       text-align: center;
-      transition: 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
-    .nav a:hover, .nav a.active { 
-      background: #e3f2fd; 
-      color: #0d47a1; 
+    .nav a:hover, .nav a.active { background: #e3f2fd; color: #0d47a1; }
+
+    .social-links {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      padding: 10px 0;
+      border-top: 1px solid #eee;
     }
 
-    .auth-buttons { 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      gap: 10px; 
-      width: 100%;
-    }
+    .social-icon { font-size: 20px; color: #0d47a1; text-decoration: none; transition: color 0.2s ease; }
+    .social-icon:hover { color: #00b0ff; }
+
+    .auth-buttons { display: flex; align-items: center; justify-content: center; gap: 10px; width: 100%; }
 
     .btn { padding: 8px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
     .btn.login { color: #555; }
@@ -103,189 +101,142 @@
     .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
     .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #0d47a1;
+    /* Main Container & Details Layout */
+    .container { max-width: 1200px; margin: 20px auto; padding: 0 15px 50px; }
+    .breadcrumb { font-size: 12px; color: #777; margin-bottom: 15px; }
+    .breadcrumb a { color: #0d47a1; text-decoration: none; }
+
+    .product-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 30px;
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+      border: 1px solid #e0e6ed;
+    }
+
+    /* Left - Image Gallery */
+    .gallery-container { display: flex; flex-direction: column; gap: 12px; }
+    .main-img-box {
+      width: 100%;
+      height: 380px;
+      background: #111;
+      border-radius: 10px;
+      overflow: hidden;
+      position: relative;
+    }
+    .main-img-box img { width: 100%; height: 100%; object-fit: cover; }
+    
+    .thumbnail-row {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 5px;
+    }
+    .thumb-img {
+      width: 70px;
+      height: 70px;
+      border-radius: 6px;
+      object-fit: cover;
+      cursor: pointer;
+      border: 2px solid transparent;
+      opacity: 0.7;
+    }
+    .thumb-img.active { border-color: #0d47a1; opacity: 1; }
+
+    /* Right - Account Info */
+    .info-container { display: flex; flex-direction: column; }
+    .status-badge-inline {
+      display: inline-block;
+      align-self: flex-start;
+      background: #e8f5e9;
+      color: #2e7d32;
+      padding: 4px 10px;
+      font-size: 11px;
+      font-weight: bold;
+      border-radius: 4px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .acc-title { font-size: 26px; font-weight: 800; color: #111; margin-bottom: 10px; }
+    .acc-price { font-size: 28px; font-weight: 800; color: #d32f2f; margin-bottom: 15px; }
+
+    .prime-banner {
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
       color: white;
-      padding: 12px 20px;
+      padding: 10px 15px;
       border-radius: 8px;
       font-size: 13px;
       font-weight: bold;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      display: none;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
+      margin-bottom: 20px;
+    }
+
+    /* Grid Stats Box */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    .stat-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      padding: 12px;
+      border-radius: 8px;
+      text-align: center;
+    }
+    .stat-card div:first-child { font-size: 11px; color: #64748b; font-weight: 600; text-transform: uppercase; }
+    .stat-card div:last-child { font-size: 16px; color: #0f172a; font-weight: 800; margin-top: 4px; }
+
+    /* Action Buttons */
+    .action-btn {
+      width: 100%;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       gap: 10px;
-      z-index: 3000;
-      animation: fadeIn 0.3s ease;
+      margin-bottom: 10px;
+      text-decoration: none;
     }
+    .btn-buy { background: linear-gradient(90deg, #ff5722, #f4511e); color: white; box-shadow: 0 4px 12px rgba(244, 81, 30, 0.3); }
+    .btn-whatsapp { background: #25d366; color: white; box-shadow: 0 4px 12px rgba(37, 211, 102, 0.3); }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+    /* Section Header */
+    .section-title { font-size: 20px; font-weight: 800; color: #0d47a1; margin: 40px 0 20px; }
 
-    /* Admin Banner */
-    .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
-    .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
-
-    /* Hero & Filters */
-    .hero { text-align: center; padding: 30px 20px 20px; background: #fff; }
-    .hero h1 { font-size: 26px; color: #0d47a1; margin-bottom: 6px; }
-    .hero p { font-size: 13px; color: #666; }
+    /* Similar Accounts Grid */
+    .accounts-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
     
-    .filters { 
-      background: #fff; 
-      border-top: 1px solid #eee; 
-      border-bottom: 1px solid #eee; 
-      padding: 12px 5%; 
-      display: flex; 
-      align-items: center; 
-      gap: 8px; 
-      flex-wrap: wrap; 
-    }
-    
-    .search-input {
-      flex: 1;
-      min-width: 150px;
-      border: 1px solid #bbdefb;
-      border-radius: 18px;
-      padding: 7px 12px;
-      font-size: 12px;
-      outline: none;
-      background: #f4f9ff;
-    }
-
-    .search-input:focus { border-color: #0d47a1; background: #fff; }
-
-    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 7px 12px; border-radius: 18px; font-size: 11px; color: #0d47a1; cursor: pointer; font-weight: 600; }
-    .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
-    .price-input { width: 85px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; }
-    .sort-select { border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; background: white; color: #333; font-weight: 600; }
-    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
-
-    /* Main Container & Grid Layout */
-    .container { max-width: 1250px; margin: auto; padding: 15px 12px 50px; }
-    .result-count { font-size: 13px; margin-bottom: 12px; font-weight: 600; color: #555; }
-    
-    .accounts-grid { 
-      display: grid; 
-      grid-template-columns: repeat(4, 1fr); 
-      gap: 12px; 
-    }
-
-    /* Skeleton Loading Cards */
-    .skeleton-card {
-      background: #fff;
-      border-radius: 12px;
-      height: 250px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-      position: relative;
-    }
-    .skeleton-img { width: 100%; height: 130px; background: #e0e0e0; }
-    .skeleton-text { height: 12px; background: #e0e0e0; margin: 10px; border-radius: 4px; }
-    .skeleton-text.short { width: 60%; }
-    .skeleton-card, .skeleton-img, .skeleton-text {
-      animation: skeleton-glow 1.2s infinite ease-in-out;
-    }
-    @keyframes skeleton-glow {
-      0% { opacity: 0.6; }
-      50% { opacity: 1; }
-      100% { opacity: 0.6; }
-    }
-
-    /* 3D Modern Style Cards */
-    .card { 
-      background: white; 
-      border: 1px solid #e0e6ed; 
-      border-radius: 12px; 
-      overflow: hidden; 
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
-      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease; 
-      display: flex; 
-      flex-direction: column; 
-      justify-content: space-between; 
-      position: relative; 
-      perspective: 1000px;
-    }
-
-    .card:hover {
-      transform: translateY(-6px) rotateX(2deg) scale(1.01);
-      box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15);
-      border-color: #90caf9;
-    }
-
-    .card-link { text-decoration: none; color: inherit; display: block; }
-    .card-image { height: 130px; position: relative; background: #181818; overflow: hidden; }
-    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .card:hover .card-image img { transform: scale(1.08); }
-
-    .status-badge { position: absolute; top: 8px; left: 8px; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; text-transform: uppercase; z-index: 2; }
-    .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
-    .status-badge.available { background: #e8f5e9; color: #2e7d32; }
-    .status-badge.onsale { background: #fff8e1; color: #f57f17; }
-    .level-badge { position: absolute; right: 8px; bottom: 8px; background: rgba(13, 71, 161, 0.85); backdrop-filter: blur(4px); color: white; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; z-index: 2; }
-    
-    .card-content { padding: 10px; }
-    .account-name { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #222; }
-    .prime { display: inline-block; background: #1565c0; color: white; padding: 2px 6px; border-radius: 8px; font-size: 9px; margin-bottom: 8px; font-weight: 600; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; color: #666; font-size: 10px; margin-bottom: 8px; }
-    .price { color: #0d47a1; font-weight: 800; font-size: 13px; }
-
-    /* Admin Card Controls */
-    .card-admin-controls { display: flex; gap: 5px; padding: 8px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
-    .btn-edit, .btn-delete { flex: 1; padding: 5px; border-radius: 5px; font-size: 10px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .btn-edit { background: #ff9800; color: white; }
-    .btn-delete { background: #f44336; color: white; }
-    .pencil-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; z-index: 10; }
-
-    /* Modal Styling */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
-    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
-    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .modal-header h3 { font-size: 16px; color: #0d47a1; }
-    .close-modal { font-size: 20px; cursor: pointer; color: #888; font-weight: bold; }
-    .form-group { margin-bottom: 12px; }
-    .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
-    .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
-    .btn-submit { width: 100%; padding: 10px; background: #0d47a1; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    .url-preview { margin-top: 6px; width: 100%; height: 100px; border-radius: 6px; border: 1px dashed #ccc; display: none; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
-    .url-preview img { width: 100%; height: 100%; object-fit: cover; }
-
-    /* Responsive Breakpoints */
     @media (max-width: 992px) {
-      .accounts-grid { grid-template-columns: repeat(3, 1fr); }
+      .product-layout { grid-template-columns: 1fr; }
+      .accounts-grid { grid-template-columns: repeat(2, 1fr); }
     }
-
     @media (max-width: 600px) {
-      .accounts-grid { 
-        grid-template-columns: repeat(2, 1fr); 
-        gap: 8px; 
-      }
-      .card-image { height: 105px; }
-      .card-content { padding: 8px; }
-      .account-name { font-size: 11px; margin-bottom: 3px; }
-      .prime { font-size: 8px; padding: 2px 4px; margin-bottom: 5px; }
-      .stats { font-size: 9px; gap: 2px; }
-      .price { font-size: 11px; }
-      .hero { padding: 20px 10px 15px; }
-      .hero h1 { font-size: 20px; }
+      .main-img-box { height: 260px; }
+      .acc-title { font-size: 20px; }
+      .acc-price { font-size: 22px; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Toast Notification Bar -->
-  <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Action completed!</span></div>
-
-  <!-- Header -->
+  <!-- Navigation Header -->
   <header class="header">
-    <a href="home.html" class="logo">
-      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img" loading="lazy">
+    <a href="index.html" class="logo">
+      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
       GAMING M4K STORE
     </a>
 
@@ -297,8 +248,16 @@
       <nav class="nav">
         <a href="index.html">⌂ Home</a>
         <a href="home.html" class="active">🎮 Accounts</a>
-        <a href="#sale">🏷 On Sale</a>
+        <a href="home.html#sale">🏷 On Sale</a>
       </nav>
+
+      <div class="social-links">
+        <a href="#" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" target="_blank" class="social-icon" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+      </div>
+
       <div class="auth-buttons">
         <button class="btn login" id="loginBtn">↪ Login</button>
         <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
@@ -310,104 +269,71 @@
     </div>
   </header>
 
-  <!-- Admin Control Bar -->
-  <div class="admin-banner" id="adminBanner" style="display: none;">
-    <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
-    <button class="btn-admin" id="openAddBtn">+ Add New Account</button>
-  </div>
-
-  <!-- Hero & Filters -->
-  <section class="hero">
-    <h1>Browse FF Accounts</h1>
-    <p>Explore verified accounts — use filters to find your perfect match</p>
-  </section>
-
-  <div class="filters">
-    <input class="search-input" id="searchInput" type="text" placeholder="🔍 Search name..." onkeyup="filterAccounts()">
-    <button class="filter active" data-status="all" onclick="setStatusFilter('all', this)">All</button>
-    <button class="filter" data-status="available" onclick="setStatusFilter('available', this)">Available</button>
-    <button class="filter" data-status="onsale" onclick="setStatusFilter('onsale', this)">On Sale</button>
-    <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
-    <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
-    <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
-    <select class="sort-select" id="sortOption" onchange="filterAccounts()">
-      <option value="newest">Newest First</option>
-      <option value="low-high">Price: Low to High</option>
-      <option value="high-low">Price: High to Low</option>
-    </select>
-    <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
-  </div>
-
-  <!-- Accounts Grid -->
+  <!-- Main Container -->
   <main class="container">
-    <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
-    <div class="accounts-grid" id="accountsGrid">
-      <!-- Skeleton Loading Screens -->
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
-      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
+    <div class="breadcrumb">
+      <a href="index.html">Home</a> / <a href="home.html">Accounts</a> / <span id="breadAccName">Loading...</span>
     </div>
+
+    <!-- Details Box -->
+    <div class="product-layout" id="detailsLayout">
+      <!-- Left: Image Gallery -->
+      <div class="gallery-container">
+        <div class="main-img-box">
+          <img id="mainDisplayImg" src="https://via.placeholder.com/600x400?text=Loading+Image..." alt="Account Main Display">
+        </div>
+        <div class="thumbnail-row" id="thumbnailRow"></div>
+      </div>
+
+      <!-- Right: Info Panel -->
+      <div class="info-container">
+        <span class="status-badge-inline" id="accStatusBadge">Available</span>
+        <h1 class="acc-title" id="accNameDisplay">Loading...</h1>
+        <div class="acc-price" id="accPriceDisplay">LKR 0</div>
+
+        <div class="prime-banner">
+          <span id="accPrimeDisplay">♟ Prime Badge</span>
+          <span id="accBadgeDisplay">P7</span>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div>Level</div>
+            <div id="accLvDisplay">0</div>
+          </div>
+          <div class="stat-card">
+            <div>Rank</div>
+            <div id="accRankDisplay">-</div>
+          </div>
+          <div class="stat-card">
+            <div>Skins</div>
+            <div id="accSkinsDisplay">0</div>
+          </div>
+          <div class="stat-card">
+            <div>Bundles</div>
+            <div id="accBundlesDisplay">0</div>
+          </div>
+        </div>
+
+        <a id="buyNowBtn" href="#" target="_blank" class="action-btn btn-buy">
+          <i class="fa-solid fa-cart-shopping"></i> Purchase This Account
+        </a>
+        <a id="whatsappBtn" href="#" target="_blank" class="action-btn btn-whatsapp">
+          <i class="fa-brands fa-whatsapp"></i> Ask on WhatsApp
+        </a>
+      </div>
+    </div>
+
+    <!-- Similar Accounts Section -->
+    <h2 class="section-title">Similar Accounts</h2>
+    <div class="accounts-grid" id="similarGrid"></div>
   </main>
 
-  <!-- Add / Edit Modal Form -->
-  <div class="modal" id="accountModal">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h3 id="modalTitle">Add New Account</h3>
-        <span class="close-modal" id="closeModalBtn">&times;</span>
-      </div>
-      <form id="accountForm">
-        <input type="hidden" id="editCardId">
-        <div class="form-group">
-          <label>Account Name</label>
-          <input type="text" id="accName" required placeholder="e.g. N589">
-        </div>
-        <div class="form-group">
-          <label>Status</label>
-          <select id="accStatus">
-            <option value="available">AVAILABLE</option>
-            <option value="onsale">ON SALE</option>
-            <option value="sold">SOLD</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Price (LKR)</label>
-          <input type="number" id="accPrice" required placeholder="e.g. 25000">
-        </div>
-        
-        <div class="form-group">
-          <label>Account Image Direct URL</label>
-          <input type="url" id="accImgUrl" required placeholder="https://example.com/image.jpg" oninput="updateImagePreview(this.value)">
-          <div class="url-preview" id="urlPreviewBox">
-            <img id="imgPreview" src="" alt="Image Preview">
-          </div>
-        </div>
-
-        <div class="form-group">
-          <label>Prime Tag & Level Badge</label>
-          <input type="text" id="accPrime" placeholder="e.g. Prime Level 7 ★" required>
-          <input type="text" id="accBadge" placeholder="e.g. P7" style="margin-top:5px;" required>
-        </div>
-        <div class="form-group">
-          <label>Stats (LV | Rank | Skins | Bundles)</label>
-          <div style="display:flex; gap:5px;">
-            <input type="number" id="accLv" placeholder="LV" required>
-            <input type="text" id="accRank" placeholder="Rank" required>
-            <input type="number" id="accSkins" placeholder="Skins" required>
-            <input type="number" id="accBundles" placeholder="Bundles" required>
-          </div>
-        </div>
-        <button type="submit" class="btn-submit" id="saveBtn">Save Account</button>
-      </form>
-    </div>
-  </div>
-
-  <!-- Firebase Integration & Main Logic -->
+  <!-- Firebase Integration -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    import { getFirestore, doc, getDoc, collection, query, limit, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
@@ -415,316 +341,145 @@
       projectId: "gaming-m4k",
       storageBucket: "gaming-m4k.firebasestorage.app",
       messagingSenderId: "160833053716",
-      appId: "1:160833053716:web:7c2d55a58d27c88294b301",
-      measurementId: "G-T6XT0GWY87"
+      appId: "1:160833053716:web:7c2d55a58d27c88294b301"
     };
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
-    const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
-    let isCurrentUserAdmin = false;
-    let currentStatus = 'all';
-
-    // Toast Function
-    window.showToast = function(msg) {
-      const toast = document.getElementById('toast');
-      document.getElementById('toastMsg').innerText = msg;
-      toast.style.display = 'flex';
-      setTimeout(() => { toast.style.display = 'none'; }, 3000);
-    };
-
-    // Menu Toggle Logic
+    // Responsive Menu Toggle
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navWrapper = document.getElementById('navWrapper');
 
     mobileMenuBtn.addEventListener('click', () => {
       navWrapper.classList.toggle('active');
       const icon = mobileMenuBtn.querySelector('i');
-      if (navWrapper.classList.contains('active')) {
-        icon.classList.remove('fa-bars');
-        icon.classList.add('fa-xmark');
-      } else {
-        icon.classList.remove('fa-xmark');
-        icon.classList.add('fa-bars');
-      }
+      icon.classList.toggle('fa-bars');
+      icon.classList.toggle('fa-xmark');
     });
 
-    // UI Elements
+    // Auth State Handle
     const loginBtn = document.getElementById('loginBtn');
     const signUpBtn = document.getElementById('signUpBtn');
     const userProfile = document.getElementById('userProfile');
     const avatarContainer = document.getElementById('avatarContainer');
     const logoutBtn = document.getElementById('logoutBtn');
-    const adminBanner = document.getElementById('adminBanner');
-    const adminEmailText = document.getElementById('adminEmailText');
-    const modal = document.getElementById('accountModal');
-    const accountForm = document.getElementById('accountForm');
-    const openAddBtn = document.getElementById('openAddBtn');
-    const closeModalBtn = document.getElementById('closeModalBtn');
-    const accountsGrid = document.getElementById('accountsGrid');
 
-    window.updateImagePreview = function(url) {
-      const previewBox = document.getElementById('urlPreviewBox');
-      const previewImg = document.getElementById('imgPreview');
-      if (url && url.trim() !== "") {
-        previewImg.src = url;
-        previewBox.style.display = 'flex';
-      } else {
-        previewBox.style.display = 'none';
-      }
-    };
-
-    // Advanced Filtering & Sorting Logic
-    window.setStatusFilter = function(status, element) {
-      document.querySelectorAll('.filters .filter[data-status]').forEach(btn => btn.classList.remove('active'));
-      element.classList.add('active');
-      currentStatus = status;
-      window.filterAccounts();
-    };
-
-    window.filterAccounts = function() {
-      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
-      const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
-      const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
-      const sortVal = document.getElementById('sortOption').value;
-
-      let cards = Array.from(document.querySelectorAll('.card'));
-      let visibleCount = 0;
-
-      // Sorting Array Nodes
-      cards.sort((a, b) => {
-        const priceA = parseFloat(a.getAttribute('data-price')) || 0;
-        const priceB = parseFloat(b.getAttribute('data-price')) || 0;
-        if (sortVal === 'low-high') return priceA - priceB;
-        if (sortVal === 'high-low') return priceB - priceA;
-        return 0; // default order
-      });
-
-      // Append Sorted Order back to Grid
-      cards.forEach(card => accountsGrid.appendChild(card));
-
-      // Filter Visibility
-      cards.forEach(card => {
-        const cardName = (card.getAttribute('data-name') || '').toLowerCase();
-        const cardStatus = card.getAttribute('data-status');
-        const cardPrice = parseFloat(card.getAttribute('data-price'));
-
-        const matchSearch = cardName.includes(searchVal);
-        const matchStatus = (currentStatus === 'all') || (cardStatus === currentStatus);
-        const matchPrice = (cardPrice >= minPrice) && (cardPrice <= maxPrice);
-
-        if (matchSearch && matchStatus && matchPrice) {
-          card.style.display = 'flex';
-          visibleCount++;
-        } else {
-          card.style.display = 'none';
-        }
-      });
-
-      document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
-    };
-
-    // Auth Observer
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loginBtn.style.display = 'none';
         signUpBtn.style.display = 'none';
         userProfile.style.display = 'flex';
-
         avatarContainer.innerHTML = user.photoURL 
-          ? `<img src="${user.photoURL}" class="user-avatar" title="${user.email}">` 
+          ? `<img src="${user.photoURL}" class="user-avatar">` 
           : `<div class="user-initial-avatar">${user.email.charAt(0).toUpperCase()}</div>`;
-
-        isCurrentUserAdmin = (user.email.toLowerCase() === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
-
-        if (isCurrentUserAdmin) {
-          adminBanner.style.display = 'flex';
-          if(adminEmailText) adminEmailText.innerText = user.email;
-        } else {
-          adminBanner.style.display = 'none';
-        }
       } else {
-        isCurrentUserAdmin = false;
         loginBtn.style.display = 'inline-block';
         signUpBtn.style.display = 'inline-block';
         userProfile.style.display = 'none';
-        adminBanner.style.display = 'none';
       }
-      renderAdminControls();
     });
 
     loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
     signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
-    logoutBtn.addEventListener('click', () => {
-      signOut(auth);
-      showToast("Logged out successfully");
-    });
+    logoutBtn.addEventListener('click', () => signOut(auth));
 
-    function renderAdminControls() {
-      const adminControls = document.querySelectorAll('.card-admin-controls, .pencil-badge');
-      adminControls.forEach(el => {
-        el.style.display = isCurrentUserAdmin ? 'flex' : 'none';
-      });
-    }
+    // Get URL Parameter (Account ID)
+    const urlParams = new URLSearchParams(window.location.search);
+    const accountId = urlParams.get('id');
 
-    // Firestore Real-time Sync
-    const accountsRef = collection(db, "accounts");
-    const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
-
-    onSnapshot(optimizedQuery, (snapshot) => {
-      accountsGrid.innerHTML = "";
-      snapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        const cardId = docSnap.id;
-        const cardHTML = renderCardHTML(cardId, data);
-        accountsGrid.insertAdjacentHTML('beforeend', cardHTML);
-      });
-      renderAdminControls();
-      window.filterAccounts();
-    });
-
-    function renderCardHTML(id, data) {
-      const fallbackImg = 'https://via.placeholder.com/300x190?text=No+Image';
-      const imgSource = data.img || fallbackImg;
-
-      return `
-        <div class="card" id="${id}" 
-             data-status="${data.status}" 
-             data-price="${data.price}" 
-             data-name="${data.name}" 
-             data-prime="${data.prime}" 
-             data-level="${data.lv}" 
-             data-rank="${data.rank}" 
-             data-skins="${data.skins}" 
-             data-bundles="${data.bundles}" 
-             data-img="${imgSource}" 
-             data-badge="${data.badge}">
-          
-          <a href="short.html" class="card-link">
-            <div class="card-image">
-              <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
-              <span class="status-badge ${data.status}">${data.status}</span>
-              <span class="level-badge">🔒 ${data.badge}</span>
-              <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
-                <i class="fa-solid fa-pencil"></i>
-              </div>
-            </div>
-            <div class="card-content">
-              <div class="account-name">${data.name}</div>
-              <span class="prime">♟ ${data.prime}</span>
-              <div class="stats">
-                <span>⌁ LV ${data.lv}</span>
-                <span>♙ ${data.rank}</span>
-                <span>◉ ${data.skins} Skins</span>
-                <span>♧ ${data.bundles} Bundles</span>
-              </div>
-              <div class="price">LKR ${parseInt(data.price).toLocaleString()}</div>
-            </div>
-          </a>
-
-          <div class="card-admin-controls" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
-            <button class="btn-edit" onclick="editCard('${id}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
-            <button class="btn-delete" onclick="deleteCard('${id}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
-          </div>
-        </div>
-      `;
-    }
-
-    // Delete Card
-    window.deleteCard = async function(cardId, e) {
-      if (e) e.preventDefault();
-      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
-
-      if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට අවශ්‍යද?")) {
-        try {
-          await deleteDoc(doc(db, "accounts", cardId));
-          showToast("Account deleted successfully!");
-        } catch (err) {
-          alert("Error deleting account: " + err.message);
-        }
+    async function loadAccountDetails() {
+      if (!accountId) {
+        alert("Account ID not found!");
+        window.location.href = "home.html";
+        return;
       }
-    };
-
-    // Edit Card
-    window.editCard = function(cardId, e) {
-      if (e) e.preventDefault();
-      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
-
-      const card = document.getElementById(cardId);
-      if (!card) return;
-
-      document.getElementById('modalTitle').innerText = "Edit Account";
-      document.getElementById('editCardId').value = cardId;
-
-      document.getElementById('accName').value = card.getAttribute('data-name') || '';
-      document.getElementById('accStatus').value = card.getAttribute('data-status') || 'available';
-      document.getElementById('accPrice').value = card.getAttribute('data-price') || '';
-      
-      const imgUrl = card.getAttribute('data-img') || '';
-      document.getElementById('accImgUrl').value = imgUrl;
-      window.updateImagePreview(imgUrl);
-
-      document.getElementById('accPrime').value = card.getAttribute('data-prime') || '';
-      document.getElementById('accBadge').value = card.getAttribute('data-badge') || '';
-      document.getElementById('accLv').value = card.getAttribute('data-level') || '';
-      document.getElementById('accRank').value = card.getAttribute('data-rank') || '';
-      document.getElementById('accSkins').value = card.getAttribute('data-skins') || '';
-      document.getElementById('accBundles').value = card.getAttribute('data-bundles') || '';
-
-      modal.style.display = "flex";
-    };
-
-    openAddBtn.addEventListener('click', () => {
-      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
-      document.getElementById('modalTitle').innerText = "Add New Account";
-      document.getElementById('editCardId').value = "";
-      accountForm.reset();
-      window.updateImagePreview('');
-      modal.style.display = "flex";
-    });
-
-    closeModalBtn.addEventListener('click', () => { modal.style.display = "none"; });
-    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = "none"; });
-
-    // Save Form
-    accountForm.addEventListener('submit', async function(e) {
-      e.preventDefault();
-      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
-
-      const editId = document.getElementById('editCardId').value;
-      const accountData = {
-        name: document.getElementById('accName').value,
-        status: document.getElementById('accStatus').value,
-        price: Number(document.getElementById('accPrice').value),
-        img: document.getElementById('accImgUrl').value,
-        prime: document.getElementById('accPrime').value,
-        badge: document.getElementById('accBadge').value,
-        lv: Number(document.getElementById('accLv').value),
-        rank: document.getElementById('accRank').value,
-        skins: Number(document.getElementById('accSkins').value),
-        bundles: Number(document.getElementById('accBundles').value),
-        updatedAt: new Date()
-      };
 
       try {
-        if (editId) {
-          await updateDoc(doc(db, "accounts", editId), accountData);
-          showToast("Account updated successfully!");
+        const docRef = doc(db, "accounts", accountId);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+
+          // Populate UI Fields
+          document.getElementById('breadAccName').innerText = data.name;
+          document.getElementById('accNameDisplay').innerText = data.name;
+          document.getElementById('accPriceDisplay').innerText = `LKR ${parseInt(data.price).toLocaleString()}`;
+          document.getElementById('accStatusBadge').innerText = data.status || 'AVAILABLE';
+          document.getElementById('accPrimeDisplay').innerText = `♟ ${data.prime || 'Prime Level'}`;
+          document.getElementById('accBadgeDisplay').innerText = data.badge || 'P7';
+          document.getElementById('accLvDisplay').innerText = data.lv || 0;
+          document.getElementById('accRankDisplay').innerText = data.rank || '-';
+          document.getElementById('accSkinsDisplay').innerText = data.skins || 0;
+          document.getElementById('accBundlesDisplay').innerText = data.bundles || 0;
+
+          // Main Image Setup
+          const mainImg = document.getElementById('mainDisplayImg');
+          mainImg.src = data.img || 'https://via.placeholder.com/600x400';
+
+          // Thumbnail List (If multiple images exist or fallback to main image)
+          const thumbRow = document.getElementById('thumbnailRow');
+          const imagesList = data.images && data.images.length > 0 ? data.images : [data.img];
+
+          thumbRow.innerHTML = "";
+          imagesList.forEach((imgUrl, idx) => {
+            const thumb = document.createElement('img');
+            thumb.src = imgUrl;
+            thumb.className = `thumb-img ${idx === 0 ? 'active' : ''}`;
+            thumb.onclick = () => {
+              mainImg.src = imgUrl;
+              document.querySelectorAll('.thumb-img').forEach(t => t.classList.remove('active'));
+              thumb.classList.add('active');
+            };
+            thumbRow.appendChild(thumb);
+          });
+
+          // WhatsApp Action Setup
+          const whatsappNumber = "94781234567"; // Change to your actual admin WhatsApp number
+          const message = encodeURIComponent(`Hello! I want to buy this account:\n\n*Name:* ${data.name}\n*Price:* LKR ${data.price}\n*ID:* ${accountId}`);
+          
+          document.getElementById('buyNowBtn').href = `https://wa.me/${whatsappNumber}?text=${message}`;
+          document.getElementById('whatsappBtn').href = `https://wa.me/${whatsappNumber}?text=${message}`;
+
         } else {
-          await addDoc(collection(db, "accounts"), accountData);
-          showToast("New account added successfully!");
+          alert("Account not found!");
+          window.location.href = "home.html";
         }
-        modal.style.display = "none";
-        accountForm.reset();
-        window.updateImagePreview('');
       } catch (err) {
-        alert("Error saving data: " + err.message);
+        console.error("Error loading account: ", err);
       }
-    });
+    }
+
+    // Load Similar Accounts
+    async function loadSimilarAccounts() {
+      const similarGrid = document.getElementById('similarGrid');
+      const q = query(collection(db, "accounts"), limit(4));
+      const querySnapshot = await getDocs(q);
+
+      similarGrid.innerHTML = "";
+      querySnapshot.forEach((docSnap) => {
+        if(docSnap.id !== accountId) {
+          const data = docSnap.data();
+          similarGrid.innerHTML += `
+            <div class="card" style="background:white; border:1px solid #eee; border-radius:10px; overflow:hidden;">
+              <a href="short.html?id=${docSnap.id}" style="text-decoration:none; color:inherit;">
+                <img src="${data.img}" style="width:100%; height:120px; object-fit:cover;">
+                <div style="padding:10px;">
+                  <div style="font-weight:bold; font-size:13px;">${data.name}</div>
+                  <div style="color:#d32f2f; font-weight:800; font-size:12px; margin-top:4px;">LKR ${parseInt(data.price).toLocaleString()}</div>
+                </div>
+              </a>
+            </div>
+          `;
+        }
+      });
+    }
+
+    loadAccountDetails();
+    loadSimilarAccounts();
   </script>
 
 </body>
-</html>
