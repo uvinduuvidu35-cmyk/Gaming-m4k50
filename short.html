@@ -36,26 +36,48 @@
     }
     .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
 
-    /* Nav Wrapper for PC & Mobile */
-    .nav-wrapper { 
-      display: flex; 
-      align-items: center; 
-      gap: 20px; 
+    /* Menu Toggle Icon */
+    .menu-toggle { 
+      display: block; 
+      font-size: 22px; 
+      color: #0d47a1; 
+      cursor: pointer; 
     }
+
+    /* Collapsible Navigation Wrapper */
+    .nav-wrapper { 
+      display: none; 
+      flex-direction: column; 
+      position: absolute; 
+      top: 62px; 
+      left: 0; 
+      width: 100%; 
+      background: rgba(255, 255, 255, 0.98); 
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid #e1e8ed; 
+      padding: 15px 5%; 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+      gap: 15px;
+      z-index: 999;
+    }
+
+    .nav-wrapper.active { display: flex; }
 
     .nav { 
       display: flex; 
-      align-items: center; 
-      gap: 10px; 
+      flex-direction: column; 
+      width: 100%; 
+      gap: 8px; 
     }
 
     .nav a { 
       text-decoration: none; 
       color: #555; 
       font-size: 14px; 
-      padding: 8px 14px; 
+      padding: 10px; 
       border-radius: 7px; 
       font-weight: 600; 
+      text-align: center;
       transition: 0.2s;
     }
 
@@ -67,7 +89,9 @@
     .auth-buttons { 
       display: flex; 
       align-items: center; 
+      justify-content: center; 
       gap: 10px; 
+      width: 100%;
     }
 
     .btn { padding: 8px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
@@ -79,27 +103,28 @@
     .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
     .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
-    /* Mobile Menu Toggle Icon */
-    .menu-toggle { 
-      display: none; 
-      font-size: 22px; 
-      color: #0d47a1; 
-      cursor: pointer; 
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #0d47a1;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: bold;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+      display: none;
+      align-items: center;
+      gap: 10px;
+      z-index: 3000;
+      animation: fadeIn 0.3s ease;
     }
 
-    /* Device Detection Badge Style */
-    .device-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      background: #e3f2fd;
-      color: #0d47a1;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: bold;
-      margin-bottom: 12px;
-      border: 1px solid #bbdefb;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     /* Admin Banner */
@@ -110,21 +135,66 @@
     .hero { text-align: center; padding: 30px 20px 20px; background: #fff; }
     .hero h1 { font-size: 26px; color: #0d47a1; margin-bottom: 6px; }
     .hero p { font-size: 13px; color: #666; }
-    .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    
+    .filters { 
+      background: #fff; 
+      border-top: 1px solid #eee; 
+      border-bottom: 1px solid #eee; 
+      padding: 12px 5%; 
+      display: flex; 
+      align-items: center; 
+      gap: 8px; 
+      flex-wrap: wrap; 
+    }
+    
+    .search-input {
+      flex: 1;
+      min-width: 150px;
+      border: 1px solid #bbdefb;
+      border-radius: 18px;
+      padding: 7px 12px;
+      font-size: 12px;
+      outline: none;
+      background: #f4f9ff;
+    }
+
+    .search-input:focus { border-color: #0d47a1; background: #fff; }
+
     .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 7px 12px; border-radius: 18px; font-size: 11px; color: #0d47a1; cursor: pointer; font-weight: 600; }
     .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
     .price-input { width: 85px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; }
+    .sort-select { border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; background: white; color: #333; font-weight: 600; }
     .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
     /* Main Container & Grid Layout */
     .container { max-width: 1250px; margin: auto; padding: 15px 12px 50px; }
     .result-count { font-size: 13px; margin-bottom: 12px; font-weight: 600; color: #555; }
     
-    /* Responsive Grid: Default 4 columns for large screen */
     .accounts-grid { 
       display: grid; 
       grid-template-columns: repeat(4, 1fr); 
       gap: 12px; 
+    }
+
+    /* Skeleton Loading Cards */
+    .skeleton-card {
+      background: #fff;
+      border-radius: 12px;
+      height: 250px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      position: relative;
+    }
+    .skeleton-img { width: 100%; height: 130px; background: #e0e0e0; }
+    .skeleton-text { height: 12px; background: #e0e0e0; margin: 10px; border-radius: 4px; }
+    .skeleton-text.short { width: 60%; }
+    .skeleton-card, .skeleton-img, .skeleton-text {
+      animation: skeleton-glow 1.2s infinite ease-in-out;
+    }
+    @keyframes skeleton-glow {
+      0% { opacity: 0.6; }
+      50% { opacity: 1; }
+      100% { opacity: 0.6; }
     }
 
     /* 3D Modern Style Cards */
@@ -142,13 +212,13 @@
       perspective: 1000px;
     }
 
-    /* 3D Hover Transformation */
     .card:hover {
       transform: translateY(-6px) rotateX(2deg) scale(1.01);
       box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15);
       border-color: #90caf9;
     }
 
+    .card-link { text-decoration: none; color: inherit; display: block; }
     .card-image { height: 130px; position: relative; background: #181818; overflow: hidden; }
     .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
     .card:hover .card-image img { transform: scale(1.08); }
@@ -190,44 +260,6 @@
       .accounts-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
-    /* Mobile Screen Responsive Rules */
-    @media (max-width: 768px) {
-      .menu-toggle { display: block; }
-      
-      .nav-wrapper {
-        display: none;
-        flex-direction: column;
-        position: absolute;
-        top: 62px;
-        left: 0;
-        width: 100%;
-        background: #ffffff;
-        border-bottom: 1px solid #e1e8ed;
-        padding: 15px 5%;
-        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
-        gap: 15px;
-        z-index: 999;
-      }
-
-      .nav-wrapper.active { display: flex; }
-
-      .nav {
-        flex-direction: column;
-        width: 100%;
-        gap: 8px;
-      }
-
-      .nav a {
-        width: 100%;
-        text-align: center;
-      }
-
-      .auth-buttons {
-        justify-content: center;
-        width: 100%;
-      }
-    }
-
     @media (max-width: 600px) {
       .accounts-grid { 
         grid-template-columns: repeat(2, 1fr); 
@@ -247,6 +279,9 @@
 
 <body>
 
+  <!-- Toast Notification Bar -->
+  <div class="toast" id="toast"><i class="fa-solid fa-circle-check"></i> <span id="toastMsg">Action completed!</span></div>
+
   <!-- Header -->
   <header class="header">
     <a href="home.html" class="logo">
@@ -254,12 +289,10 @@
       GAMING M4K STORE
     </a>
 
-    <!-- Hamburger Menu Button (Mobile වලදී පමණක් පෙනේ) -->
     <div class="menu-toggle" id="mobileMenuBtn">
       <i class="fa-solid fa-bars"></i>
     </div>
 
-    <!-- Navigation Menu Wrapper -->
     <div class="nav-wrapper" id="navWrapper">
       <nav class="nav">
         <a href="index.html">⌂ Home</a>
@@ -283,23 +316,25 @@
     <button class="btn-admin" id="openAddBtn">+ Add New Account</button>
   </div>
 
-  <!-- Hero Section & Device Detection Badge -->
+  <!-- Hero & Filters -->
   <section class="hero">
-    <div class="device-badge" id="deviceBadge">
-      <i class="fa-solid fa-spinner fa-spin"></i> Device Detecting...
-    </div>
     <h1>Browse FF Accounts</h1>
     <p>Explore verified accounts — use filters to find your perfect match</p>
   </section>
 
-  <!-- Filters -->
   <div class="filters">
+    <input class="search-input" id="searchInput" type="text" placeholder="🔍 Search name..." onkeyup="filterAccounts()">
     <button class="filter active" data-status="all" onclick="setStatusFilter('all', this)">All</button>
     <button class="filter" data-status="available" onclick="setStatusFilter('available', this)">Available</button>
     <button class="filter" data-status="onsale" onclick="setStatusFilter('onsale', this)">On Sale</button>
     <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
     <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
     <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
+    <select class="sort-select" id="sortOption" onchange="filterAccounts()">
+      <option value="newest">Newest First</option>
+      <option value="low-high">Price: Low to High</option>
+      <option value="high-low">Price: High to Low</option>
+    </select>
     <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
   </div>
 
@@ -307,7 +342,11 @@
   <main class="container">
     <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
     <div class="accounts-grid" id="accountsGrid">
-      <!-- Firestore Data Cards load dynamic -->
+      <!-- Skeleton Loading Screens -->
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
+      <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-text"></div><div class="skeleton-text short"></div></div>
     </div>
   </main>
 
@@ -364,7 +403,7 @@
     </div>
   </div>
 
-  <!-- Firebase Integration & Device Logic -->
+  <!-- Firebase Integration & Main Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -389,23 +428,15 @@
     let isCurrentUserAdmin = false;
     let currentStatus = 'all';
 
-    // Device Detector Logic
-    function detectDevice() {
-      const badge = document.getElementById('deviceBadge');
-      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      const isMobileWidth = window.innerWidth <= 768;
+    // Toast Function
+    window.showToast = function(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').innerText = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => { toast.style.display = 'none'; }, 3000);
+    };
 
-      if (isMobileUA || isMobileWidth) {
-        badge.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> Mobile View Mode`;
-      } else {
-        badge.innerHTML = `<i class="fa-solid fa-desktop"></i> Desktop View Mode`;
-      }
-    }
-
-    window.addEventListener('load', detectDevice);
-    window.addEventListener('resize', detectDevice);
-
-    // Mobile Menu Toggle Logic
+    // Menu Toggle Logic
     const mobileMenuBtn = document.getElementById('mobileMenuBtn');
     const navWrapper = document.getElementById('navWrapper');
 
@@ -435,7 +466,6 @@
     const closeModalBtn = document.getElementById('closeModalBtn');
     const accountsGrid = document.getElementById('accountsGrid');
 
-    // Image Preview
     window.updateImagePreview = function(url) {
       const previewBox = document.getElementById('urlPreviewBox');
       const previewImg = document.getElementById('imgPreview');
@@ -447,7 +477,7 @@
       }
     };
 
-    // Filter Logic
+    // Advanced Filtering & Sorting Logic
     window.setStatusFilter = function(status, element) {
       document.querySelectorAll('.filters .filter[data-status]').forEach(btn => btn.classList.remove('active'));
       element.classList.add('active');
@@ -456,24 +486,44 @@
     };
 
     window.filterAccounts = function() {
+      const searchVal = document.getElementById('searchInput').value.toLowerCase().trim();
       const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
       const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
-      const cards = document.querySelectorAll('.card');
+      const sortVal = document.getElementById('sortOption').value;
+
+      let cards = Array.from(document.querySelectorAll('.card'));
       let visibleCount = 0;
 
+      // Sorting Array Nodes
+      cards.sort((a, b) => {
+        const priceA = parseFloat(a.getAttribute('data-price')) || 0;
+        const priceB = parseFloat(b.getAttribute('data-price')) || 0;
+        if (sortVal === 'low-high') return priceA - priceB;
+        if (sortVal === 'high-low') return priceB - priceA;
+        return 0; // default order
+      });
+
+      // Append Sorted Order back to Grid
+      cards.forEach(card => accountsGrid.appendChild(card));
+
+      // Filter Visibility
       cards.forEach(card => {
+        const cardName = (card.getAttribute('data-name') || '').toLowerCase();
         const cardStatus = card.getAttribute('data-status');
         const cardPrice = parseFloat(card.getAttribute('data-price'));
+
+        const matchSearch = cardName.includes(searchVal);
         const matchStatus = (currentStatus === 'all') || (cardStatus === currentStatus);
         const matchPrice = (cardPrice >= minPrice) && (cardPrice <= maxPrice);
 
-        if (matchStatus && matchPrice) {
+        if (matchSearch && matchStatus && matchPrice) {
           card.style.display = 'flex';
           visibleCount++;
         } else {
           card.style.display = 'none';
         }
       });
+
       document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
     };
 
@@ -508,7 +558,10 @@
 
     loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
     signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
-    logoutBtn.addEventListener('click', () => signOut(auth));
+    logoutBtn.addEventListener('click', () => {
+      signOut(auth);
+      showToast("Logged out successfully");
+    });
 
     function renderAdminControls() {
       const adminControls = document.querySelectorAll('.card-admin-controls, .pencil-badge');
@@ -517,7 +570,7 @@
       });
     }
 
-    // Firestore Sync
+    // Firestore Real-time Sync
     const accountsRef = collection(db, "accounts");
     const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
 
@@ -549,15 +602,16 @@
              data-bundles="${data.bundles}" 
              data-img="${imgSource}" 
              data-badge="${data.badge}">
-          <div class="card-image">
-            <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
-            <span class="status-badge ${data.status}">${data.status}</span>
-            <span class="level-badge">🔒 ${data.badge}</span>
-            <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
-              <i class="fa-solid fa-pencil"></i>
+          
+          <a href="short.html" class="card-link">
+            <div class="card-image">
+              <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
+              <span class="status-badge ${data.status}">${data.status}</span>
+              <span class="level-badge">🔒 ${data.badge}</span>
+              <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+                <i class="fa-solid fa-pencil"></i>
+              </div>
             </div>
-          </div>
-          <a href="short.html" style="text-decoration: none; color: inherit;">
             <div class="card-content">
               <div class="account-name">${data.name}</div>
               <span class="prime">♟ ${data.prime}</span>
@@ -570,6 +624,7 @@
               <div class="price">LKR ${parseInt(data.price).toLocaleString()}</div>
             </div>
           </a>
+
           <div class="card-admin-controls" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
             <button class="btn-edit" onclick="editCard('${id}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
             <button class="btn-delete" onclick="deleteCard('${id}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
@@ -580,12 +635,13 @@
 
     // Delete Card
     window.deleteCard = async function(cardId, e) {
-      if (e) e.stopPropagation();
+      if (e) e.preventDefault();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
 
       if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට අවශ්‍යද?")) {
         try {
           await deleteDoc(doc(db, "accounts", cardId));
+          showToast("Account deleted successfully!");
         } catch (err) {
           alert("Error deleting account: " + err.message);
         }
@@ -594,7 +650,7 @@
 
     // Edit Card
     window.editCard = function(cardId, e) {
-      if (e) e.stopPropagation();
+      if (e) e.preventDefault();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
 
       const card = document.getElementById(cardId);
@@ -656,8 +712,10 @@
       try {
         if (editId) {
           await updateDoc(doc(db, "accounts", editId), accountData);
+          showToast("Account updated successfully!");
         } else {
           await addDoc(collection(db, "accounts"), accountData);
+          showToast("New account added successfully!");
         }
         modal.style.display = "none";
         accountForm.reset();
