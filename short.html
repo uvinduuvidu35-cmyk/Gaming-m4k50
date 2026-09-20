@@ -1,775 +1,672 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GAMING M4K | Free Fire Accounts</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gaming m4k Store - Browse Accounts</title>
 
-<!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.2/firebase-firestore-compat.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-<style>
-/* ========================= RESET & BASE ========================= */
-*{ margin:0; padding:0; box-sizing:border-box; font-family:Arial, Helvetica, sans-serif; }
-body{ background:#ffffff; color:#222; }
-a{ text-decoration:none; color:inherit; }
-button{ font-family:inherit; cursor:pointer; }
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: Arial, Helvetica, sans-serif; background: #f4f7fa; color: #333; }
 
-/* ========================= HEADER ========================= */
-header{ width:100%; background:#ffffff; border-bottom:1px solid #e7e7e7; position:sticky; top:0; z-index:1000; }
-.container{ width:94%; max-width:1250px; margin:auto; }
-.nav{ height:72px; display:flex; align-items:center; justify-content:space-between; }
-.logo{ display:flex; align-items:center; gap:10px; font-size:23px; font-weight:900; color:#222; }
-.logo-img{ width:44px; height:36px; border-radius:8px; object-fit:cover; }
-.logo span{ color:#1e88e5; }
-.menu{ display:flex; align-items:center; gap:30px; color:#555; font-size:14px; }
-.menu a{ transition:.2s; }
-.menu a:hover{ color:#1e88e5; }
+    /* Header & Navigation */
+    .header { 
+      height: 62px; 
+      background: #fff; 
+      border-bottom: 1px solid #e1e8ed; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 0 5%; 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+    }
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 9px; 
+      font-size: 16px; 
+      font-weight: 800; 
+      color: #0d47a1; 
+      letter-spacing: 0.5px; 
+      text-decoration: none; 
+    }
+    .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
 
-/* NAV BUTTONS & PROFILE */
-.nav-buttons{ display:flex; gap:8px; align-items:center; }
-.btn{ padding:10px 20px; border-radius:8px; border:1px solid #ddd; background:#fff; color:#333; font-weight:600; }
-.btn:hover{ border-color:#1e88e5; color:#1e88e5; }
-.btn-blue{ background:#1e88e5; color:#fff; border-color:#1e88e5; }
-.btn-blue:hover{ background:#1565c0; color:#fff; }
+    /* Nav Wrapper for PC & Mobile */
+    .nav-wrapper { 
+      display: flex; 
+      align-items: center; 
+      gap: 20px; 
+    }
 
-.user-profile{ display:none; align-items:center; gap:10px; }
-.user-avatar{ width:40px; height:40px; border-radius:50%; object-fit:cover; border:2px solid #1e88e5; }
-.admin-badge{ display:none; background:#ff9800; color:#fff; font-size:10px; padding:3px 6px; border-radius:4px; font-weight:bold; }
+    .nav { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
 
-/* ========================= BREADCRUMB & MAIN ========================= */
-.breadcrumb{ padding:20px 0; font-size:12px; color:#999; }
-.breadcrumb span{ color:#333; font-weight:bold; }
-.main{ display:grid; grid-template-columns:1.15fr 1fr; gap:25px; }
+    .nav a { 
+      text-decoration: none; 
+      color: #555; 
+      font-size: 14px; 
+      padding: 8px 14px; 
+      border-radius: 7px; 
+      font-weight: 600; 
+      transition: 0.2s;
+    }
 
-/* ========================= GALLERY ========================= */
-.gallery{ background:#fff; border:1px solid #e5e5e5; border-radius:12px; padding:10px; box-shadow:0 3px 15px rgba(0,0,0,.04); position:relative; }
-.main-image{ width:100%; height:450px; border-radius:9px; overflow:hidden; background:#000; display:flex; justify-content:center; align-items:center; cursor:pointer; position:relative; }
-.main-image img{ width:100%; height:100%; object-fit:contain; }
-.placeholder{ text-align:center; color:#999; }
-.placeholder .game-icon{ font-size:65px; margin-bottom:12px; }
-.placeholder b{ display:block; color:#555; margin-bottom:5px; }
+    .nav a:hover, .nav a.active { 
+      background: #e3f2fd; 
+      color: #0d47a1; 
+    }
 
-/* THUMBS OVERLAY INSIDE MAIN GALLERY AT BOTTOM */
-.thumbs{ display:flex; gap:8px; overflow-x:auto; padding:8px; position:absolute; bottom:18px; left:18px; right:18px; background:rgba(0,0,0,0.65); backdrop-filter:blur(4px); border-radius:8px; z-index:10; }
-.thumb{ min-width:65px; height:48px; background:#000; border:2px solid rgba(255,255,255,0.4); border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; overflow:hidden; flex-shrink:0; }
-.thumb img{ width:100%; height:100%; object-fit:contain; }
-.thumb.active{ border-color:#1e88e5; box-shadow:0 0 8px #1e88e5; }
+    .auth-buttons { 
+      display: flex; 
+      align-items: center; 
+      gap: 10px; 
+    }
 
-/* ========================= DETAILS & STATS ========================= */
-.status{ display:inline-block; padding:5px 10px; border-radius:5px; background:#e9f8ef; color:#1a9b51; font-size:10px; font-weight:bold; }
-.account-title{ margin-top:10px; font-size:31px; color:#222; }
-.uid{ margin-top:6px; color:#888; font-size:13px; }
-.price{ margin-top:20px; padding:22px; border:1px solid #e7e7e7; border-radius:11px; background:#fff; color:#1e88e5; font-size:32px; font-weight:900; }
-.prime{ margin-top:12px; padding:17px; border-radius:11px; border:1px solid #bbdefb; background:#e3f2fd; color:#1e88e5; }
-.prime strong{ display:block; font-size:17px; margin-bottom:5px; }
-.prime small{ color:#888; }
+    .btn { padding: 8px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
+    .btn.login { color: #555; }
+    .btn.signup { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: white; border: none; box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2); }
 
-.stats{ display:grid; grid-template-columns:repeat(6,1fr); gap:7px; margin-top:12px; }
-.stat{ background:#fff; border:1px solid #e6e6e6; border-radius:9px; padding:14px 4px; text-align:center; }
-.stat strong{ display:block; font-size:17px; color:#333; }
-.stat small{ display:block; margin-top:5px; color:#888; font-size:8px; }
-.extra-stats{ display:grid; grid-template-columns:repeat(2,1fr); gap:7px; margin-top:8px; }
+    .user-profile { display: flex; align-items: center; gap: 10px; }
+    .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #00b0ff; }
+    .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
+    .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
-/* SECTIONS */
-.section{ margin-top:13px; padding:17px; background:#fff; border:1px solid #e5e5e5; border-radius:11px; }
-.section-title{ font-size:11px; color:#777; font-weight:bold; margin-bottom:8px; display:flex; align-items:center; gap:5px; }
-.weapon-grid{ display:grid; grid-template-columns:repeat(2, 1fr); gap:10px; }
-.weapon{ display:flex; align-items:center; justify-content:space-between; padding:8px 6px; border-bottom:1px solid #eee; }
-.weapon b{ color:#333; font-size:13px; }
-.level{ color:#1e88e5; border:1px solid #90caf9; padding:4px 9px; border-radius:5px; font-size:10px; font-weight:bold; }
+    /* Mobile Menu Toggle Icon */
+    .menu-toggle { 
+      display: none; 
+      font-size: 22px; 
+      color: #0d47a1; 
+      cursor: pointer; 
+    }
 
-/* MEMBERSHIP SECTION STYLES */
-.membership-grid{ display:grid; grid-template-columns:repeat(3, 1fr); gap:10px; margin-top:10px; }
-.membership-card{ border:1px solid #e3e3e3; border-radius:8px; padding:10px; text-align:center; background:#fafafa; display:flex; flex-direction:column; align-items:center; justify-content:center; }
-.membership-card img{ width:50px; height:35px; object-fit:contain; margin-bottom:5px; }
-.membership-card .m-title{ font-size:10px; font-weight:bold; color:#555; text-transform:uppercase; }
-.membership-card .m-days{ font-size:14px; font-weight:900; color:#1e88e5; margin-top:2px; }
+    /* Device Detection Badge Style */
+    .device-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      background: #e3f2fd;
+      color: #0d47a1;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: bold;
+      margin-bottom: 12px;
+      border: 1px solid #bbdefb;
+    }
 
-/* ACTIONS */
-.actions{ display:grid; gap:9px; margin-top:13px; }
-.action{ width:100%; padding:14px; border-radius:9px; border:1px solid #1e88e5; background:#1e88e5; color:white; font-weight:bold; font-size:13px; display:inline-flex; align-items:center; justify-content:center; text-align:center; }
-.action:hover{ background:#1565c0; }
-.action.outline{ background:white; color:#1565c0; }
-.action.outline:hover{ background:#e3f2fd; }
-.action.whatsapp{ background:#e9f9ef; border-color:#43a86b; color:#21864b; }
-.action.whatsapp:hover{ background:#dff5e8; }
-.btn-admin{ background:#ff9800; border-color:#ff9800; display:none; }
-.btn-admin:hover{ background:#e68a00; }
+    /* Admin Banner */
+    .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
+    .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
 
-/* ========================= SIMILAR ACCOUNTS ========================= */
-.similar{ margin-top:45px; }
-.similar h2{ font-size:19px; margin-bottom:18px; color:#222; }
-.cards{ display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
-.card{ background:#fff; border:1px solid #e3e3e3; border-radius:11px; overflow:hidden; transition:.25s; cursor:pointer; }
-.card:hover{ transform:translateY(-4px); border-color:#1e88e5; box-shadow:0 8px 25px rgba(0,0,0,.08); }
-.card-image{ height:155px; background:#f3f3f3; display:flex; justify-content:center; align-items:center; font-size:45px; color:#aaa; overflow:hidden; }
-.card-image img{ width:100%; height:100%; object-fit:cover; }
-.card-body{ padding:13px; }
-.available{ display:inline-block; padding:4px 7px; background:#e9f8ef; color:#1a9b51; border-radius:4px; font-size:8px; font-weight:bold; }
-.card h3{ margin-top:10px; font-size:15px; color:#333; }
-.card p{ margin-top:6px; color:#888; font-size:10px; }
-.card-price{ margin-top:11px; color:#1e88e5; font-size:16px; font-weight:900; }
+    /* Hero & Filters */
+    .hero { text-align: center; padding: 30px 20px 20px; background: #fff; }
+    .hero h1 { font-size: 26px; color: #0d47a1; margin-bottom: 6px; }
+    .hero p { font-size: 13px; color: #666; }
+    .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 7px 12px; border-radius: 18px; font-size: 11px; color: #0d47a1; cursor: pointer; font-weight: 600; }
+    .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
+    .price-input { width: 85px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; }
+    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
-/* ========================= ADMIN MODAL ========================= */
-.modal{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.6); z-index:2000; justify-content:center; align-items:center; }
-.modal-content{ background:#fff; padding:25px; border-radius:12px; width:90%; max-width:650px; max-height:90vh; overflow-y:auto; }
-.modal-content h2{ margin-bottom:15px; font-size:18px; color:#333; }
-.modal-content h3{ margin:15px 0 10px; font-size:14px; color:#1e88e5; border-bottom:1px solid #eee; padding-bottom:5px; }
-.form-group{ margin-bottom:12px; }
-.form-group label{ display:block; font-size:12px; color:#666; margin-bottom:4px; }
-.form-group input, .form-group select{ width:100%; padding:8px 12px; border:1px solid #ccc; border-radius:6px; font-size:14px; }
+    /* Main Container & Grid Layout */
+    .container { max-width: 1250px; margin: auto; padding: 15px 12px 50px; }
+    .result-count { font-size: 13px; margin-bottom: 12px; font-weight: 600; color: #555; }
+    
+    /* Responsive Grid: Default 4 columns for large screen */
+    .accounts-grid { 
+      display: grid; 
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 12px; 
+    }
 
-/* EVO GUN ADMIN GRID STYLES */
-.evo-item-row{ display:flex; align-items:center; gap:8px; background:#f9f9f9; padding:8px; border-radius:6px; border:1px solid #eee; }
-.evo-item-row input[type="checkbox"]{ width:18px; height:18px; cursor:pointer; }
-.evo-item-row label{ margin:0; font-weight:bold; font-size:13px; flex:1; cursor:pointer; }
-.evo-item-row select{ width:90px; padding:4px; font-size:12px; }
+    /* 3D Modern Style Cards */
+    .card { 
+      background: white; 
+      border: 1px solid #e0e6ed; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      position: relative; 
+      perspective: 1000px;
+    }
 
-/* Image Input Grid */
-.photo-preview-grid{ display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-top:10px; }
-.photo-preview-card{ position:relative; width:100%; height:80px; border:1px solid #ddd; border-radius:6px; overflow:hidden; background:#000; }
-.photo-preview-card img{ width:100%; height:100%; object-fit:contain; }
-.photo-preview-card .remove-btn{ position:absolute; top:3px; right:3px; background:rgba(229,57,53,0.85); color:#fff; border:none; border-radius:50%; width:20px; height:20px; font-size:12px; display:flex; align-items:center; justify-content:center; cursor:pointer; }
+    /* 3D Hover Transformation */
+    .card:hover {
+      transform: translateY(-6px) rotateX(2deg) scale(1.01);
+      box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15);
+      border-color: #90caf9;
+    }
 
-.modal-buttons{ display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+    .card-image { height: 130px; position: relative; background: #181818; overflow: hidden; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .card:hover .card-image img { transform: scale(1.08); }
 
-/* Fullscreen Overlay */
-.fullscreen-overlay{ display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.9); z-index:3000; justify-content:center; align-items:center; }
-.fullscreen-overlay img{ max-width:90%; max-height:90%; border-radius:8px; object-fit:contain; }
-.fullscreen-close{ position:absolute; top:20px; right:30px; color:#fff; font-size:35px; cursor:pointer; }
+    .status-badge { position: absolute; top: 8px; left: 8px; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; text-transform: uppercase; z-index: 2; }
+    .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
+    .status-badge.available { background: #e8f5e9; color: #2e7d32; }
+    .status-badge.onsale { background: #fff8e1; color: #f57f17; }
+    .level-badge { position: absolute; right: 8px; bottom: 8px; background: rgba(13, 71, 161, 0.85); backdrop-filter: blur(4px); color: white; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; z-index: 2; }
+    
+    .card-content { padding: 10px; }
+    .account-name { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #222; }
+    .prime { display: inline-block; background: #1565c0; color: white; padding: 2px 6px; border-radius: 8px; font-size: 9px; margin-bottom: 8px; font-weight: 600; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; color: #666; font-size: 10px; margin-bottom: 8px; }
+    .price { color: #0d47a1; font-weight: 800; font-size: 13px; }
 
-/* FOOTER */
-footer{ margin-top:70px; padding:45px 0 20px; background:#fafafa; border-top:1px solid #e5e5e5; }
-.footer-grid{ display:grid; grid-template-columns:2fr 1fr 1fr; gap:50px; }
-.footer-title{ font-size:20px; font-weight:900; margin-bottom:14px; color:#222; }
-.footer-title span{ color:#1e88e5; }
-footer p, footer a{ color:#777; font-size:12px; line-height:2; }
-footer a:hover{ color:#1e88e5; }
-.copyright{ border-top:1px solid #e5e5e5; margin-top:35px; padding-top:18px; display:flex; justify-content:space-between; color:#999; font-size:10px; }
-.chat{ position:fixed; right:20px; bottom:20px; width:54px; height:54px; border-radius:50%; background:#1e88e5; color:#fff; display:flex; align-items:center; justify-content:center; font-size:22px; box-shadow:0 5px 20px rgba(30,136,229,.25); cursor:pointer; }
+    /* Admin Card Controls */
+    .card-admin-controls { display: flex; gap: 5px; padding: 8px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
+    .btn-edit, .btn-delete { flex: 1; padding: 5px; border-radius: 5px; font-size: 10px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .btn-edit { background: #ff9800; color: white; }
+    .btn-delete { background: #f44336; color: white; }
+    .pencil-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; z-index: 10; }
 
-@media(max-width:900px){
-    .menu{ display:none; }
-    .main{ grid-template-columns:1fr; }
-    .main-image{ height:350px; }
-    .stats{ grid-template-columns:repeat(3,1fr); }
-    .cards{ grid-template-columns:repeat(2,1fr); }
-    .footer-grid{ grid-template-columns:1fr; gap:25px; }
-    .weapon-grid{ grid-template-columns:1fr; }
-    .photo-preview-grid{ grid-template-columns:repeat(3, 1fr); }
-    .membership-grid{ grid-template-columns:repeat(3, 1fr); }
-}
-@media(max-width:550px){
-    .cards{ grid-template-columns:1fr 1fr; gap:9px; }
-    .photo-preview-grid{ grid-template-columns:repeat(2, 1fr); }
-}
-</style>
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+    .modal-header h3 { font-size: 16px; color: #0d47a1; }
+    .close-modal { font-size: 20px; cursor: pointer; color: #888; font-weight: bold; }
+    .form-group { margin-bottom: 12px; }
+    .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
+    .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
+    .btn-submit { width: 100%; padding: 10px; background: #0d47a1; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .url-preview { margin-top: 6px; width: 100%; height: 100px; border-radius: 6px; border: 1px dashed #ccc; display: none; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
+    .url-preview img { width: 100%; height: 100%; object-fit: cover; }
+
+    /* Responsive Breakpoints */
+    @media (max-width: 992px) {
+      .accounts-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+
+    /* Mobile Screen Responsive Rules */
+    @media (max-width: 768px) {
+      .menu-toggle { display: block; }
+      
+      .nav-wrapper {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 62px;
+        left: 0;
+        width: 100%;
+        background: #ffffff;
+        border-bottom: 1px solid #e1e8ed;
+        padding: 15px 5%;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+        gap: 15px;
+        z-index: 999;
+      }
+
+      .nav-wrapper.active { display: flex; }
+
+      .nav {
+        flex-direction: column;
+        width: 100%;
+        gap: 8px;
+      }
+
+      .nav a {
+        width: 100%;
+        text-align: center;
+      }
+
+      .auth-buttons {
+        justify-content: center;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .accounts-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px; 
+      }
+      .card-image { height: 105px; }
+      .card-content { padding: 8px; }
+      .account-name { font-size: 11px; margin-bottom: 3px; }
+      .prime { font-size: 8px; padding: 2px 4px; margin-bottom: 5px; }
+      .stats { font-size: 9px; gap: 2px; }
+      .price { font-size: 11px; }
+      .hero { padding: 20px 10px 15px; }
+      .hero h1 { font-size: 20px; }
+    }
+  </style>
 </head>
 
 <body>
 
-<!-- HEADER -->
-<header>
-<div class="container nav">
-    <div class="logo">
-        <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img">
-        GAMING <span>M4K</span>
+  <!-- Header -->
+  <header class="header">
+    <a href="home.html" class="logo">
+      <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img" loading="lazy">
+      GAMING M4K STORE
+    </a>
+
+    <!-- Hamburger Menu Button (Mobile වලදී පමණක් පෙනේ) -->
+    <div class="menu-toggle" id="mobileMenuBtn">
+      <i class="fa-solid fa-bars"></i>
     </div>
 
-    <nav class="menu">
-        <a href="index.html">Home</a>
-        <a href="home.html">Accounts</a>
-        <a href="short.html">On Sale</a>
-        <a href="#">How It Works</a>
-        <a href="#">Reviews</a>
-        <a href="contact.html">Contact</a>
-    </nav>
-
-    <div class="nav-buttons" id="auth-buttons">
-        <button class="btn" onclick="loginUser()">Login</button>
-        <button class="btn btn-blue" onclick="loginUser()">Sign Up</button>
-    </div>
-
-    <div class="user-profile" id="user-profile">
-        <span class="admin-badge" id="admin-badge">ADMIN</span>
-        <img src="" alt="Profile" class="user-avatar" id="user-img">
-        <button class="btn" onclick="logoutUser()" style="padding:6px 12px; font-size:12px;">Logout</button>
-    </div>
-</div>
-</header>
-
-<!-- CONTENT -->
-<div class="container">
-
-<div class="breadcrumb">
-    Home &nbsp;›&nbsp; Accounts &nbsp;›&nbsp; <span id="breadcrumb-id">M4K0558</span>
-</div>
-
-<!-- MAIN ACCOUNT -->
-<div class="main">
-
-<!-- LEFT GALLERY -->
-<div>
-<div class="gallery">
-    <div class="main-image" id="main-image-container" onclick="openFullscreen()">
-        <div class="placeholder" id="main-media">
-            <div class="game-icon">🎮</div>
-            <b>FREE FIRE ACCOUNT</b>
-            <p>Account screenshot</p>
+    <!-- Navigation Menu Wrapper -->
+    <div class="nav-wrapper" id="navWrapper">
+      <nav class="nav">
+        <a href="index.html">⌂ Home</a>
+        <a href="home.html" class="active">🎮 Accounts</a>
+        <a href="#sale">🏷 On Sale</a>
+      </nav>
+      <div class="auth-buttons">
+        <button class="btn login" id="loginBtn">↪ Login</button>
+        <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
+        <div class="user-profile" id="userProfile" style="display: none;">
+          <div id="avatarContainer"></div>
+          <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
+      </div>
     </div>
+  </header>
 
-    <!-- Thumbnails Inside Main Image Overlay -->
-    <div class="thumbs" id="thumbs-container">
-        <!-- Dynamic overlay thumbnails -->
+  <!-- Admin Control Bar -->
+  <div class="admin-banner" id="adminBanner" style="display: none;">
+    <span>⚡ Admin Panel Active (<span id="adminEmailText"></span>)</span>
+    <button class="btn-admin" id="openAddBtn">+ Add New Account</button>
+  </div>
+
+  <!-- Hero Section & Device Detection Badge -->
+  <section class="hero">
+    <div class="device-badge" id="deviceBadge">
+      <i class="fa-solid fa-spinner fa-spin"></i> Device Detecting...
     </div>
-</div>
-</div>
+    <h1>Browse FF Accounts</h1>
+    <p>Explore verified accounts — use filters to find your perfect match</p>
+  </section>
 
-<!-- RIGHT DETAILS -->
-<div>
-<span class="status" id="acc-status">AVAILABLE</span>
+  <!-- Filters -->
+  <div class="filters">
+    <button class="filter active" data-status="all" onclick="setStatusFilter('all', this)">All</button>
+    <button class="filter" data-status="available" onclick="setStatusFilter('available', this)">Available</button>
+    <button class="filter" data-status="onsale" onclick="setStatusFilter('onsale', this)">On Sale</button>
+    <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
+    <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
+    <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
+    <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
+  </div>
 
-<h1 class="account-title" id="acc-title">Loading...</h1>
-<div class="uid" id="acc-uid">◉ UID: ---</div>
-
-<div class="price" id="acc-price">LKR --</div>
-
-<div class="prime">
-    <strong id="acc-prime">◈ Prime Level -</strong>
-    <small>Free Fire Prime subscription</small>
-</div>
-
-<!-- STATS -->
-<div class="stats">
-<div class="stat"><strong id="stat-level">0</strong><small>LEVEL</small></div>
-<div class="stat"><strong id="stat-rank">-</strong><small>RANK</small></div>
-<div class="stat"><strong id="stat-skins">0</strong><small>GUN SKINS</small></div>
-<div class="stat"><strong id="stat-bundles">0</strong><small>BUNDLES</small></div>
-<div class="stat"><strong id="stat-diamonds">0</strong><small>DIAMONDS</small></div>
-<div class="stat"><strong id="stat-emotes">0</strong><small>EMOTES</small></div>
-</div>
-
-<div class="extra-stats">
-<div class="stat"><strong id="stat-animations">0</strong><small>ANIMATIONS</small></div>
-<div class="stat"><strong id="stat-firstskins">0</strong><small>FIRST SKINS</small></div>
-</div>
-
-<!-- EVO GUN SECTION -->
-<div class="section">
-    <div class="section-title">⚡ EVO GUN DETAILS</div>
-    <div class="weapon-grid" id="evo-guns-display">
-        <!-- Filtered Evo Guns render dynamically -->
+  <!-- Accounts Grid -->
+  <main class="container">
+    <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
+    <div class="accounts-grid" id="accountsGrid">
+      <!-- Firestore Data Cards load dynamic -->
     </div>
-</div>
+  </main>
 
-<!-- MEMBERSHIP INCLUDED SECTION -->
-<div class="section">
-    <div class="section-title">🎖️ MEMBERSHIP INCLUDED</div>
-    <div class="membership-grid">
-        <div class="membership-card">
-            <img id="img-lite" src="https://i.ibb.co/3s3hQ3p/lite-card.png" alt="Lite" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
-            <div class="m-title">LITE</div>
-            <div class="m-days" id="display-lite-days">0d</div>
-        </div>
-        <div class="membership-card">
-            <img id="img-weekly" src="https://i.ibb.co/6yq4Y3s/weekly-card.png" alt="Weekly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
-            <div class="m-title">WEEKLY</div>
-            <div class="m-days" id="display-weekly-days">0d</div>
-        </div>
-        <div class="membership-card">
-            <img id="img-monthly" src="https://i.ibb.co/jZnfH4M/monthly-card.png" alt="Monthly" onerror="this.src='https://cdn-icons-png.flaticon.com/512/616/616490.png'">
-            <div class="m-title">MONTHLY</div>
-            <div class="m-days" id="display-monthly-days">0d</div>
-        </div>
-    </div>
-</div>
-
-<!-- ACTIONS -->
-<div class="actions">
-<button class="action outline" onclick="accountInfo()">◉ Check Real Time Account Info</button>
-
-<a href="buy.html" id="buy-account-link" class="action">💳 Buy Account</a>
-
-<button class="action whatsapp" onclick="openWhatsApp()">◉ Ask on WhatsApp Channel</button>
-<button class="action btn-admin" id="admin-edit-btn" onclick="openAdminModal()">⚙️ Edit Account (Admin)</button>
-</div>
-
-</div>
-</div>
-
-<!-- SIMILAR ACCOUNTS -->
-<section class="similar">
-<h2>Similar Accounts</h2>
-<div class="cards" id="similar-cards-container">
-    <!-- Loaded dynamically -->
-</div>
-</section>
-
-</div>
-
-<!-- FULLSCREEN OVERLAY -->
-<div class="fullscreen-overlay" id="fullscreen-overlay">
-    <span class="fullscreen-close" onclick="closeFullscreen()">&times;</span>
-    <img id="fullscreen-img" src="" alt="Full Screen Image">
-</div>
-
-<!-- ADMIN EDIT MODAL -->
-<div class="modal" id="adminModal">
+  <!-- Add / Edit Modal Form -->
+  <div class="modal" id="accountModal">
     <div class="modal-content">
-        <h2>Edit Account Details</h2>
-        <form id="adminForm">
-            <h3>Basic Information</h3>
-            <div class="form-group"><label>Title / ID</label><input type="text" id="edit-title" required></div>
-            <div class="form-group"><label>UID</label><input type="text" id="edit-uid"></div>
-            <div class="form-group"><label>Price (LKR)</label><input type="text" id="edit-price"></div>
-            <div class="form-group"><label>Prime Level</label><input type="text" id="edit-prime"></div>
-            <div class="form-group"><label>Level</label><input type="number" id="edit-level"></div>
-            <div class="form-group"><label>Rank</label><input type="text" id="edit-rank"></div>
-            <div class="form-group"><label>Skins</label><input type="number" id="edit-skins"></div>
-            <div class="form-group"><label>Bundles</label><input type="number" id="edit-bundles"></div>
-            <div class="form-group"><label>Diamonds</label><input type="number" id="edit-diamonds"></div>
-            <div class="form-group"><label>Emotes</label><input type="number" id="edit-emotes"></div>
-
-            <h3>Membership Remaining Days (Admin)</h3>
-            <div style="display:grid; grid-template-columns:repeat(3, 1fr); gap:10px;">
-                <div class="form-group"><label>Lite (Days)</label><input type="number" id="edit-lite-days" value="0"></div>
-                <div class="form-group"><label>Weekly (Days)</label><input type="number" id="edit-weekly-days" value="0"></div>
-                <div class="form-group"><label>Monthly (Days)</label><input type="number" id="edit-monthly-days" value="0"></div>
-            </div>
-
-            <h3>Membership Card Images (URLs)</h3>
-            <div class="form-group"><label>Lite Card Image URL</label><input type="url" id="edit-lite-img" placeholder="https://example.com/lite.png"></div>
-            <div class="form-group"><label>Weekly Card Image URL</label><input type="url" id="edit-weekly-img" placeholder="https://example.com/weekly.png"></div>
-            <div class="form-group"><label>Monthly Card Image URL</label><input type="url" id="edit-monthly-img" placeholder="https://example.com/monthly.png"></div>
-
-            <h3>Photo Management (Image URL)</h3>
-            <div class="form-group">
-                <label>Add Image Link (URL)</label>
-                <div style="display:flex; gap:8px;">
-                    <input type="text" id="image-url-input" placeholder="https://example.com/image.jpg">
-                    <button type="button" class="btn btn-blue" onclick="addImageUrl()">Add</button>
-                </div>
-            </div>
-            <div class="photo-preview-grid" id="photo-preview-grid">
-                <!-- Image previews will render here -->
-            </div>
-
-            <h3>EVO Gun Selection & Level Settings</h3>
-            <p style="font-size:11px; color:#666; margin-bottom:10px;">Tick the box to enable the Evo Gun and set its level.</p>
-            <div id="evo-inputs-container" style="display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <!-- Dynamically generated with Checkboxes & Level Selects -->
-            </div>
-
-            <div class="modal-buttons">
-                <button type="button" class="btn" onclick="closeAdminModal()">Cancel</button>
-                <button type="submit" class="btn btn-blue">Save Changes</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- FOOTER -->
-<footer>
-<div class="container">
-<div class="footer-grid">
-<div>
-<div class="footer-title">🎮 GAMING <span>M4K</span></div>
-<p>Sri Lanka's gaming marketplace.</p>
-</div>
-</div>
-<div class="copyright">
-    <span>© 2026 Gaming M4K. All rights reserved.</span>
-</div>
-</div>
-</footer>
-
-<div class="chat" onclick="openWhatsApp()">💬</div>
-
-<!-- JAVASCRIPT & FIREBASE LOGIC -->
-<script>
-const firebaseConfig = {
-  apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
-  authDomain: "gaming-m4k.firebaseapp.com",
-  projectId: "gaming-m4k",
-  storageBucket: "gaming-m4k.firebasestorage.app",
-  messagingSenderId: "160833053716",
-  appId: "1:160833053716:web:7c2d55a58d27c88294b301",
-  measurementId: "G-T6XT0GWY87"
-};
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
-const db = firebase.firestore();
-
-const adminEmails = ["uvinduuvidu35@gmail.com"];
-
-const evoGunList = [
-    "AK47", "M1014", "SCAR", "MP40", "XM8", 
-    "FAMAS", "UMP", "M1887", "AN94", "THOMPSON", 
-    "G18", "M4A1", "WOODPECKER", "GROZA", "MP5", 
-    "P90", "PARAFAL", "VECTOR"
-];
-
-let currentAccId = "M4K0558";
-let currentUser = null;
-let currentPhotos = [];
-let activePhotoIndex = 0;
-
-window.addEventListener("DOMContentLoaded", function() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const idParam = urlParams.get("id");
-    if(idParam) currentAccId = idParam;
-    
-    // Header Links Dynamic ID Transfer
-    const navSale = document.querySelector('.menu a[href*="short.html"]');
-    if(navSale) navSale.href = `short.html?id=${currentAccId}`;
-
-    const navAccounts = document.querySelector('.menu a[href*="home.html"]');
-    if(navAccounts) navAccounts.href = `home.html?id=${currentAccId}`;
-
-    const buyLink = document.getElementById("buy-account-link");
-    if(buyLink) {
-        buyLink.href = `buy.html?id=${currentAccId}`;
-    }
-
-    renderEvoGunInputs();
-    fetchAccountDetails(currentAccId);
-    fetchSimilarAccounts();
-});
-
-auth.onAuthStateChanged(user => {
-    currentUser = user;
-    const authButtons = document.getElementById("auth-buttons");
-    const userProfile = document.getElementById("user-profile");
-    const userImg = document.getElementById("user-img");
-    const adminBadge = document.getElementById("admin-badge");
-    const adminEditBtn = document.getElementById("admin-edit-btn");
-
-    if (user) {
-        authButtons.style.display = "none";
-        userProfile.style.display = "flex";
-        userImg.src = user.photoURL || `https://ui-avatars.com/api/?name=${encodeURIComponent(user.email)}`;
-
-        if (adminEmails.includes(user.email)) {
-            adminBadge.style.display = "inline-block";
-            adminEditBtn.style.display = "block";
-        } else {
-            adminBadge.style.display = "none";
-            adminEditBtn.style.display = "none";
-        }
-    } else {
-        authButtons.style.display = "flex";
-        userProfile.style.display = "none";
-        adminEditBtn.style.display = "none";
-    }
-});
-
-function loginUser() {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    auth.signInWithPopup(provider).catch(error => alert(error.message));
-}
-
-function logoutUser() { auth.signOut(); }
-
-function fetchAccountDetails(id) {
-    db.collection("accounts").doc(id).get().then(doc => {
-        if (doc.exists) {
-            const acc = doc.data();
-            updateUI(acc, id);
-        } else {
-            document.getElementById("acc-title").textContent = id + " (Not Found)";
-        }
-    }).catch(err => console.error("Error getting document:", err));
-}
-
-function updateUI(acc, id) {
-    document.getElementById("breadcrumb-id").textContent = acc.title || id;
-    document.getElementById("acc-title").textContent = acc.title || id;
-    document.getElementById("acc-uid").textContent = "◉ UID: " + (acc.uid || "N/A");
-    document.getElementById("acc-price").textContent = "LKR " + (acc.price || "0");
-    document.getElementById("acc-prime").textContent = "◈ Prime Level " + (acc.prime || "0");
-    
-    document.getElementById("stat-level").textContent = acc.level || 0;
-    document.getElementById("stat-rank").textContent = acc.rank || "-";
-    document.getElementById("stat-skins").textContent = acc.skins || 0;
-    document.getElementById("stat-bundles").textContent = acc.bundles || 0;
-    document.getElementById("stat-diamonds").textContent = acc.diamonds || 0;
-    document.getElementById("stat-emotes").textContent = acc.emotes || 0;
-
-    const membership = acc.membership || {};
-    document.getElementById("display-lite-days").textContent = (membership.lite || 0) + "d";
-    document.getElementById("display-weekly-days").textContent = (membership.weekly || 0) + "d";
-    document.getElementById("display-monthly-days").textContent = (membership.monthly || 0) + "d";
-
-    const membershipImgs = acc.membershipImages || {};
-    const defaultLite = "https://i.ibb.co/3s3hQ3p/lite-card.png";
-    const defaultWeekly = "https://i.ibb.co/6yq4Y3s/weekly-card.png";
-    const defaultMonthly = "https://i.ibb.co/jZnfH4M/monthly-card.png";
-    
-    document.getElementById("img-lite").src = membershipImgs.lite || defaultLite;
-    document.getElementById("img-weekly").src = membershipImgs.weekly || defaultWeekly;
-    document.getElementById("img-monthly").src = membershipImgs.monthly || defaultMonthly;
-
-    const evoContainer = document.getElementById("evo-guns-display");
-    evoContainer.innerHTML = "";
-    const evoData = acc.evoGuns || {};
-    let hasEvoGuns = false;
-
-    evoGunList.forEach(gun => {
-        const lvl = parseInt(evoData[gun]) || 0;
+      <div class="modal-header">
+        <h3 id="modalTitle">Add New Account</h3>
+        <span class="close-modal" id="closeModalBtn">&times;</span>
+      </div>
+      <form id="accountForm">
+        <input type="hidden" id="editCardId">
+        <div class="form-group">
+          <label>Account Name</label>
+          <input type="text" id="accName" required placeholder="e.g. N589">
+        </div>
+        <div class="form-group">
+          <label>Status</label>
+          <select id="accStatus">
+            <option value="available">AVAILABLE</option>
+            <option value="onsale">ON SALE</option>
+            <option value="sold">SOLD</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Price (LKR)</label>
+          <input type="number" id="accPrice" required placeholder="e.g. 25000">
+        </div>
         
-        const checkElem = document.getElementById(`evo-check-${gun}`);
-        const selectElem = document.getElementById(`evo-${gun}`);
+        <div class="form-group">
+          <label>Account Image Direct URL</label>
+          <input type="url" id="accImgUrl" required placeholder="https://example.com/image.jpg" oninput="updateImagePreview(this.value)">
+          <div class="url-preview" id="urlPreviewBox">
+            <img id="imgPreview" src="" alt="Image Preview">
+          </div>
+        </div>
 
-        if(checkElem && selectElem) {
-            if (lvl > 0) {
-                checkElem.checked = true;
-                selectElem.disabled = false;
-                selectElem.value = lvl;
-            } else {
-                checkElem.checked = false;
-                selectElem.disabled = true;
-                selectElem.value = "1";
-            }
-        }
+        <div class="form-group">
+          <label>Prime Tag & Level Badge</label>
+          <input type="text" id="accPrime" placeholder="e.g. Prime Level 7 ★" required>
+          <input type="text" id="accBadge" placeholder="e.g. P7" style="margin-top:5px;" required>
+        </div>
+        <div class="form-group">
+          <label>Stats (LV | Rank | Skins | Bundles)</label>
+          <div style="display:flex; gap:5px;">
+            <input type="number" id="accLv" placeholder="LV" required>
+            <input type="text" id="accRank" placeholder="Rank" required>
+            <input type="number" id="accSkins" placeholder="Skins" required>
+            <input type="number" id="accBundles" placeholder="Bundles" required>
+          </div>
+        </div>
+        <button type="submit" class="btn-submit" id="saveBtn">Save Account</button>
+      </form>
+    </div>
+  </div>
 
-        if (lvl >= 1) {
-            hasEvoGuns = true;
-            evoContainer.innerHTML += `
-                <div class="weapon">
-                    <b>◉ ${gun}</b>
-                    <span class="level">Lv ${lvl}</span>
-                </div>
-            `;
-        }
-    });
+  <!-- Firebase Integration & Device Logic -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, limit, orderBy } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-    if (!hasEvoGuns) {
-        evoContainer.innerHTML = `<p style="color:#888; font-size:12px; grid-column:span 2;">No Evo Guns available for this account.</p>`;
-    }
-
-    document.getElementById("edit-title").value = acc.title || id;
-    document.getElementById("edit-uid").value = acc.uid || "";
-    document.getElementById("edit-price").value = acc.price || "";
-    document.getElementById("edit-prime").value = acc.prime || "";
-    document.getElementById("edit-level").value = acc.level || 0;
-    document.getElementById("edit-rank").value = acc.rank || "";
-    document.getElementById("edit-skins").value = acc.skins || 0;
-    document.getElementById("edit-bundles").value = acc.bundles || 0;
-    document.getElementById("edit-diamonds").value = acc.diamonds || 0;
-    document.getElementById("edit-emotes").value = acc.emotes || 0;
-
-    document.getElementById("edit-lite-days").value = membership.lite || 0;
-    document.getElementById("edit-weekly-days").value = membership.weekly || 0;
-    document.getElementById("edit-monthly-days").value = membership.monthly || 0;
-
-    document.getElementById("edit-lite-img").value = membershipImgs.lite || "";
-    document.getElementById("edit-weekly-img").value = membershipImgs.weekly || "";
-    document.getElementById("edit-monthly-img").value = membershipImgs.monthly || "";
-
-    currentPhotos = acc.photos || [];
-    renderPhotoPreviews();
-
-    setTimeout(() => {
-        renderGallery();
-    }, 50);
-}
-
-function renderGallery() {
-    const mainImgElem = document.getElementById("main-image-container");
-    const thumbsElem = document.getElementById("thumbs-container");
-
-    if (currentPhotos.length > 0) {
-        mainImgElem.innerHTML = `<img src="${currentPhotos[activePhotoIndex]}" alt="Account Image" loading="lazy">`;
-        thumbsElem.innerHTML = "";
-        currentPhotos.forEach((url, idx) => {
-            thumbsElem.innerHTML += `
-                <div class="thumb ${idx === activePhotoIndex ? 'active' : ''}" onclick="selectPhoto(event, ${idx})">
-                    <img src="${url}" alt="thumb" loading="lazy">
-                </div>
-            `;
-        });
-    } else {
-        mainImgElem.innerHTML = `
-            <div class="placeholder">
-                <div class="game-icon">🎮</div>
-                <b>FREE FIRE ACCOUNT</b>
-                <p>No photos added</p>
-            </div>`;
-        thumbsElem.innerHTML = "";
-    }
-}
-
-function selectPhoto(e, idx) {
-    e.stopPropagation();
-    activePhotoIndex = idx;
-    renderGallery();
-}
-
-function openFullscreen() {
-    if (currentPhotos.length > 0) {
-        document.getElementById("fullscreen-img").src = currentPhotos[activePhotoIndex];
-        document.getElementById("fullscreen-overlay").style.display = "flex";
-    }
-}
-
-function closeFullscreen() {
-    document.getElementById("fullscreen-overlay").style.display = "none";
-}
-
-function renderEvoGunInputs() {
-    const container = document.getElementById("evo-inputs-container");
-    container.innerHTML = "";
-    evoGunList.forEach(gun => {
-        container.innerHTML += `
-            <div class="evo-item-row">
-                <input type="checkbox" id="evo-check-${gun}" onchange="toggleEvoSelect('${gun}')">
-                <label for="evo-check-${gun}">${gun}</label>
-                <select id="evo-${gun}" disabled>
-                    <option value="1">Lv 1</option>
-                    <option value="2">Lv 2</option>
-                    <option value="3">Lv 3</option>
-                    <option value="4">Lv 4</option>
-                    <option value="5">Lv 5</option>
-                    <option value="6">Lv 6</option>
-                    <option value="7">Lv 7</option>
-                </select>
-            </div>
-        `;
-    });
-}
-
-function toggleEvoSelect(gun) {
-    const isChecked = document.getElementById(`evo-check-${gun}`).checked;
-    const selectElem = document.getElementById(`evo-${gun}`);
-    selectElem.disabled = !isChecked;
-}
-
-function addImageUrl() {
-    const urlInput = document.getElementById("image-url-input");
-    const url = urlInput.value.trim();
-
-    if (!url) {
-        alert("Please enter a valid Image URL!");
-        return;
-    }
-
-    if (currentPhotos.length >= 15) {
-        alert("Maximum 15 photos allowed!");
-        return;
-    }
-
-    currentPhotos.push(url);
-    urlInput.value = "";
-    renderPhotoPreviews();
-}
-
-function renderPhotoPreviews() {
-    const container = document.getElementById("photo-preview-grid");
-    container.innerHTML = "";
-    currentPhotos.forEach((url, index) => {
-        container.innerHTML += `
-            <div class="photo-preview-card">
-                <img src="${url}" alt="photo preview" loading="lazy">
-                <button type="button" class="remove-btn" onclick="removePhoto(${index})">&times;</button>
-            </div>
-        `;
-    });
-}
-
-function removePhoto(index) {
-    currentPhotos.splice(index, 1);
-    renderPhotoPreviews();
-}
-
-function fetchSimilarAccounts() {
-    db.collection("accounts").limit(4).get().then(snapshot => {
-        const container = document.getElementById("similar-cards-container");
-        container.innerHTML = "";
-        snapshot.forEach(doc => {
-            const data = doc.data();
-            const firstImg = (data.photos && data.photos.length > 0) ? `<img src="${data.photos[0]}" alt="account">` : '🎮';
-            const cardHTML = `
-                <div class="card" onclick="window.location.href='short.html?id=${doc.id}'">
-                    <div class="card-image">${firstImg}</div>
-                    <div class="card-body">
-                        <span class="available">${data.status || 'AVAILABLE'}</span>
-                        <h3>${data.title || doc.id}</h3>
-                        <p>◈ Prime Level ${data.prime || 0}</p>
-                        <p>Lv ${data.level || 0} • ${data.rank || '-'}</p>
-                        <p>${data.skins || 0} Skins • ${data.bundles || 0} Bundles</p>
-                        <div class="card-price">LKR ${data.price || 0}</div>
-                    </div>
-                </div>
-            `;
-            container.innerHTML += cardHTML;
-        });
-    });
-}
-
-function openAdminModal() { document.getElementById("adminModal").style.display = "flex"; }
-function closeAdminModal() { document.getElementById("adminModal").style.display = "none"; }
-
-document.getElementById("adminForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    if (!currentUser || !adminEmails.includes(currentUser.email)) {
-        alert("Unauthorized access!");
-        return;
-    }
-
-    const evoGunsData = {};
-    evoGunList.forEach(gun => {
-        const isChecked = document.getElementById(`evo-check-${gun}`).checked;
-        const levelVal = document.getElementById(`evo-${gun}`).value;
-        evoGunsData[gun] = isChecked ? (parseInt(levelVal) || 1) : 0;
-    });
-
-    const updatedData = {
-        title: document.getElementById("edit-title").value,
-        uid: document.getElementById("edit-uid").value,
-        price: document.getElementById("edit-price").value,
-        prime: document.getElementById("edit-prime").value,
-        level: parseInt(document.getElementById("edit-level").value) || 0,
-        rank: document.getElementById("edit-rank").value,
-        skins: parseInt(document.getElementById("edit-skins").value) || 0,
-        bundles: parseInt(document.getElementById("edit-bundles").value) || 0,
-        diamonds: parseInt(document.getElementById("edit-diamonds").value) || 0,
-        emotes: parseInt(document.getElementById("edit-emotes").value) || 0,
-        photos: currentPhotos,
-        evoGuns: evoGunsData,
-        membership: {
-            lite: parseInt(document.getElementById("edit-lite-days").value) || 0,
-            weekly: parseInt(document.getElementById("edit-weekly-days").value) || 0,
-            monthly: parseInt(document.getElementById("edit-monthly-days").value) || 0
-        },
-        membershipImages: {
-            lite: document.getElementById("edit-lite-img").value.trim(),
-            weekly: document.getElementById("edit-weekly-img").value.trim(),
-            monthly: document.getElementById("edit-monthly-img").value.trim()
-        }
+    const firebaseConfig = {
+      apiKey: "AIzaSyDXS_h3y11X4pEvBDhD2KFlOKmAiIrRPXY",
+      authDomain: "gaming-m4k.firebaseapp.com",
+      projectId: "gaming-m4k",
+      storageBucket: "gaming-m4k.firebasestorage.app",
+      messagingSenderId: "160833053716",
+      appId: "1:160833053716:web:7c2d55a58d27c88294b301",
+      measurementId: "G-T6XT0GWY87"
     };
 
-    db.collection("accounts").doc(currentAccId).set(updatedData, { merge: true })
-        .then(() => {
-            alert("Account details updated successfully!");
-            closeAdminModal();
-            activePhotoIndex = 0;
-            fetchAccountDetails(currentAccId);
-        })
-        .catch(err => alert("Error deleting account or saving data: " + err.message));
-});
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+    const EXCLUSIVE_ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
-function accountInfo(){ alert("Please login to check real-time account information."); }
-function openWhatsApp(){
-    const phone = "94700000000";
-    const currentTitle = document.getElementById("acc-title").textContent;
-    const url = "https://wa.me/" + phone + "?text=" + encodeURIComponent("Hello GAMING M4K, I am interested in account " + currentTitle);
-    window.open(url, "_blank");
-}
-</script>
+    let isCurrentUserAdmin = false;
+    let currentStatus = 'all';
+
+    // Device Detector Logic
+    function detectDevice() {
+      const badge = document.getElementById('deviceBadge');
+      const isMobileUA = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const isMobileWidth = window.innerWidth <= 768;
+
+      if (isMobileUA || isMobileWidth) {
+        badge.innerHTML = `<i class="fa-solid fa-mobile-screen-button"></i> Mobile View Mode`;
+      } else {
+        badge.innerHTML = `<i class="fa-solid fa-desktop"></i> Desktop View Mode`;
+      }
+    }
+
+    window.addEventListener('load', detectDevice);
+    window.addEventListener('resize', detectDevice);
+
+    // Mobile Menu Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navWrapper = document.getElementById('navWrapper');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      navWrapper.classList.toggle('active');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (navWrapper.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    });
+
+    // UI Elements
+    const loginBtn = document.getElementById('loginBtn');
+    const signUpBtn = document.getElementById('signUpBtn');
+    const userProfile = document.getElementById('userProfile');
+    const avatarContainer = document.getElementById('avatarContainer');
+    const logoutBtn = document.getElementById('logoutBtn');
+    const adminBanner = document.getElementById('adminBanner');
+    const adminEmailText = document.getElementById('adminEmailText');
+    const modal = document.getElementById('accountModal');
+    const accountForm = document.getElementById('accountForm');
+    const openAddBtn = document.getElementById('openAddBtn');
+    const closeModalBtn = document.getElementById('closeModalBtn');
+    const accountsGrid = document.getElementById('accountsGrid');
+
+    // Image Preview
+    window.updateImagePreview = function(url) {
+      const previewBox = document.getElementById('urlPreviewBox');
+      const previewImg = document.getElementById('imgPreview');
+      if (url && url.trim() !== "") {
+        previewImg.src = url;
+        previewBox.style.display = 'flex';
+      } else {
+        previewBox.style.display = 'none';
+      }
+    };
+
+    // Filter Logic
+    window.setStatusFilter = function(status, element) {
+      document.querySelectorAll('.filters .filter[data-status]').forEach(btn => btn.classList.remove('active'));
+      element.classList.add('active');
+      currentStatus = status;
+      window.filterAccounts();
+    };
+
+    window.filterAccounts = function() {
+      const minPrice = parseFloat(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseFloat(document.getElementById('maxPrice').value) || Infinity;
+      const cards = document.querySelectorAll('.card');
+      let visibleCount = 0;
+
+      cards.forEach(card => {
+        const cardStatus = card.getAttribute('data-status');
+        const cardPrice = parseFloat(card.getAttribute('data-price'));
+        const matchStatus = (currentStatus === 'all') || (cardStatus === currentStatus);
+        const matchPrice = (cardPrice >= minPrice) && (cardPrice <= maxPrice);
+
+        if (matchStatus && matchPrice) {
+          card.style.display = 'flex';
+          visibleCount++;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+      document.getElementById('countDisplay').innerText = visibleCount + " accounts found";
+    };
+
+    // Auth Observer
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginBtn.style.display = 'none';
+        signUpBtn.style.display = 'none';
+        userProfile.style.display = 'flex';
+
+        avatarContainer.innerHTML = user.photoURL 
+          ? `<img src="${user.photoURL}" class="user-avatar" title="${user.email}">` 
+          : `<div class="user-initial-avatar">${user.email.charAt(0).toUpperCase()}</div>`;
+
+        isCurrentUserAdmin = (user.email.toLowerCase() === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
+
+        if (isCurrentUserAdmin) {
+          adminBanner.style.display = 'flex';
+          if(adminEmailText) adminEmailText.innerText = user.email;
+        } else {
+          adminBanner.style.display = 'none';
+        }
+      } else {
+        isCurrentUserAdmin = false;
+        loginBtn.style.display = 'inline-block';
+        signUpBtn.style.display = 'inline-block';
+        userProfile.style.display = 'none';
+        adminBanner.style.display = 'none';
+      }
+      renderAdminControls();
+    });
+
+    loginBtn.addEventListener('click', () => signInWithPopup(auth, provider));
+    signUpBtn.addEventListener('click', () => signInWithPopup(auth, provider));
+    logoutBtn.addEventListener('click', () => signOut(auth));
+
+    function renderAdminControls() {
+      const adminControls = document.querySelectorAll('.card-admin-controls, .pencil-badge');
+      adminControls.forEach(el => {
+        el.style.display = isCurrentUserAdmin ? 'flex' : 'none';
+      });
+    }
+
+    // Firestore Sync
+    const accountsRef = collection(db, "accounts");
+    const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
+
+    onSnapshot(optimizedQuery, (snapshot) => {
+      accountsGrid.innerHTML = "";
+      snapshot.forEach((docSnap) => {
+        const data = docSnap.data();
+        const cardId = docSnap.id;
+        const cardHTML = renderCardHTML(cardId, data);
+        accountsGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+      renderAdminControls();
+      window.filterAccounts();
+    });
+
+    function renderCardHTML(id, data) {
+      const fallbackImg = 'https://via.placeholder.com/300x190?text=No+Image';
+      const imgSource = data.img || fallbackImg;
+
+      return `
+        <div class="card" id="${id}" 
+             data-status="${data.status}" 
+             data-price="${data.price}" 
+             data-name="${data.name}" 
+             data-prime="${data.prime}" 
+             data-level="${data.lv}" 
+             data-rank="${data.rank}" 
+             data-skins="${data.skins}" 
+             data-bundles="${data.bundles}" 
+             data-img="${imgSource}" 
+             data-badge="${data.badge}">
+          <div class="card-image">
+            <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
+            <span class="status-badge ${data.status}">${data.status}</span>
+            <span class="level-badge">🔒 ${data.badge}</span>
+            <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+              <i class="fa-solid fa-pencil"></i>
+            </div>
+          </div>
+          <a href="short.html" style="text-decoration: none; color: inherit;">
+            <div class="card-content">
+              <div class="account-name">${data.name}</div>
+              <span class="prime">♟ ${data.prime}</span>
+              <div class="stats">
+                <span>⌁ LV ${data.lv}</span>
+                <span>♙ ${data.rank}</span>
+                <span>◉ ${data.skins} Skins</span>
+                <span>♧ ${data.bundles} Bundles</span>
+              </div>
+              <div class="price">LKR ${parseInt(data.price).toLocaleString()}</div>
+            </div>
+          </a>
+          <div class="card-admin-controls" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
+            <button class="btn-edit" onclick="editCard('${id}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
+            <button class="btn-delete" onclick="deleteCard('${id}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
+          </div>
+        </div>
+      `;
+    }
+
+    // Delete Card
+    window.deleteCard = async function(cardId, e) {
+      if (e) e.stopPropagation();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      if (confirm("ඔබට මෙම ගිණුම ඉවත් කිරීමට අවශ්‍යද?")) {
+        try {
+          await deleteDoc(doc(db, "accounts", cardId));
+        } catch (err) {
+          alert("Error deleting account: " + err.message);
+        }
+      }
+    };
+
+    // Edit Card
+    window.editCard = function(cardId, e) {
+      if (e) e.stopPropagation();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      const card = document.getElementById(cardId);
+      if (!card) return;
+
+      document.getElementById('modalTitle').innerText = "Edit Account";
+      document.getElementById('editCardId').value = cardId;
+
+      document.getElementById('accName').value = card.getAttribute('data-name') || '';
+      document.getElementById('accStatus').value = card.getAttribute('data-status') || 'available';
+      document.getElementById('accPrice').value = card.getAttribute('data-price') || '';
+      
+      const imgUrl = card.getAttribute('data-img') || '';
+      document.getElementById('accImgUrl').value = imgUrl;
+      window.updateImagePreview(imgUrl);
+
+      document.getElementById('accPrime').value = card.getAttribute('data-prime') || '';
+      document.getElementById('accBadge').value = card.getAttribute('data-badge') || '';
+      document.getElementById('accLv').value = card.getAttribute('data-level') || '';
+      document.getElementById('accRank').value = card.getAttribute('data-rank') || '';
+      document.getElementById('accSkins').value = card.getAttribute('data-skins') || '';
+      document.getElementById('accBundles').value = card.getAttribute('data-bundles') || '';
+
+      modal.style.display = "flex";
+    };
+
+    openAddBtn.addEventListener('click', () => {
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+      document.getElementById('modalTitle').innerText = "Add New Account";
+      document.getElementById('editCardId').value = "";
+      accountForm.reset();
+      window.updateImagePreview('');
+      modal.style.display = "flex";
+    });
+
+    closeModalBtn.addEventListener('click', () => { modal.style.display = "none"; });
+    window.addEventListener('click', (e) => { if (e.target === modal) modal.style.display = "none"; });
+
+    // Save Form
+    accountForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
+
+      const editId = document.getElementById('editCardId').value;
+      const accountData = {
+        name: document.getElementById('accName').value,
+        status: document.getElementById('accStatus').value,
+        price: Number(document.getElementById('accPrice').value),
+        img: document.getElementById('accImgUrl').value,
+        prime: document.getElementById('accPrime').value,
+        badge: document.getElementById('accBadge').value,
+        lv: Number(document.getElementById('accLv').value),
+        rank: document.getElementById('accRank').value,
+        skins: Number(document.getElementById('accSkins').value),
+        bundles: Number(document.getElementById('accBundles').value),
+        updatedAt: new Date()
+      };
+
+      try {
+        if (editId) {
+          await updateDoc(doc(db, "accounts", editId), accountData);
+        } else {
+          await addDoc(collection(db, "accounts"), accountData);
+        }
+        modal.style.display = "none";
+        accountForm.reset();
+        window.updateImagePreview('');
+      } catch (err) {
+        alert("Error saving data: " + err.message);
+      }
+    });
+  </script>
 
 </body>
 </html>
