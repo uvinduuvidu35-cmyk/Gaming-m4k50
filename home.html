@@ -5,22 +5,44 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gaming m4k Store - Browse Accounts</title>
 
-  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body { font-family: Arial, Helvetica, sans-serif; background: #f4f7fa; color: #333; }
 
-    /* Header */
-    .header { height: 62px; background: #fff; border-bottom: 1px solid #e1e8ed; display: flex; align-items: center; justify-content: space-between; padding: 0 5%; position: sticky; top: 0; z-index: 100; }
-    .logo { display: flex; align-items: center; gap: 9px; font-size: 18px; font-weight: 800; color: #0d47a1; letter-spacing: 1px; text-decoration: none; }
+    /* Header & Navigation */
+    .header { 
+      height: 62px; 
+      background: #fff; 
+      border-bottom: 1px solid #e1e8ed; 
+      display: flex; 
+      align-items: center; 
+      justify-content: space-between; 
+      padding: 0 5%; 
+      position: sticky; 
+      top: 0; 
+      z-index: 1000; 
+    }
+    .logo { 
+      display: flex; 
+      align-items: center; 
+      gap: 9px; 
+      font-size: 16px; 
+      font-weight: 800; 
+      color: #0d47a1; 
+      letter-spacing: 0.5px; 
+      text-decoration: none; 
+    }
     .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
-    .nav { display: flex; align-items: center; gap: 25px; }
-    .nav a { text-decoration: none; color: #555; font-size: 14px; padding: 9px 12px; border-radius: 7px; }
+
+    /* Desktop Navigation */
+    .nav-wrapper { display: flex; align-items: center; gap: 20px; }
+    .nav { display: flex; align-items: center; gap: 15px; }
+    .nav a { text-decoration: none; color: #555; font-size: 14px; padding: 8px 12px; border-radius: 7px; font-weight: 600; }
     .nav a:hover, .nav a.active { background: #e3f2fd; color: #0d47a1; }
     .auth-buttons { display: flex; align-items: center; gap: 8px; }
-    .btn { padding: 9px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; }
+    .btn { padding: 8px 14px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
     .btn.login { color: #555; }
     .btn.signup { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: white; border: none; box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2); }
 
@@ -29,89 +51,81 @@
     .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
     .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
+    /* Mobile Menu Toggle Icon */
+    .menu-toggle { display: none; font-size: 22px; color: #0d47a1; cursor: pointer; }
+
     /* Admin Banner */
     .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
     .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
 
-    /* Card Controls */
-    .card-admin-controls { display: flex; gap: 6px; padding: 8px 10px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
-    .btn-edit, .btn-delete { flex: 1; padding: 6px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
-    .btn-edit { background: #ff9800; color: white; }
-    .btn-delete { background: #f44336; color: white; }
-
-    .pencil-badge { position: absolute; top: 10px; right: 10px; background: rgba(0,0,0,0.6); color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; cursor: pointer; z-index: 10; }
-
     /* Hero & Filters */
-    .hero { text-align: center; padding: 32px 20px 20px; background: #fff; }
+    .hero { text-align: center; padding: 30px 20px 20px; background: #fff; }
     .hero h1 { font-size: 26px; color: #0d47a1; margin-bottom: 6px; }
+    .hero p { font-size: 13px; color: #666; }
     .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 6px 14px; border-radius: 18px; font-size: 12px; color: #0d47a1; cursor: pointer; font-weight: 600; }
+    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 7px 12px; border-radius: 18px; font-size: 11px; color: #0d47a1; cursor: pointer; font-weight: 600; }
     .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
-    .price-input { width: 90px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 12px; }
-    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 15px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
+    .price-input { width: 85px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; }
+    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
-    /* Main Container & Grid */
-    .container { max-width: 1250px; margin: auto; padding: 18px 12px 50px; }
-    .result-count { font-size: 14px; margin-bottom: 15px; font-weight: 600; }
-
-    .accounts-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      perspective: 1000px; /* 3D perspective effect for container */
+    /* Main Container & Grid Layout */
+    .container { max-width: 1250px; margin: auto; padding: 15px 12px 50px; }
+    .result-count { font-size: 13px; margin-bottom: 12px; font-weight: 600; color: #555; }
+    
+    /* Responsive Grid: Default 4 columns for large screen */
+    .accounts-grid { 
+      display: grid; 
+      grid-template-columns: repeat(4, 1fr); 
+      gap: 12px; 
     }
 
-    .card {
-      background: white;
-      border: 1px solid #e2e8f0;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: relative;
-      transform-style: preserve-3d;
-      will-change: transform, box-shadow;
+    /* 3D Modern Style Cards */
+    .card { 
+      background: white; 
+      border: 1px solid #e0e6ed; 
+      border-radius: 12px; 
+      overflow: hidden; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
+      transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between; 
+      position: relative; 
+      perspective: 1000px;
     }
 
-    /* 3D Card Hover Effect */
+    /* 3D Hover Transformation */
     .card:hover {
-      transform: translateY(-5px) rotateX(2deg) rotateY(-2deg);
-      box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15), 0 6px 12px rgba(0, 0, 0, 0.1);
+      transform: translateY(-6px) rotateX(2deg) scale(1.01);
+      box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15);
       border-color: #90caf9;
     }
 
-    .card-image {
-      height: 170px;
-      position: relative;
-      background: #181818;
-      overflow: hidden;
-    }
-    .card-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.4s ease;
-    }
-    .card:hover .card-image img {
-      transform: scale(1.05);
-    }
+    .card-image { height: 130px; position: relative; background: #181818; overflow: hidden; }
+    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
+    .card:hover .card-image img { transform: scale(1.08); }
 
-    .status-badge { position: absolute; top: 8px; left: 8px; border-radius: 4px; padding: 4px 7px; font-size: 10px; font-weight: bold; text-transform: uppercase; }
+    .status-badge { position: absolute; top: 8px; left: 8px; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; text-transform: uppercase; z-index: 2; }
     .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
     .status-badge.available { background: #e8f5e9; color: #2e7d32; }
     .status-badge.onsale { background: #fff8e1; color: #f57f17; }
-    .level-badge { position: absolute; right: 8px; bottom: 8px; background: #0d47a1; color: white; border-radius: 5px; padding: 3px 7px; font-size: 10px; font-weight: 600; }
-    .card-content { padding: 12px; }
-    .account-name { font-size: 14px; font-weight: bold; margin-bottom: 6px; color: #1a202c; }
-    .prime { display: inline-block; background: #1565c0; color: white; padding: 3px 7px; border-radius: 8px; font-size: 10px; margin-bottom: 8px; font-weight: 600; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; color: #555; font-size: 11px; margin-bottom: 8px; }
-    .price { color: #0d47a1; font-weight: 800; font-size: 14px; }
+    .level-badge { position: absolute; right: 8px; bottom: 8px; background: rgba(13, 71, 161, 0.85); backdrop-filter: blur(4px); color: white; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; z-index: 2; }
+    
+    .card-content { padding: 10px; }
+    .account-name { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #222; }
+    .prime { display: inline-block; background: #1565c0; color: white; padding: 2px 6px; border-radius: 8px; font-size: 9px; margin-bottom: 8px; font-weight: 600; }
+    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; color: #666; font-size: 10px; margin-bottom: 8px; }
+    .price { color: #0d47a1; font-weight: 800; font-size: 13px; }
 
-    /* Modal Popup UI */
-    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 1000; justify-content: center; align-items: center; }
+    /* Admin Card Controls */
+    .card-admin-controls { display: flex; gap: 5px; padding: 8px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
+    .btn-edit, .btn-delete { flex: 1; padding: 5px; border-radius: 5px; font-size: 10px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
+    .btn-edit { background: #ff9800; color: white; }
+    .btn-delete { background: #f44336; color: white; }
+    .pencil-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; z-index: 10; }
+
+    /* Modal Styling */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
     .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
     .modal-header h3 { font-size: 16px; color: #0d47a1; }
@@ -120,93 +134,81 @@
     .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
     .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
     .btn-submit { width: 100%; padding: 10px; background: #0d47a1; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
-    
     .url-preview { margin-top: 6px; width: 100%; height: 100px; border-radius: 6px; border: 1px dashed #ccc; display: none; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
     .url-preview img { width: 100%; height: 100%; object-fit: cover; }
 
-    /* Tablet Screen View */
-    @media (max-width: 1023px) {
-      .accounts-grid {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 12px;
-      }
+    /* Responsive Breakpoints */
+    @media (max-width: 992px) {
+      .accounts-grid { grid-template-columns: repeat(3, 1fr); }
     }
 
-    /* Mobile Screen View: Exactly 2 Cards Per Row */
-    @media (max-width: 650px) {
-      .container { padding: 10px 8px 40px; }
-      .accounts-grid {
-        grid-template-columns: repeat(2, 1fr) !important;
-        gap: 8px; /* Compact spacing for mobile */
+    /* Mobile Screen Optimization */
+    @media (max-width: 600px) {
+      /* Navigation Bar in Mobile */
+      .menu-toggle { display: block; }
+      .nav-wrapper { 
+        display: none; 
+        flex-direction: column; 
+        position: absolute; 
+        top: 62px; 
+        left: 0; 
+        width: 100%; 
+        background: #ffffff; 
+        border-bottom: 1px solid #e1e8ed; 
+        padding: 15px 5%; 
+        box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+        gap: 15px;
       }
-      .card-image {
-        height: 115px; /* Proportionate height for 2-column mobile layout */
+      .nav-wrapper.active { display: flex; }
+      .nav { flex-direction: column; width: 100%; gap: 8px; }
+      .nav a { width: 100%; text-align: center; }
+      .auth-buttons { width: 100%; justify-content: center; }
+
+      /* Force Exactly 2 Cards Per Row on Mobile */
+      .accounts-grid { 
+        grid-template-columns: repeat(2, 1fr); 
+        gap: 8px; 
       }
-      .card-content {
-        padding: 8px;
-      }
-      .account-name {
-        font-size: 12px;
-        margin-bottom: 4px;
-      }
-      .prime {
-        font-size: 9px;
-        padding: 2px 5px;
-        margin-bottom: 6px;
-      }
-      .stats {
-        gap: 4px;
-        font-size: 9.5px;
-        margin-bottom: 6px;
-      }
-      .price {
-        font-size: 12px;
-      }
-      .pencil-badge {
-        width: 24px;
-        height: 24px;
-        font-size: 10px;
-        top: 6px;
-        right: 6px;
-      }
-      .status-badge {
-        font-size: 8px;
-        padding: 2px 4px;
-        top: 6px;
-        left: 6px;
-      }
-      .level-badge {
-        font-size: 8px;
-        padding: 2px 4px;
-        bottom: 6px;
-        right: 6px;
-      }
-      .nav a {
-        padding: 6px 8px;
-        font-size: 12px;
-      }
+      .card-image { height: 105px; }
+      .card-content { padding: 8px; }
+      .account-name { font-size: 11px; margin-bottom: 3px; }
+      .prime { font-size: 8px; padding: 2px 4px; margin-bottom: 5px; }
+      .stats { font-size: 9px; gap: 2px; }
+      .price { font-size: 11px; }
+      .hero { padding: 20px 10px 15px; }
+      .hero h1 { font-size: 20px; }
     }
   </style>
 </head>
 
 <body>
 
+  <!-- Header -->
   <header class="header">
     <a href="home.html" class="logo">
       <img src="https://i.pinimg.com/736x/51/2d/2f/512d2fa49ba4a8b4f24f50e690d8ded7.jpg" alt="Logo" class="logo-img" loading="lazy">
       GAMING M4K STORE
     </a>
-    <nav class="nav">
-      <a href="index.html">⌂ Home</a>
-      <a href="home.html" class="active">🎮 Accounts</a>
-      <a href="#sale">🏷 On Sale</a>
-    </nav>
-    <div class="auth-buttons">
-      <button class="btn login" id="loginBtn">↪ Login</button>
-      <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
-      <div class="user-profile" id="userProfile" style="display: none;">
-        <div id="avatarContainer"></div>
-        <button class="logout-btn" id="logoutBtn">Logout</button>
+
+    <!-- Hamburger Menu Button for Mobile -->
+    <div class="menu-toggle" id="mobileMenuBtn">
+      <i class="fa-solid fa-bars"></i>
+    </div>
+
+    <!-- Collapsible Mobile Wrapper -->
+    <div class="nav-wrapper" id="navWrapper">
+      <nav class="nav">
+        <a href="index.html">⌂ Home</a>
+        <a href="home.html" class="active">🎮 Accounts</a>
+        <a href="#sale">🏷 On Sale</a>
+      </nav>
+      <div class="auth-buttons">
+        <button class="btn login" id="loginBtn">↪ Login</button>
+        <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
+        <div class="user-profile" id="userProfile" style="display: none;">
+          <div id="avatarContainer"></div>
+          <button class="logout-btn" id="logoutBtn">Logout</button>
+        </div>
       </div>
     </div>
   </header>
@@ -233,14 +235,15 @@
     <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
   </div>
 
+  <!-- Accounts Grid -->
   <main class="container">
     <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
     <div class="accounts-grid" id="accountsGrid">
-      <!-- Firestore Cards Loaded Here Dynamic via JS -->
+      <!-- Firestore Data Cards will be loaded here dynamically -->
     </div>
   </main>
 
-  <!-- Modal Popup Form -->
+  <!-- Add / Edit Modal Form -->
   <div class="modal" id="accountModal">
     <div class="modal-content">
       <div class="modal-header">
@@ -293,6 +296,7 @@
     </div>
   </div>
 
+  <!-- Firebase Integration & Main Logic -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
     import { getAuth, signInWithPopup, GoogleAuthProvider, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
@@ -316,6 +320,22 @@
 
     let isCurrentUserAdmin = false;
     let currentStatus = 'all';
+
+    // Mobile Menu Toggle Logic
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const navWrapper = document.getElementById('navWrapper');
+
+    mobileMenuBtn.addEventListener('click', () => {
+      navWrapper.classList.toggle('active');
+      const icon = mobileMenuBtn.querySelector('i');
+      if (navWrapper.classList.contains('active')) {
+        icon.classList.remove('fa-bars');
+        icon.classList.add('fa-xmark');
+      } else {
+        icon.classList.remove('fa-xmark');
+        icon.classList.add('fa-bars');
+      }
+    });
 
     // UI Elements
     const loginBtn = document.getElementById('loginBtn');
@@ -414,7 +434,7 @@
       });
     }
 
-    // Optimization Query for Firestore Data
+    // Firestore Optimization Query
     const accountsRef = collection(db, "accounts");
     const optimizedQuery = query(accountsRef, orderBy("updatedAt", "desc"), limit(20));
 
