@@ -3,19 +3,20 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Gaming m4k Store - Browse Accounts</title>
+  <title>GAMING M4K STORE - Browse Accounts</title>
 
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, Helvetica, sans-serif; background: #f4f7fa; color: #333; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background: #f8f9fa; color: #212529; }
 
     /* Header & Navigation */
     .header { 
-      height: 62px; 
+      height: 65px; 
       background: #fff; 
-      border-bottom: 1px solid #e1e8ed; 
+      border-bottom: 1px solid #eaeaea; 
       display: flex; 
       align-items: center; 
       justify-content: space-between; 
@@ -23,24 +24,26 @@
       position: sticky; 
       top: 0; 
       z-index: 1000; 
+      box-shadow: 0 2px 4px rgba(0,0,0,0.02);
     }
     .logo { 
       display: flex; 
       align-items: center; 
-      gap: 9px; 
+      gap: 10px; 
       font-size: 16px; 
       font-weight: 800; 
-      color: #0d47a1; 
+      color: #d32f2f; 
       letter-spacing: 0.5px; 
       text-decoration: none; 
+      text-transform: uppercase;
     }
-    .logo-img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #64b5f6; }
+    .logo-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; border: 2px solid #d32f2f; }
 
-    /* Menu Toggle Icon - PC & Mobile Dono Ke Liye */
+    /* Menu Toggle Icon */
     .menu-toggle { 
       display: block; 
-      font-size: 22px; 
-      color: #0d47a1; 
+      font-size: 20px; 
+      color: #333; 
       cursor: pointer; 
     }
 
@@ -49,13 +52,13 @@
       display: none; 
       flex-direction: column; 
       position: absolute; 
-      top: 62px; 
+      top: 65px; 
       left: 0; 
       width: 100%; 
       background: #ffffff; 
-      border-bottom: 1px solid #e1e8ed; 
+      border-bottom: 1px solid #eaeaea; 
       padding: 15px 5%; 
-      box-shadow: 0 8px 20px rgba(0,0,0,0.1); 
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08); 
       gap: 15px;
       z-index: 999;
     }
@@ -76,7 +79,7 @@
       color: #555; 
       font-size: 14px; 
       padding: 10px; 
-      border-radius: 7px; 
+      border-radius: 6px; 
       font-weight: 600; 
       text-align: center;
       display: flex;
@@ -86,8 +89,8 @@
     }
 
     .nav a:hover, .nav a.active { 
-      background: #e3f2fd; 
-      color: #0d47a1; 
+      background: #fff1f0; 
+      color: #d32f2f; 
     }
 
     /* Social Links Section */
@@ -101,15 +104,13 @@
     }
 
     .social-icon {
-      font-size: 20px;
-      color: #0d47a1;
+      font-size: 18px;
+      color: #666;
       text-decoration: none;
       transition: color 0.2s ease;
     }
 
-    .social-icon:hover {
-      color: #00b0ff;
-    }
+    .social-icon:hover { color: #d32f2f; }
 
     .auth-buttons { 
       display: flex; 
@@ -119,46 +120,50 @@
       width: 100%;
     }
 
-    .btn { padding: 8px 16px; border-radius: 7px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
-    .btn.login { color: #555; }
-    .btn.signup { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: white; border: none; box-shadow: 0 4px 10px rgba(13, 71, 161, 0.2); }
+    .btn { padding: 8px 16px; border-radius: 6px; border: 1px solid #ddd; background: white; cursor: pointer; font-weight: 600; font-size: 13px; }
+    .btn.login { color: #333; }
+    .btn.signup { background: #d32f2f; color: white; border: none; }
 
+    /* User Profile & Username Display */
     .user-profile { display: flex; align-items: center; gap: 10px; }
-    .user-avatar { width: 36px; height: 36px; border-radius: 50%; object-fit: cover; border: 2px solid #00b0ff; }
-    .user-initial-avatar { width: 36px; height: 36px; border-radius: 50%; background: linear-gradient(135deg, #0d47a1, #42a5f5); color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; border: 2px solid #00b0ff; }
-    .logout-btn { background: #f44336; color: white; padding: 6px 12px; border-radius: 6px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
+    .user-avatar { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 1px solid #ddd; }
+    .user-initial-avatar { width: 32px; height: 32px; border-radius: 50%; background: #d32f2f; color: #fff; display: flex; align-items: center; justify-content: center; font-weight: bold; }
+    .user-name-display { font-size: 13px; font-weight: 700; color: #333; }
+    .logout-btn { background: #6c757d; color: white; padding: 6px 10px; border-radius: 5px; font-size: 11px; font-weight: bold; border: none; cursor: pointer; }
 
     /* Admin Banner */
-    .admin-banner { background: #fff3cd; border: 1px solid #ffe8a1; padding: 12px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 13px; }
-    .btn-admin { background: #0d47a1; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; }
+    .admin-banner { background: #fff3cd; border-bottom: 1px solid #ffe8a1; padding: 10px 5%; display: flex; justify-content: space-between; align-items: center; color: #856404; font-weight: bold; font-size: 12px; }
+    .btn-admin { background: #d32f2f; color: white; padding: 6px 12px; border-radius: 5px; font-size: 12px; cursor: pointer; border: none; font-weight: bold; }
 
-    /* Hero & Filters */
-    .hero { text-align: center; padding: 30px 20px 20px; background: #fff; }
-    .hero h1 { font-size: 26px; color: #0d47a1; margin-bottom: 6px; }
-    .hero p { font-size: 13px; color: #666; }
-    .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-    .filter { border: 1px solid #bbdefb; background: #f4f9ff; padding: 7px 12px; border-radius: 18px; font-size: 11px; color: #0d47a1; cursor: pointer; font-weight: 600; }
-    .filter.active { background: linear-gradient(90deg, #0d47a1, #00b0ff); color: #fff; border-color: #0d47a1; }
-    .price-input { width: 85px; border: 1px solid #ddd; border-radius: 7px; padding: 7px; font-size: 11px; }
-    .apply { background: linear-gradient(90deg, #0d47a1, #00b0ff); border: none; color: white; padding: 7px 14px; border-radius: 7px; cursor: pointer; font-weight: bold; font-size: 12px; }
+    /* Hero & Filters Section */
+    .hero { text-align: center; padding: 30px 20px 15px; background: #fff; }
+    .hero h1 { font-size: 24px; color: #cc0000; margin-bottom: 6px; font-weight: 800; }
+    .hero p { font-size: 12px; color: #666; }
+    
+    .filters { background: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; padding: 12px 5%; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap; }
+    .filter { border: 1px solid #e0e0e0; background: #fff; padding: 6px 14px; border-radius: 20px; font-size: 12px; color: #555; cursor: pointer; font-weight: 600; }
+    .filter.active { background: #d32f2f; color: #fff; border-color: #d32f2f; }
+    .price-input { width: 85px; border: 1px solid #ddd; border-radius: 6px; padding: 6px 8px; font-size: 12px; }
+    .apply { background: #d32f2f; border: none; color: white; padding: 6px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 12px; }
 
-    /* Main Container & Grid Layout */
-    .container { max-width: 1250px; margin: auto; padding: 15px 12px 50px; }
-    .result-count { font-size: 13px; margin-bottom: 12px; font-weight: 600; color: #555; }
+    /* Container & Nadiya Store Inspired Grid */
+    .container { max-width: 1100px; margin: auto; padding: 20px 15px 50px; }
+    .result-count { font-size: 12px; margin-bottom: 15px; font-weight: 600; color: #666; }
     
     .accounts-grid { 
       display: grid; 
-      grid-template-columns: repeat(4, 1fr); 
-      gap: 12px; 
+      grid-template-columns: repeat(3, 1fr); 
+      gap: 20px; 
     }
 
+    /* Account Card Design (Nadiya Store Style) */
     .card { 
-      background: white; 
-      border: 1px solid #e0e6ed; 
+      background: #ffffff; 
+      border: 1px solid #eef0f2; 
       border-radius: 12px; 
       overflow: hidden; 
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); 
-      transition: transform 0.3s ease, box-shadow 0.3s ease; 
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03); 
+      transition: transform 0.2s ease, box-shadow 0.2s ease; 
       display: flex; 
       flex-direction: column; 
       justify-content: space-between; 
@@ -166,61 +171,120 @@
     }
 
     .card:hover {
-      transform: translateY(-6px);
-      box-shadow: 0 12px 24px rgba(13, 71, 161, 0.15);
-      border-color: #90caf9;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
     }
 
-    .card-image { height: 130px; position: relative; background: #181818; overflow: hidden; }
-    .card-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; }
-    .card:hover .card-image img { transform: scale(1.08); }
+    .card-image-container { position: relative; width: 100%; height: 160px; background: #000; overflow: hidden; }
+    .card-image-container img { width: 100%; height: 100%; object-fit: cover; }
 
-    .status-badge { position: absolute; top: 8px; left: 8px; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; text-transform: uppercase; z-index: 2; }
-    .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
-    .status-badge.available { background: #e8f5e9; color: #2e7d32; }
+    .status-badge { 
+      position: absolute; 
+      top: 10px; 
+      left: 10px; 
+      border-radius: 4px; 
+      padding: 3px 8px; 
+      font-size: 10px; 
+      font-weight: 800; 
+      text-transform: uppercase; 
+      z-index: 2; 
+      letter-spacing: 0.5px;
+    }
+    .status-badge.available { background: #e6f9f0; color: #20c997; }
     .status-badge.onsale { background: #fff8e1; color: #f57f17; }
-    .level-badge { position: absolute; right: 8px; bottom: 8px; background: rgba(13, 71, 161, 0.85); backdrop-filter: blur(4px); color: white; border-radius: 4px; padding: 3px 6px; font-size: 9px; font-weight: bold; z-index: 2; }
+    .status-badge.sold { background: #ffe4e4; color: #dc3b3b; }
+
+    .badge-top-right { 
+      position: absolute; 
+      top: 10px; 
+      right: 10px; 
+      background: #6f42c1; 
+      color: white; 
+      border-radius: 4px; 
+      padding: 2px 6px; 
+      font-size: 10px; 
+      font-weight: bold; 
+      z-index: 2; 
+    }
     
-    .card-content { padding: 10px; }
-    .account-name { font-size: 13px; font-weight: bold; margin-bottom: 5px; color: #222; }
-    .prime { display: inline-block; background: #1565c0; color: white; padding: 2px 6px; border-radius: 8px; font-size: 9px; margin-bottom: 8px; font-weight: 600; }
-    .stats { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; color: #666; font-size: 10px; margin-bottom: 8px; }
-    .price { color: #0d47a1; font-weight: 800; font-size: 13px; }
+    .card-content { padding: 12px 15px; }
+    
+    .card-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .account-name { 
+      font-size: 15px; 
+      font-weight: 800; 
+      color: #212529; 
+      display: flex; 
+      align-items: center; 
+      gap: 6px; 
+    }
+    .account-name .dot {
+      color: #ff4d4f;
+      font-size: 10px;
+    }
+
+    /* Highlighted Prime Level Badge */
+    .prime-highlight-badge { 
+      display: inline-block; 
+      background: #6f42c1; 
+      color: #ffffff; 
+      padding: 3px 10px; 
+      border-radius: 6px; 
+      font-size: 11px; 
+      font-weight: 700; 
+      margin-bottom: 10px; 
+    }
+    .prime-highlight-badge i { margin-right: 4px; }
+
+    /* Stats Grid Layout */
+    .stats-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      row-gap: 6px; 
+      column-gap: 10px; 
+      color: #6c757d; 
+      font-size: 11px; 
+      margin-bottom: 12px; 
+      font-weight: 600;
+    }
+    .stat-item { display: flex; align-items: center; gap: 5px; }
+    .stat-item i { color: #a0aec0; font-size: 11px; }
+
+    .price { color: #e53e3e; font-weight: 800; font-size: 15px; }
 
     /* Admin Controls */
     .card-admin-controls { display: flex; gap: 5px; padding: 8px; border-top: 1px solid #eee; background: #fafafa; position: relative; z-index: 10; }
     .btn-edit, .btn-delete { flex: 1; padding: 5px; border-radius: 5px; font-size: 10px; font-weight: bold; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 4px; }
     .btn-edit { background: #ff9800; color: white; }
     .btn-delete { background: #f44336; color: white; }
-    .pencil-badge { position: absolute; top: 8px; right: 8px; background: rgba(0,0,0,0.6); color: #fff; width: 26px; height: 26px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 11px; cursor: pointer; z-index: 10; }
+    .pencil-badge { position: absolute; top: 10px; right: 40px; background: rgba(0,0,0,0.6); color: #fff; width: 24px; height: 24px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 10px; cursor: pointer; z-index: 10; }
 
     /* Modal Styling */
     .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; justify-content: center; align-items: center; }
     .modal-content { background: white; padding: 20px; border-radius: 10px; width: 90%; max-width: 450px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); max-height: 90vh; overflow-y: auto; }
     .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
-    .modal-header h3 { font-size: 16px; color: #0d47a1; }
+    .modal-header h3 { font-size: 16px; color: #d32f2f; }
     .close-modal { font-size: 20px; cursor: pointer; color: #888; font-weight: bold; }
     .form-group { margin-bottom: 12px; }
     .form-group label { display: block; font-size: 12px; font-weight: bold; margin-bottom: 4px; }
     .form-group input, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 13px; }
-    .btn-submit { width: 100%; padding: 10px; background: #0d47a1; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .btn-submit { width: 100%; padding: 10px; background: #d32f2f; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
     .url-preview { margin-top: 6px; width: 100%; height: 100px; border-radius: 6px; border: 1px dashed #ccc; display: none; align-items: center; justify-content: center; overflow: hidden; background: #f9f9f9; }
     .url-preview img { width: 100%; height: 100%; object-fit: cover; }
 
     @media (max-width: 992px) {
-      .accounts-grid { grid-template-columns: repeat(3, 1fr); }
+      .accounts-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
     }
 
     @media (max-width: 600px) {
-      .accounts-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; }
-      .card-image { height: 105px; }
-      .card-content { padding: 8px; }
-      .account-name { font-size: 11px; margin-bottom: 3px; }
-      .prime { font-size: 8px; padding: 2px 4px; margin-bottom: 5px; }
-      .stats { font-size: 9px; gap: 2px; }
-      .price { font-size: 11px; }
-      .hero { padding: 20px 10px 15px; }
-      .hero h1 { font-size: 20px; }
+      .accounts-grid { grid-template-columns: repeat(1, 1fr); gap: 12px; }
+      .card-image-container { height: 180px; }
     }
   </style>
 </head>
@@ -239,27 +303,29 @@
       <i class="fa-solid fa-bars"></i>
     </div>
 
-    <!-- Dropdown Menu Wrapper -->
+    <!-- Dropdown Navigation -->
     <div class="nav-wrapper" id="navWrapper">
       <nav class="nav">
-        <a href="index.html">⌂ Home</a>
-        <a href="home.html" class="active">🎮 Accounts</a>
-        <a href="#sale">🏷 On Sale</a>
+        <a href="index.html"><i class="fa-solid fa-house"></i> Home</a>
+        <a href="home.html" class="active"><i class="fa-solid fa-gamepad"></i> Accounts</a>
+        <a href="#sale"><i class="fa-solid fa-tag"></i> On Sale</a>
       </nav>
 
-      <!-- Social Media Links -->
+      <!-- Social Links -->
       <div class="social-links">
-        <a href="#" target="_blank" class="social-icon" title="Facebook"><i class="fa-brands fa-facebook"></i></a>
-        <a href="#" target="_blank" class="social-icon" title="TikTok"><i class="fa-brands fa-tiktok"></i></a>
-        <a href="#" target="_blank" class="social-icon" title="YouTube"><i class="fa-brands fa-youtube"></i></a>
-        <a href="#" target="_blank" class="social-icon" title="WhatsApp"><i class="fa-brands fa-whatsapp"></i></a>
+        <a href="#" target="_blank" class="social-icon"><i class="fa-brands fa-facebook"></i></a>
+        <a href="#" target="_blank" class="social-icon"><i class="fa-brands fa-tiktok"></i></a>
+        <a href="#" target="_blank" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+        <a href="#" target="_blank" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
       </div>
 
+      <!-- Auth & User Profile Section -->
       <div class="auth-buttons">
-        <button class="btn login" id="loginBtn">↪ Login</button>
-        <button class="btn signup" id="signUpBtn">✦ Sign Up</button>
+        <button class="btn login" id="loginBtn">Login</button>
+        <button class="btn signup" id="signUpBtn">Sign Up</button>
         <div class="user-profile" id="userProfile" style="display: none;">
           <div id="avatarContainer"></div>
+          <span class="user-name-display" id="userNameDisplay"></span>
           <button class="logout-btn" id="logoutBtn">Logout</button>
         </div>
       </div>
@@ -275,7 +341,7 @@
   <!-- Hero & Filters -->
   <section class="hero">
     <h1>Browse FF Accounts</h1>
-    <p>Explore verified accounts — use filters to find your perfect match</p>
+    <p>8 accounts — use filters to find your perfect match</p>
   </section>
 
   <div class="filters">
@@ -285,12 +351,12 @@
     <button class="filter" data-status="sold" onclick="setStatusFilter('sold', this)">Sold</button>
     <input class="price-input" id="minPrice" type="number" placeholder="Min LKR">
     <input class="price-input" id="maxPrice" type="number" placeholder="Max LKR">
-    <button class="apply" onclick="filterAccounts()">🔍 Apply</button>
+    <button class="apply" onclick="filterAccounts()">Apply</button>
   </div>
 
   <!-- Accounts Grid -->
   <main class="container">
-    <div class="result-count"><span id="countDisplay">Showed accounts</span></div>
+    <div class="result-count"><span id="countDisplay">6 accounts</span></div>
     <div class="accounts-grid" id="accountsGrid"></div>
   </main>
 
@@ -304,8 +370,8 @@
       <form id="accountForm">
         <input type="hidden" id="editCardId">
         <div class="form-group">
-          <label>Account Name</label>
-          <input type="text" id="accName" required placeholder="e.g. N589">
+          <label>Account Name (e.g. M663)</label>
+          <input type="text" id="accName" required placeholder="e.g. M663">
         </div>
         <div class="form-group">
           <label>Status</label>
@@ -317,7 +383,7 @@
         </div>
         <div class="form-group">
           <label>Price (LKR)</label>
-          <input type="number" id="accPrice" required placeholder="e.g. 25000">
+          <input type="number" id="accPrice" required placeholder="e.g. 18000">
         </div>
         <div class="form-group">
           <label>Account Image Direct URL</label>
@@ -328,8 +394,8 @@
         </div>
         <div class="form-group">
           <label>Prime Tag & Level Badge</label>
-          <input type="text" id="accPrime" placeholder="e.g. Prime Level 7 ★" required>
-          <input type="text" id="accBadge" placeholder="e.g. P7" style="margin-top:5px;" required>
+          <input type="text" id="accPrime" placeholder="e.g. Prime Level 8" required>
+          <input type="text" id="accBadge" placeholder="e.g. P8" style="margin-top:5px;" required>
         </div>
         <div class="form-group">
           <label>Stats (LV | Rank | Skins | Bundles)</label>
@@ -390,6 +456,7 @@
     const signUpBtn = document.getElementById('signUpBtn');
     const userProfile = document.getElementById('userProfile');
     const avatarContainer = document.getElementById('avatarContainer');
+    const userNameDisplay = document.getElementById('userNameDisplay');
     const logoutBtn = document.getElementById('logoutBtn');
     const adminBanner = document.getElementById('adminBanner');
     const adminEmailText = document.getElementById('adminEmailText');
@@ -445,9 +512,14 @@
         signUpBtn.style.display = 'none';
         userProfile.style.display = 'flex';
 
+        // Avatar එක සහ Username එක පෙන්වීම
         avatarContainer.innerHTML = user.photoURL 
           ? `<img src="${user.photoURL}" class="user-avatar" title="${user.email}">` 
           : `<div class="user-initial-avatar">${user.email.charAt(0).toUpperCase()}</div>`;
+
+        if (userNameDisplay) {
+          userNameDisplay.innerText = user.displayName || user.email.split('@')[0];
+        }
 
         isCurrentUserAdmin = (user.email.toLowerCase() === EXCLUSIVE_ADMIN_EMAIL.toLowerCase());
 
@@ -493,14 +565,20 @@
     });
 
     function renderCardHTML(id, data) {
-      const fallbackImg = 'https://via.placeholder.com/300x190?text=No+Image';
+      const fallbackImg = 'https://via.placeholder.com/300x160?text=No+Image';
       const imgSource = data.img || fallbackImg;
+      
+      // M අකුරෙන් Name එක පටන් ගැනීම සකස් කිරීම
+      let accName = data.name || 'M663';
+      if (accName.startsWith('N')) {
+        accName = 'M' + accName.slice(1);
+      }
 
       return `
         <div class="card" id="${id}" 
              data-status="${data.status}" 
              data-price="${data.price}" 
-             data-name="${data.name}" 
+             data-name="${accName}" 
              data-prime="${data.prime}" 
              data-level="${data.lv}" 
              data-rank="${data.rank}" 
@@ -508,27 +586,37 @@
              data-bundles="${data.bundles}" 
              data-img="${imgSource}" 
              data-badge="${data.badge}">
-          <div class="card-image">
-            <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
+          
+          <div class="card-image-container">
             <span class="status-badge ${data.status}">${data.status}</span>
-            <span class="level-badge">🔒 ${data.badge}</span>
+            <span class="badge-top-right">${data.badge || 'P8'}</span>
+            <img src="${imgSource}" alt="Account Image" loading="lazy" decoding="async" onerror="this.onerror=null;this.src='${fallbackImg}';">
             <div class="pencil-badge" onclick="editCard('${id}', event)" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
               <i class="fa-solid fa-pencil"></i>
             </div>
           </div>
+
           <a href="short.html?id=${id}" style="text-decoration: none; color: inherit;">
             <div class="card-content">
-              <div class="account-name">${data.name}</div>
-              <span class="prime">♟ ${data.prime}</span>
-              <div class="stats">
-                <span>⌁ LV ${data.lv}</span>
-                <span>♙ ${data.rank}</span>
-                <span>◉ ${data.skins} Skins</span>
-                <span>♧ ${data.bundles} Bundles</span>
+              <div class="card-header-row">
+                <span class="account-name"><i class="fa-solid fa-circle dot"></i> ${accName}</span>
               </div>
+
+              <div class="prime-highlight-badge">
+                <i class="fa-solid fa-crown"></i> ${data.prime || 'Prime Level 8'}
+              </div>
+
+              <div class="stats-grid">
+                <div class="stat-item"><i class="fa-solid fa-shield-halved"></i> Lv ${data.lv}</div>
+                <div class="stat-item"><i class="fa-solid fa-trophy"></i> ${data.rank}</div>
+                <div class="stat-item"><i class="fa-solid fa-vest"></i> ${data.skins} Skins</div>
+                <div class="stat-item"><i class="fa-solid fa-shirt"></i> ${data.bundles} Bundles</div>
+              </div>
+
               <div class="price">LKR ${parseInt(data.price).toLocaleString()}</div>
             </div>
           </a>
+
           <div class="card-admin-controls" style="display: ${isCurrentUserAdmin ? 'flex' : 'none'};">
             <button class="btn-edit" onclick="editCard('${id}', event)"><i class="fa-solid fa-pen-to-square"></i> Edit</button>
             <button class="btn-delete" onclick="deleteCard('${id}', event)"><i class="fa-solid fa-trash-can"></i> Delete</button>
@@ -541,7 +629,7 @@
       if (e) e.stopPropagation();
       if (!isCurrentUserAdmin) return alert("❌ Admin Only!");
 
-      if (confirm("Kya aap is account ko remove karna chahte hain?")) {
+      if (confirm("Do you want to delete this account?")) {
         try {
           await deleteDoc(doc(db, "accounts", cardId));
         } catch (err) {
