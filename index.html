@@ -13,7 +13,7 @@
 }
 
 body{
-    font-family:Arial, Helvetica, sans-serif;
+    font-family: 'Segoe UI', Arial, Helvetica, sans-serif;
     color:#222;
     background:#fff;
 }
@@ -28,6 +28,7 @@ button{
     cursor:pointer;
 }
 
+/* TOPBAR */
 .topbar{
     height:70px;
     background:#fff;
@@ -91,6 +92,7 @@ button{
     align-items:center;
     justify-content:center;
     gap:7px;
+    transition: all 0.3s ease;
 }
 
 .btn-outline{
@@ -99,10 +101,19 @@ button{
     color:#555;
 }
 
+.btn-outline:hover{
+    background:#f5f5f5;
+}
+
 .btn-red{
     color:#fff;
     background:linear-gradient(90deg,#0d47a1,#42a5f5);
     box-shadow:0 7px 18px #0d47a133;
+}
+
+.btn-red:hover{
+    transform: translateY(-2px);
+    box-shadow:0 9px 22px #0d47a155;
 }
 
 /* User Profile Styles */
@@ -142,6 +153,11 @@ button{
     border-radius: 6px;
     font-size: 11px;
     font-weight: bold;
+    transition: background 0.3s;
+}
+
+.logout-btn:hover {
+    background: #d32f2f;
 }
 
 .notice{
@@ -156,6 +172,7 @@ button{
     letter-spacing:.5px;
 }
 
+/* HERO SECTION */
 .hero{
     min-height:565px;
     position:relative;
@@ -169,7 +186,7 @@ button{
         radial-gradient(circle at 12% 52%, rgba(13, 71, 161, 0.8) 0 7%, transparent 30%),
         radial-gradient(circle at 85% 25%, rgba(10, 37, 64, 0.8) 0, transparent 35%),
         linear-gradient(145deg, rgba(3, 16, 33, 0.85), rgba(1, 5, 10, 0.85) 62%, rgba(2, 11, 23, 0.85)),
-        url(https://images.wallpapersden.com/image/download/free-fire-2023-gaming_bmZqaW6UmZqaraWkpJRmbmdlrWZlbWU.jpg);
+        url('https://images.wallpapersden.com/image/download/free-fire-2023-gaming_bmZqaW6UmZqaraWkpJRmbmdlrWZlbWU.jpg');
     background-size: cover;
     background-position: center;
 }
@@ -226,6 +243,7 @@ button{
     border-radius:12px;
     overflow:hidden;
     background:#0a2540cc;
+    backdrop-filter: blur(5px);
 }
 
 .stat{
@@ -341,34 +359,7 @@ section{ padding:62px 5%; }
 .step h3{ font-size:12px; margin-bottom:5px; }
 .step p{ font-size:10px; color:#777; line-height:1.5; }
 
-.trust{ text-align:center; min-height:230px; }
-
-.bubble{
-    position:fixed;
-    right:22px;
-    bottom:22px;
-    width:58px;
-    height:58px;
-    border-radius:50%;
-    background:linear-gradient(145deg,#0d47a1,#90caf9);
-    box-shadow:0 8px 25px #0004;
-    z-index:30;
-}
-.chat{
-    position:fixed;
-    right:22px;
-    bottom:90px;
-    width:45px;
-    height:45px;
-    border-radius:50%;
-    background:linear-gradient(135deg,#0d47a1,#42a5f5);
-    color:#fff;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    z-index:30;
-    box-shadow:0 7px 20px #0d47a155;
-}
+.trust{ text-align:center; min-height:180px; }
 
 footer{
     background:#020b17;
@@ -378,7 +369,7 @@ footer{
     font-size:11px;
 }
 
-/* Mobile & Responsive Rules */
+/* Responsive Rules */
 @media(max-width:800px){
     .topbar{ height:auto; min-height:64px; padding:10px 4%; flex-wrap: wrap; gap:10px; }
     .nav{ display:none; }
@@ -442,7 +433,7 @@ footer{
     ⚡ WELCOME TO GAMING m4k STORE 🔥
 </div>
 
-<main>
+<main id="home">
     <section class="hero">
         <div class="hero-content">
             <div class="live">● LIVE · REAL-TIME STOCK</div>
@@ -548,9 +539,6 @@ footer{
     </section>
 </main>
 
-<div class="chat">◌</div>
-<div class="bubble"></div>
-
 <footer>
     © 2026 GAMING m4k Store — Free Fire Marketplace
 </footer>
@@ -585,7 +573,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     measurementId: "G-T6XT0GWY87"
   };
 
-  // Admin Email එක (Lowercase වලින් තබා ඇත)
   const ADMIN_EMAIL = "uvinduuvidu35@gmail.com";
 
   const app = initializeApp(firebaseConfig);
@@ -598,19 +585,16 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   const avatarContainer = document.getElementById('avatarContainer');
   const logoutBtn = document.getElementById('logoutBtn');
 
-  // Stats elements
   const statAvailable = document.getElementById('statAvailable');
   const statSold = document.getElementById('statSold');
   const statBuyers = document.getElementById('statBuyers');
 
   const editIcons = document.querySelectorAll('.edit-icon');
 
-  // Load Saved Stats from LocalStorage
   if(localStorage.getItem('statAvailable')) statAvailable.innerText = localStorage.getItem('statAvailable');
   if(localStorage.getItem('statSold')) statSold.innerText = localStorage.getItem('statSold');
   if(localStorage.getItem('statBuyers')) statBuyers.innerText = localStorage.getItem('statBuyers');
 
-  // Login Function
   function loginWithGoogle() {
     signInWithPopup(auth, provider).catch((error) => {
         console.error("Login දෝෂයක්:", error.message);
@@ -618,7 +602,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     });
   }
 
-  // Logout Function
   function handleLogout() {
     signOut(auth).then(() => {
         toggleAdminEdit(false);
@@ -627,14 +610,12 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
     });
   }
 
-  // Admin එකට පමණක් Pencil Icons පෙන්වීම
   function toggleAdminEdit(isAdmin) {
     editIcons.forEach(icon => {
         icon.style.setProperty('display', isAdmin ? 'inline-block' : 'none', 'important');
     });
   }
 
-  // Authentication State Observer
   onAuthStateChanged(auth, (user) => {
     if (user) {
       loginBtn.style.display = 'none';
@@ -648,7 +629,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
         avatarContainer.innerHTML = `<div class="user-initial-avatar" title="${user.email}">${firstLetter}</div>`;
       }
 
-      // Safe Email Comparison (Lowercase භාවිතා කර ඇත)
       const userEmail = user.email ? user.email.trim().toLowerCase() : "";
       const adminEmail = ADMIN_EMAIL.trim().toLowerCase();
 
@@ -671,7 +651,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
   signUpBtn.addEventListener('click', loginWithGoogle);
   logoutBtn.addEventListener('click', handleLogout);
 
-  // Edit Stats Functionality for Admin
   document.getElementById('editAvailable').addEventListener('click', () => {
       const newVal = prompt("AVAILABLE ගාන වෙනස් කරන්න:", statAvailable.innerText);
       if(newVal !== null && newVal.trim() !== "") {
